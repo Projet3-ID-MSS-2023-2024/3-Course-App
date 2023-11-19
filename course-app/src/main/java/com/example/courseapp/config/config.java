@@ -2,8 +2,10 @@ package com.example.courseapp.config;
 
 import com.example.courseapp.models.*;
 import com.example.courseapp.repo.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
@@ -13,6 +15,8 @@ import java.util.List;
 /*** Fichier de configuration de la DB, necessaire pour la mise en place de la DB***/
 @Configuration
 public class config {
+    @Autowired
+    PasswordEncoder passwordEncoder;
     /*** Configuration de la table Ville, doit être rempli
      * en premier afin de remplir la table adresse
      */
@@ -67,7 +71,7 @@ public class config {
         List<Role> listRole = new ArrayList<>();
         listRole.add(Role.ADMIN);
         listRole.add(Role.COUREUR);
-        Utilisateur user = new Utilisateur(1, "Bernard","Amaury","admin@gmail.com","mdp1","fdsjhgdshg",true, listRole);
+        Utilisateur user = new Utilisateur(1, "Bernard","Amaury","admin0@gmail.com", passwordEncoder.encode("mdp"), "fdsjhgdshg",true, listRole);
         userRepo.save(user);
         return user;
     }
