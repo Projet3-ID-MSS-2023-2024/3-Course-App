@@ -59,34 +59,16 @@ public class UtilisateurRestController {
 
     @PostMapping("/firstAdmin")
     public Utilisateur addFirstAdmin(@RequestBody Utilisateur newAdmin) throws Exception {
+        if (utilisateurService.testEmail(newAdmin.getEmail())){}
+        if (utilisateurService.testMdp(newAdmin.getMdp())){}
 
-        String regexEmail = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
-                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-        Pattern p = Pattern.compile(regexEmail);
-        Matcher m = p.matcher(newAdmin.getEmail());
+        List<Role> roles = new ArrayList<>();
+        roles.add(Role.ADMIN);
 
-        if (m.matches()){
-
-            String regexMdp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
-            p = Pattern.compile(regexMdp);
-            m = p.matcher(newAdmin.getMdp());
-
-            if (m.matches()){
-
-                List<Role> roles = new ArrayList<>();
-                roles.add(Role.ADMIN);
-
-                newAdmin.setRole(roles);
-                newAdmin.setMdp(passwordEncoder.encode(newAdmin.getMdp()));
-                newAdmin.setActive(true);
-                return utilisateurService.saveUser(newAdmin);
-
-            } else {
-                throw new Exception();
-            }
-        } else {
-            throw new Exception();
-        }
+        newAdmin.setRole(roles);
+        newAdmin.setMdp(passwordEncoder.encode(newAdmin.getMdp()));
+        newAdmin.setActive(true);
+        return utilisateurService.saveUser(newAdmin);
     }
 
     @DeleteMapping("/{id}")

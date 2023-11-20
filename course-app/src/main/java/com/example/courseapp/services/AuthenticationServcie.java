@@ -26,8 +26,11 @@ public class AuthenticationServcie {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final IUtilisateurService utilisateurService;
 
-    public AuthenticationResponse register(RegisterRequest request) {  // inscription
+    public AuthenticationResponse register(RegisterRequest request) throws Exception {
+        if (utilisateurService.testEmail(request.getEmail())){}
+        if (utilisateurService.testMdp(request.getMdp())){}
 
         List<Role> listRole = new ArrayList<>();
         listRole.add(Role.COUREUR);

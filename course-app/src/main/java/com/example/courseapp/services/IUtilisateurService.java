@@ -14,4 +14,6 @@ public interface IUtilisateurService {
     public List<Utilisateur> getAllGestionnaires();
     public Utilisateur saveUser(Utilisateur newUser);
     public void deleteById(int id);
+    public boolean testEmail(String email) throws Exception;
+    public boolean testMdp(String mdp) throws Exception;
 }
