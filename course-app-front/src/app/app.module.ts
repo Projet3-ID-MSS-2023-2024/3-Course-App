@@ -16,6 +16,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AccueilComponent } from './components/accueil/accueil.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FirstRegisterComponent } from './components/first-register/first-register.component';
+import { CourseAddComponent } from './components/Course/course-add/course-add.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { FirstRegisterComponent } from './components/first-register/first-regist
     LoginComponent,
     AccueilComponent,
     NavbarComponent,
-    FirstRegisterComponent
+    FirstRegisterComponent,
+    CourseAddComponent
   ],
   imports: [
     BrowserModule,
