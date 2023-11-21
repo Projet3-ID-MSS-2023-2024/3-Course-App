@@ -78,4 +78,11 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
             throw new Exception("regex mdp incorrect");
         }
     }
+
+    @Override
+    public boolean testCodeValid(String code) {
+        var user = utilisateurRepo.findByCode(code);
+        if (user.isEmpty()){return true;}
+        else {return false;}
+    }
 }

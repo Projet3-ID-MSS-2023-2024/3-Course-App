@@ -21,4 +21,6 @@ public interface UtilisateurRepo extends JpaRepository<Utilisateur, Integer> {
     public List<Utilisateur> getGestionnaire();
 
     Optional<Utilisateur> findByEmail (String email);
+
+    Optional<Utilisateur> findByCode (String code);
 }

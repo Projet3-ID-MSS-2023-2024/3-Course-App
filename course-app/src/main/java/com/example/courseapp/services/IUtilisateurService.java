@@ -16,4 +16,5 @@ public interface IUtilisateurService {
     public void deleteById(int id);
     public boolean testEmail(String email) throws Exception;
     public boolean testMdp(String mdp) throws Exception;
+    public boolean testCodeValid(String code);
 }

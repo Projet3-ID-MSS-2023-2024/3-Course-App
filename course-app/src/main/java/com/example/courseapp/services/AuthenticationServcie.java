@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -35,12 +36,18 @@ public class AuthenticationServcie {
         List<Role> listRole = new ArrayList<>();
         listRole.add(Role.COUREUR);
 
+        String code = UUID.randomUUID().toString();
+        while (!utilisateurService.testCodeValid(code)){  // pour éviter d'avoir deux fois le meme code dans la bd
+            code = null;
+            code = UUID.randomUUID().toString();
+        }
+
         var utilisateur = Utilisateur.builder()
                 .nom(request.getNom())
                 .prenom(request.getPrenom())
                 .email(request.getEmail())
                 .mdp(passwordEncoder.encode(request.getMdp()))
-                .code("")   // pas encore de code pour l'instant
+                .code(code)
                 .isActive(true)     // on active le compte directement pour l'instant
                 .role(listRole)
                 .build();
