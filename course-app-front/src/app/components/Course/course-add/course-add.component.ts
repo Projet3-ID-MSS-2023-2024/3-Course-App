@@ -24,7 +24,7 @@ export class CourseAddComponent implements OnInit{
         Adresse1: ['',Validators.required]
       })
     }
-    add-Course(){
+    addCourse(){
       this.course.titre = this.registerForm.value.titre;
       this.course.prix = this.registerForm.value.prix;
       this.course.DateEtHeure = this.registerForm.value.DateEtHeure;
