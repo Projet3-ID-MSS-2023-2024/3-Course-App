@@ -29,6 +29,8 @@ public class AuthenticationServcie {
     private final AuthenticationManager authenticationManager;
     private final IUtilisateurService utilisateurService;
 
+    private final EmailService emailService;
+
     public AuthenticationResponse register(RegisterRequest request) throws Exception {
         if (utilisateurService.testEmail(request.getEmail())){}
         if (utilisateurService.testMdp(request.getMdp())){}
@@ -53,6 +55,10 @@ public class AuthenticationServcie {
                 .build();
 
         utilisateurRepo.save(utilisateur);
+
+        // pour l'instant on envoi juste un code par mail
+        emailService.sendEmail(utilisateur.getEmail(),"Confirmation d'inscription", utilisateur.getCode());
+
         var jwtToken = jwtService.generateToken(utilisateur);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
