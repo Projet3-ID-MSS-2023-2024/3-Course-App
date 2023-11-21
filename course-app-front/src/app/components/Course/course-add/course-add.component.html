@@ -6,7 +6,7 @@
           <div class="text-900 text-3xl font-medium mb-2">Ajouter une course</div>
       </div>
       <div>
-          <form [formGroup]="registerForm">
+          <form [formGroup]="courseForm">
             <label for="titre" class="text-900 font-medium mb-2">Titre</label>
             <input id="titre" type="text" placeholder="Titre" pInputText class="w-full mb-3" formControlName="titre">
 
@@ -14,7 +14,7 @@
             <input id="prix" type="number" placeholder="Prix" pInputText class="w-full mb-3" formControlName="prix">
 
             <label for="dateEtHeure" class="block text-900 font-medium mb-2">Date et heure</label>
-            <input id="dateEtHeure" type="datetime" placeholder="Date et Heure" pInputText class="w-full mb-3" formControlName="dateEtHeure">
+            <input id="dateEtHeure" type="datetime-local" placeholder="Date et Heure" pInputText class="w-full mb-3" formControlName="dateEtHeure">
 
             <label for="adresse" class="block text-900 font-medium mb-2">Adresse de départ</label>
             <input id="adresse" type="text" placeholder="Adresse de départ" pInputText class="w-full mb-3" formControlName="adresse">

@@ -8,10 +8,11 @@ import { Course } from 'src/models/course';
 @Component({
   selector: 'app-course-add',
   templateUrl: './course-add.component.html',
-  styleUrls: ['./course-add.component.css']
+  styleUrls: ['./course-add.component.css'],
+  providers: [MessageService]
 })
 export class CourseAddComponent implements OnInit{
-  registerForm!:FormGroup;
+  courseForm!:FormGroup;
   course!:Course;
   constructor(
     private router: Router,
@@ -21,27 +22,24 @@ export class CourseAddComponent implements OnInit{
 
     ngOnInit(): void {
       this.course = new Course();
-      this.registerForm = this.fb.group({
+      this.courseForm = this.fb.group({
         titre:['', Validators.required],
         prix:['', Validators.required],
-        DateEtHeure: ['', [Validators.required, Validators.email]],
-        Adresse: ['', Validators.required],
-        Adresse1: ['',Validators.required]
+        dateEtHeure: ['', [Validators.required, Validators.email]],
+        adresse: ['', Validators.required],
+        adresse1: ['',Validators.required]
       })
     }
     addCourse(){
-      this.course.titre = this.registerForm.value.titre;
-      this.course.prix = this.registerForm.value.prix;
-      this.course.DateEtHeure = this.registerForm.value.DateEtHeure;
-      this.course.Adresse = this.registerForm.value.Adresse;
-      this.course.Adresse1 = this.registerForm.value.Adresse1;
+      this.course.titre = this.courseForm.value.titre;
+      this.course.prix = this.courseForm.value.prix;
+      this.course.DateEtHeure = this.courseForm.value.DateEtHeure;
+      this.course.Adresse = this.courseForm.value.Adresse;
+      this.course.Adresse1 = this.courseForm.value.Adresse1;
       this.courseService.addCourse(this.course).subscribe(()=>{
-        this.router.navigateByUrl('/course');
+        this.router.navigateByUrl('/course-add');
       },(error)=>{
         this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
       })
-    } else {
-      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur' });
     }
-
 }
