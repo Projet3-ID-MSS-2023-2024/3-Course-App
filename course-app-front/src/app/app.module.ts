@@ -19,6 +19,7 @@ import { FirstRegisterComponent } from './components/first-register/first-regist
 import { CourseAddComponent } from './components/Course/course-add/course-add.component';
 import { InscriptionComponent } from './components/inscription/inscription/inscription.component';
 import { ConfirmInscriptionComponent } from './components/inscription/confirm-inscription/confirm-inscription.component';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { ConfirmInscriptionComponent } from './components/inscription/confirm-in
     AvatarModule,
     AvatarGroupModule,
     ToastModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MessagesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

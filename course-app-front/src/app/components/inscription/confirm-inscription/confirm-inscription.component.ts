@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Message } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ConfirmInscriptionComponent implements OnInit{
 
-  validation!:boolean;
+  messages!: Message[];
 
   constructor(
     private route: ActivatedRoute,
@@ -21,10 +22,10 @@ export class ConfirmInscriptionComponent implements OnInit{
     const code = this.route.snapshot.paramMap.get('code');
     this.authService.confirmInscription(code).subscribe((res)=>{
       if (res===true) {
-        this.validation=true;
-      } else {this.validation=false}
+        this.messages = [{ severity: 'success', summary: 'Validé', detail: 'Votre adresse mail a bien été validé.' }];
+      } else {this.messages = [{ severity: 'error', summary: 'Erreur', detail: 'Une erreur est survenue.' }];}
     },(error)=>{
-      console.log(error)
+      this.messages = [{ severity: 'error', summary: 'Erreur', detail: 'Une erreur est survenue.' }];
     })
   }
 
