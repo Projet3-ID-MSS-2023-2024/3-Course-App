@@ -34,8 +34,8 @@ public class AuthRestController {
     }
 
     @GetMapping
-    public String confirmRegister(@RequestParam("code") String code) throws Exception {
+    public boolean confirmRegister(@RequestParam("code") String code) throws Exception {
         var res = service.confirmInscription(code);
-        return "" + res;
+        return res;
     }
 }

@@ -17,6 +17,14 @@ export class AuthService {
     }));
   }
 
+  register(user:User){
+    return this.http.post('http://localhost:8080/api/auth/register', user, { responseType: 'text' });
+  }
+
+  confirmInscription(code:any){
+    return this.http.get(`http://localhost:8080/api/auth?code=${code}`);
+  }
+
   getUserWithToken(token: string):Observable<User>{
     return this.http.post<User>('http://localhost:8080/api/auth', token);
   }

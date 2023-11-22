@@ -1,0 +1,7 @@
+<div *ngIf="this.validation; then valid else noValid"></div>
+    <ng-template #valid>
+      <p>Validé !</p>
+    </ng-template>
+    <ng-template #noValid>
+      <p>Non validé !</p>
+    </ng-template>
