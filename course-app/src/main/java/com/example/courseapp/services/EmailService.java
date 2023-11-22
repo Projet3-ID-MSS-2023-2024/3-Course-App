@@ -18,8 +18,7 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setTo(to);
         helper.setSubject(subjet);
-        helper.setText(htmlContent);
-        //helper.setText(htmlContent, true);  -> a utiliser pour envoyer des template en html
+        helper.setText(htmlContent, true);
         javaMailSender.send(message);
     }
 

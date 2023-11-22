@@ -85,4 +85,9 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         if (user.isEmpty()){return true;}
         else {return false;}
     }
+
+    @Override
+    public Optional<Utilisateur> getUserByCode(String code) {
+        return utilisateurRepo.findByCode(code);
+    }
 }

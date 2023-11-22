@@ -32,4 +32,10 @@ public class AuthRestController {
     public ResponseEntity<LoggedUserResponse> getUserWithToken(@RequestBody String token){
         return ResponseEntity.ok(service.getUserByToken(token));
     }
+
+    @GetMapping
+    public String confirmRegister(@RequestParam("code") String code) throws Exception {
+        var res = service.confirmInscription(code);
+        return "" + res;
+    }
 }
