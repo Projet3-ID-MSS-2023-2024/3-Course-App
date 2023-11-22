@@ -25,7 +25,8 @@ export class CourseAddComponent implements OnInit{
       this.courseForm = this.fb.group({
         titre:['', Validators.required],
         prix:['', Validators.required],
-        dateEtHeure: ['', [Validators.required, Validators.email]],
+        date: ['',Validators.required],
+        heure: ['',Validators.required],
         adresse: ['', Validators.required],
         adresse1: ['',Validators.required]
       })
@@ -33,7 +34,8 @@ export class CourseAddComponent implements OnInit{
     addCourse(){
       this.course.titre = this.courseForm.value.titre;
       this.course.prix = this.courseForm.value.prix;
-      this.course.DateEtHeure = this.courseForm.value.DateEtHeure;
+      this.course.date = this.courseForm.value.date;
+      this.course.Heure = this.courseForm.value.heure;
       this.course.Adresse = this.courseForm.value.Adresse;
       this.course.Adresse1 = this.courseForm.value.Adresse1;
       this.courseService.addCourse(this.course).subscribe(()=>{

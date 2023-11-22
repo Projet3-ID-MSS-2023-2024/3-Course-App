@@ -20,6 +20,7 @@ import { CourseAddComponent } from './components/Course/course-add/course-add.co
 import { InscriptionComponent } from './components/inscription/inscription/inscription.component';
 import { ConfirmInscriptionComponent } from './components/inscription/confirm-inscription/confirm-inscription.component';
 import { MessagesModule } from 'primeng/messages';
+import { VilleAddComponent } from './components/Ville/ville-add/ville-add.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { MessagesModule } from 'primeng/messages';
     FirstRegisterComponent,
     CourseAddComponent,
     InscriptionComponent,
-    ConfirmInscriptionComponent
+    ConfirmInscriptionComponent,
+    VilleAddComponent
   ],
   imports: [
     BrowserModule,

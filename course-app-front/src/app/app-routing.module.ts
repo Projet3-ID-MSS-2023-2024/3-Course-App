@@ -6,6 +6,7 @@ import { FirstRegisterComponent } from './components/first-register/first-regist
 import { CourseAddComponent } from './components/Course/course-add/course-add.component';
 import { InscriptionComponent } from './components/inscription/inscription/inscription.component';
 import { ConfirmInscriptionComponent } from './components/inscription/confirm-inscription/confirm-inscription.component';
+import { VilleAddComponent } from './components/Ville/ville-add/ville-add.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent},
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'course-add', component: CourseAddComponent},
   { path: 'inscription', component: InscriptionComponent},
   { path: 'confirm/inscription/:code', component: ConfirmInscriptionComponent},
+  { path:'ville-add',component:VilleAddComponent},
 ];
 
 @NgModule({
