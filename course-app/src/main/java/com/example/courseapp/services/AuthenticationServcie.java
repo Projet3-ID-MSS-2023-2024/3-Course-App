@@ -57,7 +57,7 @@ public class AuthenticationServcie {
         utilisateurRepo.save(utilisateur);
 
         // pour l'instant on envoi juste un code par mail
-        var lien = "http://localhost:8080/api/auth?code=" + utilisateur.getCode();
+        var lien = "http://localhost:4200/confirm/inscription/" + utilisateur.getCode();
 
         emailService.sendEmail(utilisateur.getEmail(),"Confirmation d'inscription", buildEmail(utilisateur.getPrenom(), lien));
 
@@ -119,7 +119,7 @@ public class AuthenticationServcie {
                 "<head>\n" +
                 "    <meta charset=\"UTF-8\">\n" +
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
-                "    <title>Confirmation d'Inscription</title>\n" +
+                "    <title></title>\n" +
                 "    <style>\n" +
                 "        body {\n" +
                 "            font-family: Arial, sans-serif;\n" +

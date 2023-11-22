@@ -17,6 +17,9 @@ import { AccueilComponent } from './components/accueil/accueil.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FirstRegisterComponent } from './components/first-register/first-register.component';
 import { CourseAddComponent } from './components/Course/course-add/course-add.component';
+import { InscriptionComponent } from './components/inscription/inscription/inscription.component';
+import { ConfirmInscriptionComponent } from './components/inscription/confirm-inscription/confirm-inscription.component';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { CourseAddComponent } from './components/Course/course-add/course-add.co
     AccueilComponent,
     NavbarComponent,
     FirstRegisterComponent,
-    CourseAddComponent
+    CourseAddComponent,
+    InscriptionComponent,
+    ConfirmInscriptionComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +43,8 @@ import { CourseAddComponent } from './components/Course/course-add/course-add.co
     AvatarModule,
     AvatarGroupModule,
     ToastModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MessagesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
