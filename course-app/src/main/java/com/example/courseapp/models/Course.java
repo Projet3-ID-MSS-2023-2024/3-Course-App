@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Date;
 
 
@@ -30,7 +31,7 @@ public class Course {
     private Date date;
 
     @Column(nullable = false)
-    private Time heure;
+    private LocalTime heure;
 
     /*** Laisaions avec la table adress ***/
     @ManyToOne

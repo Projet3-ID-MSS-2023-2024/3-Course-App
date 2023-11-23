@@ -4,7 +4,7 @@ export class Course{
   titre: string;
   prix: number;
   date: Date;
-  Heure: Time;
+  heure: Time;
   Adresse: number;
   Adresse1: number;
 
@@ -12,7 +12,7 @@ export class Course{
     this.titre="";
     this.prix=0;
     this.date=new Date();
-    this.Heure={hours:0,minutes:0};
+    this.heure={hours:0,minutes:0};
     this.Adresse=0;
     this.Adresse1=0;
   }
