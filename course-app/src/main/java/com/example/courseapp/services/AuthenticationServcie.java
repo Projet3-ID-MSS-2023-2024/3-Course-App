@@ -31,12 +31,13 @@ public class AuthenticationServcie {
 
     private final EmailService emailService;
 
-    public AuthenticationResponse register(RegisterRequest request) throws Exception {
+    public AuthenticationResponse register(RegisterRequest request, boolean IsAdmin) throws Exception {
         if (utilisateurService.testEmail(request.getEmail())){}
         if (utilisateurService.testMdp(request.getMdp())){}
 
         List<Role> listRole = new ArrayList<>();
-        listRole.add(Role.COUREUR);
+        if (IsAdmin){ listRole.add(Role.ADMIN); }
+        else { listRole.add(Role.COUREUR); }
 
         String code = UUID.randomUUID().toString();
         while (!utilisateurService.testCodeValid(code)){  // pour éviter d'avoir deux fois le meme code dans la bd

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/models/user';
 
@@ -19,8 +20,8 @@ export class FirstRegisterComponent implements OnInit{
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private userService: UserService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.user = new User();
@@ -40,7 +41,7 @@ export class FirstRegisterComponent implements OnInit{
       this.user.email = this.registerForm.value.email;
       this.user.mdp = this.registerForm.value.mdp;
 
-      this.userService.addFirstAdmin(this.user).subscribe(()=>{
+      this.authService.addFirstAdmin(this.user).subscribe(()=>{
         this.router.navigateByUrl('/login');
       },(error)=>{
         this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });

@@ -9,7 +9,4 @@ export class UserService {
 
   constructor(private http : HttpClient) { }
 
-  addFirstAdmin(user:User){
-    return this.http.post('http://localhost:8080/api/users/firstAdmin', user, { responseType: 'text' });
-  }
 }

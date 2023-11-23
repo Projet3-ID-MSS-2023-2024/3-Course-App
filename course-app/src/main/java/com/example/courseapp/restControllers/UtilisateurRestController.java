@@ -2,6 +2,7 @@ package com.example.courseapp.restControllers;
 
 import com.example.courseapp.models.Role;
 import com.example.courseapp.models.Utilisateur;
+import com.example.courseapp.services.AuthenticationServcie;
 import com.example.courseapp.services.IUtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,8 @@ public class UtilisateurRestController {
     IUtilisateurService utilisateurService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    AuthenticationServcie authenticationServcie;
 
     @GetMapping
     public List<Utilisateur> getAll(){
@@ -54,21 +57,6 @@ public class UtilisateurRestController {
         newUser.setMdp(passwordEncoder.encode(newUser.getPassword()));
         return utilisateurService.saveUser(newUser);
     }
-
-    @PostMapping("/firstAdmin")
-    public Utilisateur addFirstAdmin(@RequestBody Utilisateur newAdmin) throws Exception {
-        if (utilisateurService.testEmail(newAdmin.getEmail())){}
-        if (utilisateurService.testMdp(newAdmin.getMdp())){}
-
-        List<Role> roles = new ArrayList<>();
-        roles.add(Role.ADMIN);
-
-        newAdmin.setRole(roles);
-        newAdmin.setMdp(passwordEncoder.encode(newAdmin.getMdp()));
-        newAdmin.setActive(true);
-        return utilisateurService.saveUser(newAdmin);
-    }
-
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) throws Exception{
         /*** On vérifie que l'id est present dans la db puis on supprime ***/

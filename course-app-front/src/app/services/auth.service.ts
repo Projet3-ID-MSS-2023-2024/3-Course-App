@@ -21,6 +21,10 @@ export class AuthService {
     return this.http.post('http://localhost:8080/api/auth/register', user, { responseType: 'text' });
   }
 
+  addFirstAdmin(user:User){
+    return this.http.post('http://localhost:8080/api/auth/firstAdmin', user, { responseType: 'text' });
+  }
+
   confirmInscription(code:any){
     return this.http.get(`http://localhost:8080/api/auth?code=${code}`);
   }

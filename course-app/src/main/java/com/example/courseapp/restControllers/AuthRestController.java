@@ -20,7 +20,13 @@ public class AuthRestController {
     public ResponseEntity<AuthenticationResponse> register (
             @RequestBody RegisterRequest request
     ) throws Exception {
-        return ResponseEntity.ok(service.register(request));
+        return ResponseEntity.ok(service.register(request, false));
+    }
+    @PostMapping("/firstAdmin")
+    public ResponseEntity<AuthenticationResponse> registerFirstAdmin(
+            @RequestBody RegisterRequest request
+    ) throws Exception {
+        return ResponseEntity.ok(service.register(request, true));
     }
     @PostMapping("/authenticate")
     public ResponseEntity<String> Authenticate (
