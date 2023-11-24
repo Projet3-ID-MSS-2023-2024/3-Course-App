@@ -20,10 +20,10 @@
             <input id="heure" type="time" placeholder="Heure" pInputText class="w-full mb-3" formControlName="heure">
 
             <label for="adresse" class="block text-900 font-medium mb-2">Adresse de départ</label>
-            <input id="adresse" type="text" placeholder="Adresse de départ" pInputText class="w-full mb-3" formControlName="adresse">
+            <input id="adresse" type="number" placeholder="Adresse de départ" pInputText class="w-full mb-3" formControlName="adresse">
 
             <label for="adresse1" class="block text-900 font-medium mb-2">Adresse d'arrivé</label>
-            <input id="adresse1" type="text" placeholder="Adresse d'arrivé" pInputText class="w-full mb-3" formControlName="adresse1">
+            <input id="adresse1" type="number" placeholder="Adresse d'arrivé" pInputText class="w-full mb-3" formControlName="adresse1">
 
             <button pButton pRipple type="submit" label="Ajouter Course" class="w-full p-button-primary mt-2" (click)="addCourse()"></button>
           </form>

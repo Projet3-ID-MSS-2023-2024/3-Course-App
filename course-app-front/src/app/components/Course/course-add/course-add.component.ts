@@ -28,7 +28,7 @@ export class CourseAddComponent implements OnInit{
         date: ['',Validators.required],
         heure: ['',Validators.required],
         adresse: ['', Validators.required],
-        adresse1: ['',Validators.required]
+        adresse1: ['',Validators.required],
       })
     }
     addCourse(){
@@ -36,8 +36,8 @@ export class CourseAddComponent implements OnInit{
       this.course.prix = this.courseForm.value.prix;
       this.course.date = this.courseForm.value.date;
       this.course.heure = this.courseForm.value.heure;
-      this.course.Adresse = this.courseForm.value.Adresse;
-      this.course.Adresse1 = this.courseForm.value.Adresse1;
+      this.course.adresse = this.courseForm.value.adresse;
+      this.course.adresse1 = this.courseForm.value.adresse1;
       this.courseService.addCourse(this.course).subscribe(()=>{
         this.router.navigateByUrl('/course-add');
       },(error)=>{

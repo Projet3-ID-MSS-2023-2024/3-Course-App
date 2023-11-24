@@ -33,6 +33,7 @@ public class Course {
     @Column(nullable = false)
     private LocalTime heure;
 
+
     /*** Laisaions avec la table adress ***/
     @ManyToOne
     @JoinColumn(name="id_depart")
@@ -46,4 +47,5 @@ public class Course {
     @ManyToOne
     @JoinColumn(name="id_organisateur")
     private Utilisateur utilisateur;
+
 }

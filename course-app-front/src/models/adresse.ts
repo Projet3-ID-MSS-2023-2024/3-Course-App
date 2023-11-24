@@ -1,6 +1,5 @@
-import { Ville } from "./ville";
 
-export class adresse {
+export class Adresse {
   rue: string;
   latitude: number;
   longitude: number;
