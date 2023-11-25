@@ -10,6 +10,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -50,7 +51,8 @@ import { CoursesListComponent } from './components/Course/courses-list/courses-l
     AvatarGroupModule,
     ToastModule,
     BrowserAnimationsModule,
-    MessagesModule
+    MessagesModule,
+    NgxPayPalModule
   ],
   providers: [],
   bootstrap: [AppComponent]

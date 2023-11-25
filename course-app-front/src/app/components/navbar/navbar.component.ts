@@ -27,6 +27,7 @@ export class NavbarComponent implements OnInit {
         {
             label: 'Accueil',
             icon: 'pi pi-fw pi-home',
+            routerLink: '/accueil'
         },
         {
             label: 'Courses',
