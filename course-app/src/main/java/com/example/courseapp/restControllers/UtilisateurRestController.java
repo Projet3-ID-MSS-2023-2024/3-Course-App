@@ -4,7 +4,9 @@ import com.example.courseapp.models.Role;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.services.AuthenticationServcie;
 import com.example.courseapp.services.IUtilisateurService;
+import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,4 +68,18 @@ public class UtilisateurRestController {
         }
         utilisateurService.deleteById(id);
     }
+
+    /*** Update les données personnel d'utilisateur ***/
+    @PutMapping("/{id}")
+    public Optional<Utilisateur> putUserById(@RequestBody Utilisateur utilisateur, @PathVariable("id") int id){
+
+        return this.utilisateurService.getUserById(id)
+                .map(upUser -> {
+                    upUser.setNom(utilisateur.getNom());
+                    upUser.setPrenom(utilisateur.getPrenom());
+                    upUser.setEmail(utilisateur.getEmail());
+                    return utilisateurService.saveUser(upUser);
+                });
+    }
+
 }
