@@ -1,2 +1,8 @@
 <app-navbar></app-navbar>
+<div *ngFor="let course of courses">
+    {{ course.titre }}
+    {{ course.adresse }}
+    {{ course.prix }}
+    <br/>
+</div>
 <ngx-paypal #paypal [config]="this.payPalConfig"></ngx-paypal>
