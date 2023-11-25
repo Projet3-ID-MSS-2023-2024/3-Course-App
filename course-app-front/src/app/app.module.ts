@@ -10,6 +10,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -23,6 +24,8 @@ import { MessagesModule } from 'primeng/messages';
 import { VilleAddComponent } from './components/Ville/ville-add/ville-add.component';
 import { AdresseAddComponent } from './components/Adresse/adresse-add/adresse-add.component';
 import { UserProfileComponent } from './components/Profile/user-profile/user-profile.component';
+import { CoursesListComponent } from './components/Course/courses-list/courses-list.component';
+
 
 @NgModule({
   declarations: [
@@ -37,6 +40,7 @@ import { UserProfileComponent } from './components/Profile/user-profile/user-pro
     VilleAddComponent,
     AdresseAddComponent,
     UserProfileComponent
+    CoursesListComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +54,8 @@ import { UserProfileComponent } from './components/Profile/user-profile/user-pro
     AvatarGroupModule,
     ToastModule,
     BrowserAnimationsModule,
-    MessagesModule
+    MessagesModule,
+    NgxPayPalModule
   ],
   providers: [],
   bootstrap: [AppComponent]

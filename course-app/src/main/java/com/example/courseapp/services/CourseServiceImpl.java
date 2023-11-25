@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CourseServiceImpl implements CourseService{
 
@@ -15,5 +17,10 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public Course add(Course newCourse) {
         return courseRepo.save(newCourse);
+    }
+
+    @Override
+    public List<Course> getCourses() {
+        return courseRepo.findAll();
     }
 }

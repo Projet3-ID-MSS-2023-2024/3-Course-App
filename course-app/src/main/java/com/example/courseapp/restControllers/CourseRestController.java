@@ -3,10 +3,9 @@ package com.example.courseapp.restControllers;
 import com.example.courseapp.models.Course;
 import com.example.courseapp.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/course")
@@ -20,5 +19,8 @@ public class CourseRestController {
         return courseService.add(newCourse);
     }
 
-
+    @GetMapping("")
+    public List<Course> getCourses() {
+        return this.courseService.getCourses();
+    }
 }

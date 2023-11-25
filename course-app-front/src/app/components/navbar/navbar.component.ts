@@ -27,10 +27,12 @@ export class NavbarComponent implements OnInit {
         {
             label: 'Accueil',
             icon: 'pi pi-fw pi-home',
+            routerLink: '/accueil'
         },
         {
             label: 'Courses',
             icon: 'pi pi-fw pi-flag',
+            routerLink: '/courses'
         },
         {
             label: 'Résultats',
