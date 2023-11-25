@@ -1,5 +1,6 @@
 package com.example.courseapp.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,7 +26,9 @@ public class Ville implements Serializable {
     private int code_postale;
 
     /*** Constructeur ***/
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public Ville(){}
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public Ville(int ville_id, String nom, int code_postale) {
         this.ville_id = ville_id;
         this.nom = nom;

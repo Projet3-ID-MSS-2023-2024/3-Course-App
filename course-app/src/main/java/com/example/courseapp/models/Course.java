@@ -3,7 +3,7 @@ package com.example.courseapp.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Time;
+
 import java.time.LocalTime;
 import java.util.Date;
 

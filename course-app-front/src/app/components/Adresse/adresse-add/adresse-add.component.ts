@@ -26,7 +26,7 @@ export class AdresseAddComponent {
         rue:['', Validators.required],
         latitude:['', Validators.required],
         longitude: ['',Validators.required],
-        ville: ['',Validators.required],
+         ville: ['',Validators.required],
       })
     }
     addAdresse(){
