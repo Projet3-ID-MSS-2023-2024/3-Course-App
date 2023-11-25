@@ -9,11 +9,14 @@ export class PaypalService {
 
   constructor() { }
 
+  // email: sb-pfa1222784084@personal.example.com
+  // mdp: p!V.L6f*
+
   //config paypal
   public initConfig(prix:string): IPayPalConfig {
     this.payPalConfig = {
     currency: 'EUR',
-    clientId: 'AWpk_a-hWHPi1cQjnyU9y_vCj0Cmrad94GijeuZEz8RZ21C9ST6TnSXkZgPP2dvDLR_-piHDyQnl2EQX',
+    clientId: 'AQY5t6tEDcJUBlLt9jAyxh-pTXXIKimV6HE6KGOr_lk72bOEZfpSmC4uHHF-DtDxR75wbBzr2gIL4uUI',
     createOrderOnClient: (data) => <ICreateOrderRequest>{
       intent: 'CAPTURE',
       purchase_units: [
