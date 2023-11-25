@@ -8,12 +8,14 @@ import { InscriptionComponent } from './components/inscription/inscription/inscr
 import { ConfirmInscriptionComponent } from './components/inscription/confirm-inscription/confirm-inscription.component';
 import { VilleAddComponent } from './components/Ville/ville-add/ville-add.component';
 import { AdresseAddComponent } from './components/Adresse/adresse-add/adresse-add.component';
+import { CoursesListComponent } from './components/Course/courses-list/courses-list.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'login', component: LoginComponent},
   { path: 'accueil', component: AccueilComponent},
   { path: 'firstRegister', component: FirstRegisterComponent},
+  { path: 'courses', component: CoursesListComponent},
   { path: 'course-add', component: CourseAddComponent},
   { path: 'inscription', component: InscriptionComponent},
   { path: 'confirm/inscription/:code', component: ConfirmInscriptionComponent},

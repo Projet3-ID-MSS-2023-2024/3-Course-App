@@ -22,6 +22,7 @@ import { ConfirmInscriptionComponent } from './components/inscription/confirm-in
 import { MessagesModule } from 'primeng/messages';
 import { VilleAddComponent } from './components/Ville/ville-add/ville-add.component';
 import { AdresseAddComponent } from './components/Adresse/adresse-add/adresse-add.component';
+import { CoursesListComponent } from './components/Course/courses-list/courses-list.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AdresseAddComponent } from './components/Adresse/adresse-add/adresse-ad
     InscriptionComponent,
     ConfirmInscriptionComponent,
     VilleAddComponent,
-    AdresseAddComponent
+    AdresseAddComponent,
+    CoursesListComponent
   ],
   imports: [
     BrowserModule,
