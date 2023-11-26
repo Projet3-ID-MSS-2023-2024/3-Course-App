@@ -12,6 +12,7 @@ import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPayPalModule } from 'ngx-paypal';
 import { DataViewModule } from 'primeng/dataview';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -57,7 +58,8 @@ import { CoursesListComponent } from './components/Course/courses-list/courses-l
     BrowserAnimationsModule,
     MessagesModule,
     NgxPayPalModule,
-    DataViewModule
+    DataViewModule,
+    DropdownModule
   ],
   providers: [],
   bootstrap: [AppComponent]
