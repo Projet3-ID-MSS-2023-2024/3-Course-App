@@ -1,4 +1,5 @@
 import { Time } from "@angular/common";
+import { AdresseList } from "./adresse";
 
 export class Course{
   titre: string;
@@ -17,4 +18,13 @@ export class Course{
     this.adresse1=0;
   }
 
+}
+
+export class CourseList {
+  titre!: string;
+  prix!: number;
+  date!: Date;
+  heure!: Time;
+  adresse!: AdresseList;
+  adresse1!: AdresseList;
 }

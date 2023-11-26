@@ -11,6 +11,7 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPayPalModule } from 'ngx-paypal';
+import { DataViewModule } from 'primeng/dataview';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -39,7 +40,7 @@ import { CoursesListComponent } from './components/Course/courses-list/courses-l
     ConfirmInscriptionComponent,
     VilleAddComponent,
     AdresseAddComponent,
-    UserProfileComponent
+    UserProfileComponent,
     CoursesListComponent
   ],
   imports: [
@@ -55,7 +56,8 @@ import { CoursesListComponent } from './components/Course/courses-list/courses-l
     ToastModule,
     BrowserAnimationsModule,
     MessagesModule,
-    NgxPayPalModule
+    NgxPayPalModule,
+    DataViewModule
   ],
   providers: [],
   bootstrap: [AppComponent]

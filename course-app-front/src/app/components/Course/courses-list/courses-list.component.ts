@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IPayPalConfig, NgxPaypalComponent } from 'ngx-paypal';
 import { CourseService } from 'src/app/services/course.service';
 import { PaypalService } from 'src/app/services/paypal.service';
-import { Course } from 'src/models/course';
+import { CourseList } from 'src/models/course';
 
 @Component({
   selector: 'app-courses-list',
@@ -17,7 +17,7 @@ export class CoursesListComponent implements OnInit {
   showSuccess?: boolean;
   paypalInit:boolean = false;
 
-  courses: Course[] | undefined = [];
+  courses: CourseList[] | undefined = [];
 
   constructor(private payPalService: PaypalService, private courseService: CourseService) {}
 
@@ -27,7 +27,7 @@ export class CoursesListComponent implements OnInit {
   }
 
   getCourses(): void {
-    this.courseService.getCourses().subscribe((courses: Course[] | undefined) => {
+    this.courseService.getCourses().subscribe((courses: CourseList[] | undefined) => {
       this.courses = courses;
     });
   }
