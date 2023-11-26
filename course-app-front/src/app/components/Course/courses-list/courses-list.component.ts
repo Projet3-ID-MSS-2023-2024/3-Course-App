@@ -3,7 +3,7 @@ import { IPayPalConfig, NgxPaypalComponent } from 'ngx-paypal';
 import { SelectItem } from 'primeng/api';
 import { CourseService } from 'src/app/services/course.service';
 import { PaypalService } from 'src/app/services/paypal.service';
-import { CourseList } from 'src/models/course';
+import { Course } from 'src/models/course';
 
 @Component({
   selector: 'app-courses-list',
@@ -18,7 +18,7 @@ export class CoursesListComponent implements OnInit {
   showSuccess?: boolean;
   paypalInit:boolean = false;
 
-  courses: CourseList[] | undefined = [];
+  courses: Course[] | undefined = [];
 
   // Tri
   sortOptions!: SelectItem[];
@@ -52,7 +52,7 @@ export class CoursesListComponent implements OnInit {
   }
 
   getCourses(): void {
-    this.courseService.getCourses().subscribe((courses: CourseList[] | undefined) => {
+    this.courseService.getCourses().subscribe((courses: Course[] | undefined) => {
       this.courses = courses;
     });
   }
