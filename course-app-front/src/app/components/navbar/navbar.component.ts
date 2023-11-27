@@ -41,6 +41,7 @@ export class NavbarComponent implements OnInit {
         {
             label: 'Mon compte',
             icon: 'pi pi-fw pi-user-edit',
+            routerLink:'/user-profile'
         }
       ];
   }

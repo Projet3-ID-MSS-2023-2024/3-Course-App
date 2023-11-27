@@ -36,8 +36,8 @@ export class CourseAddComponent implements OnInit{
       this.course.prix = this.courseForm.value.prix;
       this.course.date = this.courseForm.value.date;
       this.course.heure = this.courseForm.value.heure;
-      this.course.adresse = this.courseForm.value.adresse;
-      this.course.adresse1 = this.courseForm.value.adresse1;
+      this.course.adresse.rue = this.courseForm.value.adresse;
+      this.course.adresse.rue = this.courseForm.value.adresse1;
       this.courseService.addCourse(this.course).subscribe(()=>{
         this.router.navigateByUrl('/course-add');
       },(error)=>{
