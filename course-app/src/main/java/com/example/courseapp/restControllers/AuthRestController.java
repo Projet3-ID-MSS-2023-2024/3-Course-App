@@ -2,8 +2,8 @@ package com.example.courseapp.restControllers;
 
 import com.example.courseapp.dto.AuthenticationRequest;
 import com.example.courseapp.dto.AuthenticationResponse;
-import com.example.courseapp.dto.LoggedUserResponse;
 import com.example.courseapp.dto.RegisterRequest;
+import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.services.AuthenticationServcie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,7 @@ public class AuthRestController {
         return service.authenticate(request);
     }
     @PostMapping
-    public ResponseEntity<LoggedUserResponse> getUserWithToken(@RequestBody String token){
+    public ResponseEntity<UserResponse> getUserWithToken(@RequestBody String token){
         return ResponseEntity.ok(service.getUserByToken(token));
     }
 

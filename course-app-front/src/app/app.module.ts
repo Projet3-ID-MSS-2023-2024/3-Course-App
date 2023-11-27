@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPayPalModule } from 'ngx-paypal';
 import { DataViewModule } from 'primeng/dataview';
 import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -27,6 +28,7 @@ import { VilleAddComponent } from './components/Ville/ville-add/ville-add.compon
 import { AdresseAddComponent } from './components/Adresse/adresse-add/adresse-add.component';
 import { UserProfileComponent } from './components/Profile/user-profile/user-profile.component';
 import { CoursesListComponent } from './components/Course/courses-list/courses-list.component';
+import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.component';
 
 
 @NgModule({
@@ -42,7 +44,8 @@ import { CoursesListComponent } from './components/Course/courses-list/courses-l
     VilleAddComponent,
     AdresseAddComponent,
     UserProfileComponent,
-    CoursesListComponent
+    CoursesListComponent,
+    GestionAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,8 @@ import { CoursesListComponent } from './components/Course/courses-list/courses-l
     MessagesModule,
     NgxPayPalModule,
     DataViewModule,
-    DropdownModule
+    DropdownModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

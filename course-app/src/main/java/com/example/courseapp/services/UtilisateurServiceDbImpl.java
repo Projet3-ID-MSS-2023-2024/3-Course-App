@@ -1,10 +1,12 @@
 package com.example.courseapp.services;
 
+import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.repo.UtilisateurRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -17,8 +19,26 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
     UtilisateurRepo utilisateurRepo;
 
     @Override
-    public List<Utilisateur> getAllUsers() {
-        return utilisateurRepo.findAll();
+    public List<UserResponse> getAllUsers() {
+
+        List<Utilisateur> list = utilisateurRepo.findAll();
+        List<UserResponse> newList = new ArrayList<>();
+
+        for (int i =0; i<list.size(); i++){
+
+            Utilisateur user = list.get(i);
+            newList.add(
+                    UserResponse.builder()
+                            .id(user.getId())
+                            .nom(user.getNom())
+                            .prenom(user.getPrenom())
+                            .email(user.getEmail())
+                            .role(user.getRole())
+                            .isActive(user.isActive())
+                            .build()
+            );
+        };
+        return newList;
     }
 
     @Override

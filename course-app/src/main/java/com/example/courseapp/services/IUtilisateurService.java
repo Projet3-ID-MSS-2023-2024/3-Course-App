@@ -1,5 +1,6 @@
 package com.example.courseapp.services;
 
+import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.Utilisateur;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.Optional;
 
 public interface IUtilisateurService {
     /*** Utilisation d'une interface pour avoir une vue globale des méthodes du service ***/
-    public List<Utilisateur> getAllUsers();
+    public List<UserResponse> getAllUsers();
     public Optional<Utilisateur> getUserById(int id);
     public List<Utilisateur> getAllAdmins();
     public List<Utilisateur> getAllCoureurs();

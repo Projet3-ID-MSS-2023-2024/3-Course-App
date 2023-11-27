@@ -10,6 +10,7 @@ import { VilleAddComponent } from './components/Ville/ville-add/ville-add.compon
 import { AdresseAddComponent } from './components/Adresse/adresse-add/adresse-add.component';
 import { UserProfileComponent } from './components/Profile/user-profile/user-profile.component';
 import { CoursesListComponent } from './components/Course/courses-list/courses-list.component';
+import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.component';
 
 
 const routes: Routes = [
@@ -23,7 +24,8 @@ const routes: Routes = [
   { path: 'confirm/inscription/:code', component: ConfirmInscriptionComponent},
   { path:'ville-add',component:VilleAddComponent},
   {path:'adresse-add',component:AdresseAddComponent},
-  { path: 'user-profile',component:UserProfileComponent }
+  { path: 'user-profile',component:UserProfileComponent },
+  { path: 'administration',component:GestionAdminComponent }
 ];
 
 @NgModule({

@@ -1,16 +1,13 @@
 package com.example.courseapp.restControllers;
 
-import com.example.courseapp.models.Role;
+import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.services.AuthenticationServcie;
 import com.example.courseapp.services.IUtilisateurService;
-import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +23,7 @@ public class UtilisateurRestController {
     AuthenticationServcie authenticationServcie;
 
     @GetMapping
-    public List<Utilisateur> getAll(){
+    public List<UserResponse> getAll(){
         return utilisateurService.getAllUsers();
     }
 
