@@ -52,9 +52,8 @@ public class UtilisateurRestController {
     }
 
     @PostMapping
-    public Utilisateur add(@RequestBody Utilisateur newUser){
-        newUser.setMdp(passwordEncoder.encode(newUser.getPassword()));
-        return utilisateurService.saveUser(newUser);
+    public void add(@RequestBody Utilisateur newUser) throws Exception {
+        utilisateurService.addUserbyAdmin(newUser);
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) throws Exception{

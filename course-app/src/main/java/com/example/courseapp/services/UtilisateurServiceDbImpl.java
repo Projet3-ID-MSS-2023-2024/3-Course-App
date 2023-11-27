@@ -4,11 +4,13 @@ import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.repo.UtilisateurRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +19,9 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
 
     @Autowired
     UtilisateurRepo utilisateurRepo;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserResponse> getAllUsers() {
@@ -109,5 +114,14 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
     @Override
     public Optional<Utilisateur> getUserByCode(String code) {
         return utilisateurRepo.findByCode(code);
+    }
+
+    @Override
+    public void addUserbyAdmin(Utilisateur user) throws Exception {
+        this.testEmail(user.getEmail());
+        String codeMdp = UUID.randomUUID().toString();
+        user.setMdp(passwordEncoder.encode(codeMdp));
+        user.setActive(true);
+        this.utilisateurRepo.save(user);
     }
 }

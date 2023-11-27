@@ -13,4 +13,8 @@ export class UserService {
   getAll(): Observable<User[]>{
     return this.http.get<User[]>('http://localhost:8080/api/users');
   }
+
+  add(user : User){
+    return this.http.post('http://localhost:8080/api/users', user, { responseType: 'text' });
+  }
 }
