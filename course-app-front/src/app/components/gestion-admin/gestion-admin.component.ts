@@ -15,13 +15,22 @@ export class GestionAdminComponent implements OnInit{
   users !: User[];
   addUser !: User;
   roles !: String[];
-  visibleDiag : boolean = false;
+  visibleDiagAdd : boolean = false;
+  visibleDiagTri : boolean = false;
   addUserForm !: FormGroup;
+  formTri !: FormGroup;
 
   constructor(
     private userService : UserService,
     private fb: FormBuilder,
     private messageService: MessageService) { }
+
+  categories: any[] = [
+    { name: 'Afficher uniquement les admins', key: 'admin' },
+    { name: 'Afficher uniquement les gestionnaires', key: 'gestionnaire' },
+    { name: 'Afficher uniquement les coureurs', key: 'coureur' },
+    { name: 'Afficher tous les utilisateurs', key: 'all' }
+  ];
 
   ngOnInit(): void {
 
@@ -38,6 +47,10 @@ export class GestionAdminComponent implements OnInit{
       role: ['', [Validators.required]]
     })
 
+    this.formTri = this.fb.group({
+      tri : ['', [Validators.required]]
+    })
+
     this.getUsers();
   }
 
@@ -48,8 +61,14 @@ export class GestionAdminComponent implements OnInit{
     })
   }
 
-  showDialog(){
-    this.visibleDiag = true;
+  showDialogAdd(){
+    this.visibleDiagAdd = true;
+    this.visibleDiagTri = false;
+  }
+
+  showDialogTri(){
+    this.visibleDiagAdd = false;
+    this.visibleDiagTri = true;
   }
 
   ajoutUser(){
@@ -64,12 +83,26 @@ export class GestionAdminComponent implements OnInit{
     console.log(this.addUser.role)
     this.userService.add(this.addUser).subscribe((res)=>{
       this.addUserForm.reset();
-      this.visibleDiag = false;
+      this.visibleDiagAdd = false;
       this.messageService.add({ severity: 'success', summary: 'Ajout réussi !', detail: 'Vous avez ajouté un utilisateur.' });
       this.getUsers();
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'erreur', detail: 'erreur' });
     })
+  }
+
+  trier(){
+    if (this.formTri.value.tri === "all") {
+      this.getUsers();
+      this.visibleDiagTri = false;
+      this.formTri.reset()
+    } else {
+      this.userService.get(this.formTri.value.tri).subscribe((res)=>{
+        this.users = res;
+        this.visibleDiagTri = false;
+        this.formTri.reset()
+      })
+    }
   }
 
 }
