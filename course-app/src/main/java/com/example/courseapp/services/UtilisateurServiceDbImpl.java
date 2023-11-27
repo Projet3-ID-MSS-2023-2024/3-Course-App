@@ -19,9 +19,10 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
 
     @Autowired
     UtilisateurRepo utilisateurRepo;
-
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    EmailService emailService;
 
     @Override
     public List<UserResponse> getAllUsers() {
@@ -123,5 +124,68 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         user.setMdp(passwordEncoder.encode(codeMdp));
         user.setActive(true);
         this.utilisateurRepo.save(user);
+        emailService.sendEmail(user.getEmail(), "Code de connexion", buildEmailCodeConnexion(user.getPrenom(), codeMdp));
+    }
+
+    private String buildEmailCodeConnexion(String prenom,String codeMdp){
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "    <title></title>\n" +
+                "    <style>\n" +
+                "        body {\n" +
+                "            font-family: Arial, sans-serif;\n" +
+                "            background-color: #f4f4f4;\n" +
+                "            margin: 0;\n" +
+                "            padding: 0;\n" +
+                "            text-align: center;\n" +
+                "            display: flex;\n" +
+                "            align-items: center;\n" +
+                "            justify-content: center;\n" +
+                "            height: 100vh;\n" +
+                "        }\n" +
+                "\n" +
+                "        .box {\n" +
+                "            max-width: 600px;\n" +
+                "            background-color: #fff;\n" +
+                "            padding: 20px;\n" +
+                "            border-radius: 5px;\n" +
+                "            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n" +
+                "        }\n" +
+                "\n" +
+                "        h1 {\n" +
+                "            color: #333;\n" +
+                "        }\n" +
+                "\n" +
+                "        p {\n" +
+                "            color: #666;\n" +
+                "            margin-bottom: 20px;\n" +
+                "        }\n" +
+                "\n" +
+                "        .code {\n" +
+                "            font-size: 20px;\n" +
+                "            font-weight: bold;\n" +
+                "        }\n" +
+                "\n" +
+                "        .note {\n" +
+                "            color: #999;\n" +
+                "            font-size: 12px;\n" +
+                "            margin-top: 10px;\n" +
+                "        }\n" +
+                "    </style>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "    <div class=\"box\">\n" +
+                "        <h2>Code de Connexion</h2>\n" +
+                "        <p>Bonjour "+ prenom +",</p>\n" +
+                "        <p>Tu as été inscrit sur l'application Course App par un administrateur.</p>\n" +
+                "        <p>Utilise ton adresse mail ainsi que le code ci-dessous pour te connecter.</p>\n" +
+                "        <p class=\"code\">"+ codeMdp +"</p>\n" +
+                "        <p class=\"note\">Attention, pour plus de securité il t'es fortement recommandé de te créer un mot de passe une fois connecté.</p>\n" +
+                "    </div>\n" +
+                "</body>\n" +
+                "</html>";
     }
 }
