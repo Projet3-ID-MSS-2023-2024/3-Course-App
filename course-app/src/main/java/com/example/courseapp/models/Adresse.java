@@ -34,7 +34,7 @@ public class Adresse {
 
     /*** Constructeur ***/
     public Adresse() {}
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+
     public Adresse(int id, String rue, String latitude, String longitude, Ville ville) {
         this.id = id;
         this.rue = rue;
