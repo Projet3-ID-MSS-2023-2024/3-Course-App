@@ -3,8 +3,8 @@ package com.example.courseapp.services;
 import com.example.courseapp.config.JwtService;
 import com.example.courseapp.dto.AuthenticationRequest;
 import com.example.courseapp.dto.AuthenticationResponse;
-import com.example.courseapp.dto.LoggedUserResponse;
 import com.example.courseapp.dto.RegisterRequest;
+import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.Role;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.repo.UtilisateurRepo;
@@ -79,10 +79,10 @@ public class AuthenticationServcie {
         return ResponseEntity.ok(jwtToken);
     }
 
-    public LoggedUserResponse getUserByToken(String token){
+    public UserResponse getUserByToken(String token){
         String email = jwtService.extractUsername(token);
         Optional<Utilisateur> user = utilisateurRepo.findByEmail(email);
-        return LoggedUserResponse.builder()
+        return UserResponse.builder()
                 .email(user.get().getEmail())
                 .nom(user.get().getNom())
                 .prenom(user.get().getPrenom())
