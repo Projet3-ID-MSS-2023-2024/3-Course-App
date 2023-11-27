@@ -14,6 +14,9 @@ import { NgxPayPalModule } from 'ngx-paypal';
 import { DataViewModule } from 'primeng/dataview';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
+import { ToolbarModule } from 'primeng/toolbar';
+import { DialogModule } from 'primeng/dialog';
+import { ListboxModule } from 'primeng/listbox';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -63,7 +66,10 @@ import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.
     NgxPayPalModule,
     DataViewModule,
     DropdownModule,
-    TableModule
+    TableModule,
+    ToolbarModule,
+    DialogModule,
+    ListboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

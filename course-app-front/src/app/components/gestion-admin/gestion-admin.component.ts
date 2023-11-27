@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/models/user';
 
@@ -10,11 +11,30 @@ import { User } from 'src/models/user';
 export class GestionAdminComponent implements OnInit{
 
   users !: User[];
+  roles !: String[];
+  SelectRoles !: String[];
+  visibleDiag : boolean = false;
+  addUserForm !: FormGroup;
 
   constructor(
-    private userService : UserService) { }
+    private userService : UserService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
+
+    this.roles = [
+      "Admin",
+      "Gestionnaire",
+      "Coureur"
+    ];
+
+    this.addUserForm = this.fb.group({
+      nom: ['', [Validators.required]],
+      prenom: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      role: ['', [Validators.required]]
+    })
+
     this.getUsers();
   }
 
@@ -23,6 +43,14 @@ export class GestionAdminComponent implements OnInit{
       this.users = res;
       console.log(this.users)
     })
+  }
+
+  showDialog(){
+    this.visibleDiag = true;
+  }
+
+  ajoutUser(){
+    console.log(this.addUserForm.value.role)
   }
 
 }
