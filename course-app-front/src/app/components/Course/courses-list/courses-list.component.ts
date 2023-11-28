@@ -16,7 +16,9 @@ export class CoursesListComponent implements OnInit {
   paypalComponent?: NgxPaypalComponent
   public payPalConfig!: IPayPalConfig;
   showSuccess?: boolean;
-  paypalInit:boolean = false;
+  paypalInit: boolean = false;
+  paymentDialVisible: boolean = false;
+  coursePrice!: string;
 
   courses: Course[] | undefined = [];
 
@@ -29,7 +31,6 @@ export class CoursesListComponent implements OnInit {
   constructor(private payPalService: PaypalService, private courseService: CourseService) {}
 
   ngOnInit(): void {
-    this.payPalConfig = this.payPalService.initConfig('10');
     this.getCourses();
 
     this.sortField = 'prix';
@@ -53,5 +54,14 @@ export class CoursesListComponent implements OnInit {
     this.courseService.getCourses().subscribe((courses: Course[] | undefined) => {
       this.courses = courses;
     });
+  }
+
+  showPaymentDial(price: string): void {
+    this.coursePrice = price;
+    this.paymentDialVisible = true;
+  }
+
+  configPayPal(): void {
+    this.payPalConfig = this.payPalService.initConfig(this.coursePrice);
   }
 }
