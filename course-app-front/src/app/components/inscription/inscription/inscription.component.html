@@ -22,7 +22,14 @@
             <label for="password2" class="block text-900 font-medium mb-2">Confirmation Mot de passe</label>
             <input id="password2" type="password" placeholder="Confirmation Mot de passe" pInputText class="w-full mb-3" formControlName="mdp2">
 
-            <button pButton pRipple type="submit" label="S'inscire" class="w-full p-button-primary mt-2" (click)="inscription()"></button>
+            <div *ngIf="this.loading==true; then load else noload"></div>
+            <ng-template #load>
+              <button [disabled]="true" pButton icon="pi pi-spin pi-spinner" class="w-full p-button-primary mt-2" ></button>
+            </ng-template>
+            <ng-template #noload>
+              <button pButton pRipple type="submit" label="S'inscire" class="w-full p-button-primary mt-2" (click)="inscription()"></button>
+            </ng-template>
+
           </form>
       </div>
   </div>

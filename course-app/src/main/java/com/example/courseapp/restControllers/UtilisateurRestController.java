@@ -1,6 +1,7 @@
 package com.example.courseapp.restControllers;
 
 import com.example.courseapp.dto.UserResponse;
+import com.example.courseapp.models.CustomException;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.services.AuthenticationServcie;
 import com.example.courseapp.services.IUtilisateurService;
@@ -46,7 +47,7 @@ public class UtilisateurRestController {
     public Optional<Utilisateur> getByID(@PathVariable int id) throws Exception{
         Optional<Utilisateur> user = utilisateurService.getUserById(id);
         if(user.isEmpty()){
-            throw new Exception(); // a modif
+            throw new CustomException("L'utilisateur est introuvable."); // a modif
         }
         return user;
     }
@@ -60,7 +61,7 @@ public class UtilisateurRestController {
         /*** On vérifie que l'id est present dans la db puis on supprime ***/
         Optional<Utilisateur> testId = utilisateurService.getUserById(id);
         if (testId.isEmpty()){
-            throw new Exception(); // a modif
+            throw new CustomException("L'utilisateur n'existe pas."); // a modif
         }
         utilisateurService.deleteById(id);
     }

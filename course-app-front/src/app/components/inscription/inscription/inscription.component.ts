@@ -13,6 +13,7 @@ import { User } from 'src/models/user';
 })
 export class InscriptionComponent implements OnInit{
 
+  loading : boolean = false;
   inscriptionForm !: FormGroup;
   user !: User;
 
@@ -36,18 +37,21 @@ export class InscriptionComponent implements OnInit{
 
   inscription(){
     if (this.inscriptionForm.value.mdp === this.inscriptionForm.value.mdp2) {
+      this.loading = true;
       this.user.nom = this.inscriptionForm.value.nom;
       this.user.prenom = this.inscriptionForm.value.prenom;
       this.user.email = this.inscriptionForm.value.email;
       this.user.mdp = this.inscriptionForm.value.mdp;
 
       this.authService.register(this.user).subscribe(()=>{
+        this.loading=false;
         this.router.navigateByUrl('/login');
       },(error)=>{
-        this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+        this.loading = false;
+        this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });
       })
     } else {
-      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur' });
+      this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: 'Les mots de passe ne correspondent pas.' });
     }
   }
 }

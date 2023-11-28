@@ -1,6 +1,7 @@
 package com.example.courseapp.services;
 
 import com.example.courseapp.dto.UserResponse;
+import com.example.courseapp.models.CustomException;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.repo.UtilisateurRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,11 +87,11 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         if(m.matches()){
             var user = utilisateurRepo.findByEmail(email);
             if (user.isPresent()){
-                throw new Exception("email existe déja");
+                throw new CustomException("L'email existe déja.");
             }
             return true;
         } else {
-            throw new Exception("regex email incorrect");
+            throw new CustomException("L'adresse email est incorrecte.");
         }
     }
     @Override
@@ -101,7 +102,8 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         if (m.matches()){
             return true;
         } else {
-            throw new Exception("regex mdp incorrect");
+            throw new CustomException("Le mot de passe doit contenir au moins 8 caractères avec au moins" +
+                    "un chiffre, une minuscule et une majuscule.");
         }
     }
 

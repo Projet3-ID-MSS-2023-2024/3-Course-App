@@ -5,6 +5,7 @@ import com.example.courseapp.dto.AuthenticationRequest;
 import com.example.courseapp.dto.AuthenticationResponse;
 import com.example.courseapp.dto.RegisterRequest;
 import com.example.courseapp.dto.UserResponse;
+import com.example.courseapp.models.CustomException;
 import com.example.courseapp.models.Role;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.repo.UtilisateurRepo;
@@ -95,7 +96,7 @@ public class AuthenticationServcie {
 
         if(user.isPresent()){
             if (user.get().isActive()){
-                throw new Exception("L'email a déja été confirmé");
+                throw new CustomException("L'email a déja été confirmé");
             }
             var userMod = Utilisateur.builder()
                     .id(user.get().getId())
