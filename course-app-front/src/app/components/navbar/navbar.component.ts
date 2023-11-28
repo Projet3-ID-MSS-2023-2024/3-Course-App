@@ -44,8 +44,14 @@ export class NavbarComponent implements OnInit {
           routerLink: '/courses/admin'
         },
         {
+          label: 'Administration',
+          icon: 'pi pi-fw pi-sitemap',
+          routerLink: '/administration'
+        },
+        {
             label: 'Mon compte',
             icon: 'pi pi-fw pi-user-edit',
+            routerLink:'/user-profile'
         }
       ];
   }

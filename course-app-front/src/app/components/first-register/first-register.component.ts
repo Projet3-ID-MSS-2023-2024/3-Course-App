@@ -14,6 +14,7 @@ import { User } from 'src/models/user';
 })
 export class FirstRegisterComponent implements OnInit{
 
+  loading : boolean =false;
   registerForm!:FormGroup;
   user!:User;
 
@@ -36,18 +37,21 @@ export class FirstRegisterComponent implements OnInit{
 
   register(){
     if (this.registerForm.value.mdp === this.registerForm.value.mdp2) {
+      this.loading = true;
       this.user.nom = this.registerForm.value.nom;
       this.user.prenom = this.registerForm.value.prenom;
       this.user.email = this.registerForm.value.email;
       this.user.mdp = this.registerForm.value.mdp;
 
       this.authService.addFirstAdmin(this.user).subscribe(()=>{
+        this.loading = false;
         this.router.navigateByUrl('/login');
       },(error)=>{
-        this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+        this.loading = false;
+        this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });
       })
     } else {
-      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur' });
+      this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: 'Les mots de passe ne correspondent pas.' });
     }
   }
 }

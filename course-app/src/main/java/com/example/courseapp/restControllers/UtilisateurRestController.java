@@ -1,16 +1,14 @@
 package com.example.courseapp.restControllers;
 
-import com.example.courseapp.models.Role;
+import com.example.courseapp.dto.UserResponse;
+import com.example.courseapp.models.CustomException;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.services.AuthenticationServcie;
 import com.example.courseapp.services.IUtilisateurService;
-import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +24,7 @@ public class UtilisateurRestController {
     AuthenticationServcie authenticationServcie;
 
     @GetMapping
-    public List<Utilisateur> getAll(){
+    public List<UserResponse> getAll(){
         return utilisateurService.getAllUsers();
     }
 
@@ -49,22 +47,21 @@ public class UtilisateurRestController {
     public Optional<Utilisateur> getByID(@PathVariable int id) throws Exception{
         Optional<Utilisateur> user = utilisateurService.getUserById(id);
         if(user.isEmpty()){
-            throw new Exception(); // a modif
+            throw new CustomException("L'utilisateur est introuvable."); // a modif
         }
         return user;
     }
 
     @PostMapping
-    public Utilisateur add(@RequestBody Utilisateur newUser){
-        newUser.setMdp(passwordEncoder.encode(newUser.getPassword()));
-        return utilisateurService.saveUser(newUser);
+    public void add(@RequestBody Utilisateur newUser) throws Exception {
+        utilisateurService.addUserbyAdmin(newUser);
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) throws Exception{
         /*** On vérifie que l'id est present dans la db puis on supprime ***/
         Optional<Utilisateur> testId = utilisateurService.getUserById(id);
         if (testId.isEmpty()){
-            throw new Exception(); // a modif
+            throw new CustomException("L'utilisateur n'existe pas."); // a modif
         }
         utilisateurService.deleteById(id);
     }

@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MenubarModule } from 'primeng/menubar';
 import { AvatarModule } from 'primeng/avatar';
@@ -15,6 +15,12 @@ import { DataViewModule } from 'primeng/dataview';
 import { TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ListboxModule } from 'primeng/listbox';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { FormsModule } from '@angular/forms';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -30,6 +36,8 @@ import { AdresseAddComponent } from './components/Adresse/adresse-add/adresse-ad
 import { UserProfileComponent } from './components/Profile/user-profile/user-profile.component';
 import { CoursesListComponent } from './components/Course/courses-list/courses-list.component';
 import { CoursesListAdminComponent } from './components/Course/courses-list-admin/courses-list-admin.component';
+import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.component';
+import { HttpInterceptorService } from './services/http-interceptor.service';
 
 
 @NgModule({
@@ -46,7 +54,8 @@ import { CoursesListAdminComponent } from './components/Course/courses-list-admi
     AdresseAddComponent,
     UserProfileComponent,
     CoursesListComponent,
-    CoursesListAdminComponent
+    CoursesListAdminComponent,
+    GestionAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -65,9 +74,21 @@ import { CoursesListAdminComponent } from './components/Course/courses-list-admi
     DataViewModule,
     TableModule,
     ConfirmDialogModule,
-    DialogModule
+    DialogModule,
+    DropdownModule,
+    TableModule,
+    ToolbarModule,
+    DialogModule,
+    ListboxModule,
+    RadioButtonModule,
+    FormsModule,
+    ProgressSpinnerModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

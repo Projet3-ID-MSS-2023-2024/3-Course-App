@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseService } from 'src/app/services/course.service';
-import { Course, CourseList } from 'src/models/course';
+import { Course} from 'src/models/course';
 import { MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Router, RouterLink } from '@angular/router';
@@ -14,7 +14,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   providers: [ConfirmationService, MessageService]
 })
 export class CoursesListAdminComponent implements OnInit{
-  courses!: CourseList[];
+  courses!: Course[];
   visible: boolean = false;
   courseForm!:FormGroup;
   // items!: MenuItem[];
@@ -24,7 +24,7 @@ export class CoursesListAdminComponent implements OnInit{
   constructor(private courseService: CourseService, private confirmationService: ConfirmationService, private messageService: MessageService, private fb: FormBuilder,private router: Router) {}
 
   ngOnInit(): void {
-    this.courseService.getCoursesByGestionnaire().subscribe((courses: CourseList[]) => {
+    this.courseService.getCourses().subscribe((courses: Course[]) => {
       this.courses = courses;
       this.loading = false;
     });

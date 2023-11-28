@@ -12,9 +12,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoggedUserResponse {
+public class UserResponse {
+    private int id;
     private String nom;
     private String prenom;
     private String email;
     private List<Role> role;
+    private boolean isActive;
 }

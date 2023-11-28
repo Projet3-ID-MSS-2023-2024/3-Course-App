@@ -11,6 +11,7 @@ import { AdresseAddComponent } from './components/Adresse/adresse-add/adresse-ad
 import { UserProfileComponent } from './components/Profile/user-profile/user-profile.component';
 import { CoursesListComponent } from './components/Course/courses-list/courses-list.component';
 import { CoursesListAdminComponent } from './components/Course/courses-list-admin/courses-list-admin.component';
+import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.component';
 
 
 const routes: Routes = [
@@ -25,7 +26,8 @@ const routes: Routes = [
   { path: 'confirm/inscription/:code', component: ConfirmInscriptionComponent},
   { path:'ville-add',component:VilleAddComponent},
   {path:'adresse-add',component:AdresseAddComponent},
-  { path: 'user-profile',component:UserProfileComponent }
+  { path: 'user-profile',component:UserProfileComponent },
+  { path: 'administration',component:GestionAdminComponent }
 ];
 
 @NgModule({
