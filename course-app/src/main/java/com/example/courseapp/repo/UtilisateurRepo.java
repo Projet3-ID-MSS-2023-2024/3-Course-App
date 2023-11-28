@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UtilisateurRepo extends JpaRepository<Utilisateur, Integer> {
 
@@ -18,4 +19,8 @@ public interface UtilisateurRepo extends JpaRepository<Utilisateur, Integer> {
 
     @Query("SELECT u FROM Utilisateur u JOIN u.role r where r = 'GESTIONNAIRE' ")
     public List<Utilisateur> getGestionnaire();
+
+    Optional<Utilisateur> findByEmail (String email);
+
+    Optional<Utilisateur> findByCode (String code);
 }

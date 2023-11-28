@@ -1,8 +1,11 @@
 package com.example.courseapp.restControllers;
 
+import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.Utilisateur;
+import com.example.courseapp.services.AuthenticationServcie;
 import com.example.courseapp.services.IUtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,9 +17,13 @@ public class UtilisateurRestController {
 
     @Autowired
     IUtilisateurService utilisateurService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    AuthenticationServcie authenticationServcie;
 
     @GetMapping
-    public List<Utilisateur> getAll(){
+    public List<UserResponse> getAll(){
         return utilisateurService.getAllUsers();
     }
 
@@ -45,10 +52,9 @@ public class UtilisateurRestController {
     }
 
     @PostMapping
-    public Utilisateur add(@RequestBody Utilisateur newUser){
-        return utilisateurService.saveUser(newUser);
+    public void add(@RequestBody Utilisateur newUser) throws Exception {
+        utilisateurService.addUserbyAdmin(newUser);
     }
-
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) throws Exception{
         /*** On vérifie que l'id est present dans la db puis on supprime ***/
@@ -58,4 +64,18 @@ public class UtilisateurRestController {
         }
         utilisateurService.deleteById(id);
     }
+
+    /*** Update les données personnel d'utilisateur ***/
+    @PutMapping("/{id}")
+    public Optional<Utilisateur> putUserById(@RequestBody Utilisateur utilisateur, @PathVariable("id") int id){
+
+        return this.utilisateurService.getUserById(id)
+                .map(upUser -> {
+                    upUser.setNom(utilisateur.getNom());
+                    upUser.setPrenom(utilisateur.getPrenom());
+                    upUser.setEmail(utilisateur.getEmail());
+                    return utilisateurService.saveUser(upUser);
+                });
+    }
+
 }

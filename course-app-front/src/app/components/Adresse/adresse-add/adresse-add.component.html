@@ -1,0 +1,27 @@
+<p-toast></p-toast>
+<div class="align-items-center flex justify-content-center lg:px-4 md:px-8 px-4 py-4">
+  <div class="surface-card p-4 shadow-4 border-round w-full lg:w-5">
+      <div class="text-center mb-3">
+          <img src="assets/adress.png" alt="Image" height="100" class="mb-1">
+          <div class="text-900 text-3xl font-medium mb-2">Ajouter une adresse</div>
+      </div>
+      <div>
+          <form [formGroup]="adresseForm">
+            <label for="rue" class="text-900 font-medium mb-2">Rue</label>
+            <input id="rue" type="text" placeholder="Rue" pInputText class="w-full mb-3" formControlName="rue">
+
+            <label for="latitude" class="text-900 font-medium mb-2">Latitude</label>
+            <input id="latitude" type="text" placeholder="Latitude" pInputText class="w-full mb-3" formControlName="latitude">
+
+            <label for="longitude" class="block text-900 font-medium mb-2">Longitude</label>
+            <input id="longitude" type="text" placeholder="Longitude" pInputText class="w-full mb-3" formControlName="longitude">
+
+            <label for="ville" class="block text-900 font-medium mb-2">Ville</label>
+            <input id="ville" type="text" placeholder="Ville" pInputText class="w-full mb-3" formControlName="ville">
+            
+
+            <button pButton pRipple type="submit" label="Ajouter Course" class="w-full p-button-primary mt-2" (click)="addAdresse()"></button>
+          </form>
+      </div>
+  </div>
+</div>

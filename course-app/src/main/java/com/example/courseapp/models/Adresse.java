@@ -1,6 +1,7 @@
 package com.example.courseapp.models;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -33,6 +34,7 @@ public class Adresse {
 
     /*** Constructeur ***/
     public Adresse() {}
+
     public Adresse(int id, String rue, String latitude, String longitude, Ville ville) {
         this.id = id;
         this.rue = rue;

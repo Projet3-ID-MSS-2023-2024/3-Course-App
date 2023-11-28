@@ -2,17 +2,22 @@ package com.example.courseapp.config;
 
 import com.example.courseapp.models.*;
 import com.example.courseapp.repo.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Time;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /*** Fichier de configuration de la DB, necessaire pour la mise en place de la DB***/
 @Configuration
 public class config {
+    @Autowired
+    PasswordEncoder passwordEncoder;
     /*** Configuration de la table Ville, doit être rempli
      * en premier afin de remplir la table adresse
      */
@@ -67,7 +72,7 @@ public class config {
         List<Role> listRole = new ArrayList<>();
         listRole.add(Role.ADMIN);
         listRole.add(Role.COUREUR);
-        Utilisateur user = new Utilisateur(1, "Bernard","Amaury","admin@gmail.com","mdp1","fdsjhgdshg",true, listRole);
+        Utilisateur user = new Utilisateur(1, "Bernard","Amaury","admin0@gmail.com", passwordEncoder.encode("mdp"), "fdsjhgdshg",true, listRole);
         userRepo.save(user);
         return user;
     }
@@ -80,17 +85,17 @@ public class config {
         List<Course> listCourse = new ArrayList<>();
 
         /*** Mise en place de la course 1 ***/
-        Course course1 = new Course(1,"Course d'Halloween",5.50, LocalDateTime.of(2023,11,01,20,30,00),adresseList.get(1),adresseList.get(0),user);
+        Course course1 = new Course(1,"Course d'Halloween",5.50,new Date(2022,05,30),LocalTime.of(10,35,00) ,adresseList.get(1),adresseList.get(0),user);
         listCourse.add(course1); //Ajout dans la liste listCourse
         repoCourse.save(course1); // Sauvegarde dans le repository
 
         /*** Mise en place de la course 2 ***/
-        Course course2 = new Course(2,"Course de Noel",10,LocalDateTime.of(2023,12,25,15,45,00),adresseList.get(2),adresseList.get(2),user);
+        Course course2 = new Course(2,"Course de Noel",10,new Date(2023,10,30),LocalTime.of(10,35,00),adresseList.get(2),adresseList.get(2),user);
         listCourse.add(course2); //Ajout dans la liste listCourse
         repoCourse.save(course2); // Sauvegarde dans le repository
 
         /*** Mise en place de la course 3 ***/
-        Course course3 = new Course(3,"Charleroi-Chatelet",20.5,LocalDateTime.of(2023,05,05,18,00,00),adresseList.get(2),adresseList.get(1),user);
+        Course course3 = new Course(3,"Charleroi-Chatelet",20.5,new Date(2023,12,30),LocalTime.of(10,35,00),adresseList.get(2),adresseList.get(1),user);
         listCourse.add(course3); //Ajout dans la liste listCourse
         repoCourse.save(course3); // Sauvegarde dans le repository
 

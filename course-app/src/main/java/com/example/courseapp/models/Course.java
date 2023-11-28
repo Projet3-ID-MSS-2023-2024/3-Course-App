@@ -2,7 +2,10 @@ package com.example.courseapp.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+
+
+import java.time.LocalTime;
+import java.util.Date;
 
 
 @Entity
@@ -25,7 +28,10 @@ public class Course {
     private double prix;
 
     @Column(nullable = false)
-    private LocalDateTime DateEtHeure; /*** un champ date et un champ heure ***/
+    private Date date;
+
+    @Column(nullable = false)
+    private LocalTime heure;
 
 
     /*** Laisaions avec la table adress ***/
@@ -41,4 +47,5 @@ public class Course {
     @ManyToOne
     @JoinColumn(name="id_organisateur")
     private Utilisateur utilisateur;
+
 }
