@@ -97,7 +97,7 @@ export class GestionAdminComponent implements OnInit{
       this.messageService.add({ severity: 'success', summary: 'Ajout réussi !', detail: 'Vous avez ajouté un utilisateur.' });
       this.getUsers();
     },(error)=>{
-      this.messageService.add({ severity: 'error', summary: 'erreur', detail: 'erreur' });
+      this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });
     })
   }
 

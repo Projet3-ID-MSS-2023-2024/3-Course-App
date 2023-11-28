@@ -44,10 +44,10 @@ export class FirstRegisterComponent implements OnInit{
       this.authService.addFirstAdmin(this.user).subscribe(()=>{
         this.router.navigateByUrl('/login');
       },(error)=>{
-        this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+        this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });
       })
     } else {
-      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur' });
+      this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: 'Les mots de passe ne correspondent pas.' });
     }
   }
 }
