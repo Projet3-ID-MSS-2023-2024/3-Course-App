@@ -13,6 +13,7 @@ import { User } from 'src/models/user';
 })
 export class GestionAdminComponent implements OnInit{
 
+  loading : boolean = false;
   loggedUser !: User;
   users !: User[];
   addUser !: User;
@@ -82,6 +83,7 @@ export class GestionAdminComponent implements OnInit{
   }
 
   ajoutUser(){
+    this.loading =true;
     this.addUser = new User();
     this.addUser.email = this.addUserForm.value.email;
     this.addUser.nom = this.addUserForm.value.nom;
@@ -90,13 +92,14 @@ export class GestionAdminComponent implements OnInit{
     for (let i = 0; i < this.addUser.role.length; i++) {
       this.addUser.role[i]=this.addUser.role[i].toUpperCase();
     }
-    console.log(this.addUser.role)
     this.userService.add(this.addUser).subscribe((res)=>{
       this.addUserForm.reset();
       this.visibleDiagAdd = false;
       this.messageService.add({ severity: 'success', summary: 'Ajout réussi !', detail: 'Vous avez ajouté un utilisateur.' });
       this.getUsers();
+      this.loading =false;
     },(error)=>{
+      this.loading =false;
       this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });
     })
   }

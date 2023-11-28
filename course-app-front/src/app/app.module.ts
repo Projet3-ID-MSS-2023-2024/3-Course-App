@@ -18,6 +18,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { DialogModule } from 'primeng/dialog';
 import { ListboxModule } from 'primeng/listbox';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -72,7 +73,8 @@ import { HttpInterceptorService } from './services/http-interceptor.service';
     ToolbarModule,
     DialogModule,
     ListboxModule,
-    RadioButtonModule
+    RadioButtonModule,
+    ProgressSpinnerModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

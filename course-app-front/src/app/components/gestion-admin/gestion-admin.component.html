@@ -93,7 +93,9 @@
   </form>
 
   <ng-template pTemplate="footer">
+    <p-progressSpinner *ngIf="this.loading==true" [style]="{width: '40px', height: '40px'}" styleClass="custom-spinner mr-3" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
     <p-button
+        [disabled]="this.loading"
         label="Ajouter"
         styleClass="p-button-rounded p-button-success"
         (click)="ajoutUser()"
