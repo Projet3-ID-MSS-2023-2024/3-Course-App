@@ -22,10 +22,9 @@ export class CoursesListComponent implements OnInit {
 
   // Tri
   sortOptions!: SelectItem[];
-
   sortOrder!: number;
-
   sortField!: string;
+  sortKey: any;
 
   constructor(private payPalService: PaypalService, private courseService: CourseService) {}
 
@@ -33,23 +32,22 @@ export class CoursesListComponent implements OnInit {
     this.payPalConfig = this.payPalService.initConfig('10');
     this.getCourses();
 
+    this.sortField = 'prix';
     this.sortOptions = [
-      { label: 'Price High to Low', value: '!prix' },
-      { label: 'Price Low to High', value: 'prix' }
-    ];
+      { label: 'Prix de Haut en Bas', value: 'Prix de Haut en Bas' },
+      { label: 'Prix de Bas en Haut', value: 'Prix de Bas en Haut' }
+  ];
   }
 
   onSortChange(event: any) {
     let value = event.value;
 
-    if (value.indexOf('!') === 0) {
+    if (value === 'Prix de Haut en Bas') {
         this.sortOrder = -1;
-        this.sortField = value.substring(1, value.length);
     } else {
         this.sortOrder = 1;
-        this.sortField = value;
     }
-  }
+}
 
   getCourses(): void {
     this.courseService.getCourses().subscribe((courses: Course[] | undefined) => {

@@ -18,6 +18,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { DialogModule } from 'primeng/dialog';
 import { ListboxModule } from 'primeng/listbox';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -71,7 +72,8 @@ import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.
     ToolbarModule,
     DialogModule,
     ListboxModule,
-    RadioButtonModule
+    RadioButtonModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
