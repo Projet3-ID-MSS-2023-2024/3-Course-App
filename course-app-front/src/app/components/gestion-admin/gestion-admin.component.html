@@ -27,15 +27,36 @@
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-user>
+        <div *ngIf="this.user.email != this.loggedUser.email; then other else own"></div>
+        <ng-template #other>
           <tr>
-              <td>{{user.nom}}</td>
-              <td>{{user.prenom}}</td>
-              <td>{{user.email}}</td>
-              <td>{{user.role}}</td>
-              <td>
-                <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-danger"></button>
-              </td>
+            <td>{{user.nom}}</td>
+            <td>{{user.prenom}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.role}}</td>
+            <td>
+              <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-danger"></button>
+            </td>
           </tr>
+        </ng-template>
+        <ng-template #own>
+          <tr>
+            <td class="text-primary font-semibold">
+              {{user.nom}}
+              <span class="pi pi-user ml-2" style="color: rgb(23, 212, 23)"></span></td>
+            <td class="text-primary font-semibold">{{user.prenom}}</td>
+            <td class="text-primary font-semibold">{{user.email}}</td>
+            <td class="text-primary font-semibold">{{user.role}}</td>
+            <td>
+              <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-danger"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="flex align-items-center justify-content-between">
+            {{users ? users.length : 0 }} Utilisateur(s).
+          </div>
       </ng-template>
   </p-table>
 </div>

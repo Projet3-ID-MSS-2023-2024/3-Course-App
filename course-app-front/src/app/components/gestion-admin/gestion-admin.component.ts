@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/models/user';
 
@@ -12,6 +13,7 @@ import { User } from 'src/models/user';
 })
 export class GestionAdminComponent implements OnInit{
 
+  loggedUser !: User;
   users !: User[];
   addUser !: User;
   roles !: String[];
@@ -23,7 +25,8 @@ export class GestionAdminComponent implements OnInit{
   constructor(
     private userService : UserService,
     private fb: FormBuilder,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private authService : AuthService) { }
 
   categories: any[] = [
     { name: 'Afficher uniquement les admins', key: 'admin' },
@@ -50,14 +53,21 @@ export class GestionAdminComponent implements OnInit{
     this.formTri = this.fb.group({
       tri : ['', [Validators.required]]
     })
-
+    this.loggedUser = new User();
+    this.getLoggedUser();
     this.getUsers();
+  }
+
+  getLoggedUser(){
+    this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
+      this.loggedUser = res
+      console.log(this.loggedUser)
+    })
   }
 
   getUsers(){
     this.userService.getAll().subscribe((res)=>{
       this.users = res;
-      console.log(this.users)
     })
   }
 
