@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MenubarModule } from 'primeng/menubar';
 import { AvatarModule } from 'primeng/avatar';
@@ -33,6 +33,7 @@ import { AdresseAddComponent } from './components/Adresse/adresse-add/adresse-ad
 import { UserProfileComponent } from './components/Profile/user-profile/user-profile.component';
 import { CoursesListComponent } from './components/Course/courses-list/courses-list.component';
 import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.component';
+import { HttpInterceptorService } from './services/http-interceptor.service';
 
 
 @NgModule({
@@ -73,7 +74,11 @@ import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.
     ListboxModule,
     RadioButtonModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
