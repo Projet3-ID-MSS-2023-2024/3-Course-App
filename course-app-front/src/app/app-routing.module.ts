@@ -10,6 +10,7 @@ import { VilleAddComponent } from './components/Ville/ville-add/ville-add.compon
 import { AdresseAddComponent } from './components/Adresse/adresse-add/adresse-add.component';
 import { UserProfileComponent } from './components/Profile/user-profile/user-profile.component';
 import { CoursesListComponent } from './components/Course/courses-list/courses-list.component';
+import { CoursesListAdminComponent } from './components/Course/courses-list-admin/courses-list-admin.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'accueil', component: AccueilComponent},
   { path: 'firstRegister', component: FirstRegisterComponent},
   { path: 'courses', component: CoursesListComponent},
+  { path: 'courses/admin', component: CoursesListAdminComponent},
   { path: 'course-add', component: CourseAddComponent},
   { path: 'inscription', component: InscriptionComponent},
   { path: 'confirm/inscription/:code', component: ConfirmInscriptionComponent},

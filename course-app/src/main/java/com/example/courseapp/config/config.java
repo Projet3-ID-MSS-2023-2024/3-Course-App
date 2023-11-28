@@ -72,6 +72,7 @@ public class config {
         List<Role> listRole = new ArrayList<>();
         listRole.add(Role.ADMIN);
         listRole.add(Role.COUREUR);
+        listRole.add(Role.GESTIONNAIRE);
         Utilisateur user = new Utilisateur(1, "Bernard","Amaury","admin0@gmail.com", passwordEncoder.encode("mdp"), "fdsjhgdshg",true, listRole);
         userRepo.save(user);
         return user;

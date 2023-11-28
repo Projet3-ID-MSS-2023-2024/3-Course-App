@@ -23,6 +23,19 @@ export class CourseService {
     );
   }
 
+  getCoursesByGestionnaire(): Observable<CourseList[]>{
+    return this.http.get<CourseList[]>(`${this.courseApiUrl}`).pipe(
+      tap((courses: CourseList[]) => this.log(courses)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
+  modifCourse(course: Course): Observable<any> {
+    return this.http.put(`${this.courseApiUrl}/admin/${course.id}`, course);
+  }
+  deleteCourse(id: number): Observable<any>{
+    return this.http.delete(`${this.courseApiUrl}/admin/${id}`);
+  }
   private log(response: CourseList | CourseList[] | boolean | undefined): void {
     console.table(response);
   }

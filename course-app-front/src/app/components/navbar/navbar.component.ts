@@ -39,6 +39,11 @@ export class NavbarComponent implements OnInit {
             icon: 'pi pi-fw pi-chart-bar',
         },
         {
+          label: 'Administration Courses',
+          icon: 'pi pi-fw pi-cog',
+          routerLink: '/courses/admin'
+        },
+        {
             label: 'Mon compte',
             icon: 'pi pi-fw pi-user-edit',
         }

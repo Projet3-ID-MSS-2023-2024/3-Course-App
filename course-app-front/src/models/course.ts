@@ -2,6 +2,7 @@ import { Time } from "@angular/common";
 import { AdresseList } from "./adresse";
 
 export class Course{
+  id: number;
   titre: string;
   prix: number;
   date: Date;
@@ -10,6 +11,7 @@ export class Course{
   adresse1: number;
 
   constructor(){
+    this.id= 0;
     this.titre="";
     this.prix=0;
     this.date=new Date();
@@ -21,6 +23,7 @@ export class Course{
 }
 
 export class CourseList {
+  id!: number;
   titre!: string;
   prix!: number;
   date!: Date;

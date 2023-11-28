@@ -1,0 +1,137 @@
+<app-navbar></app-navbar>
+<div class="text-center mt-4">
+    <div class="font-bold text-900 text-3xl">Administration de courses</div>
+    <div class="text-500">Choisissez une course à administrer ou créer une nouvelle course</div>
+</div>
+
+<!-- (input)="dt2.filterGlobal($event.target.value, 'contains')" -->
+<div class="card">
+  <p-table
+      #dt2
+      [value]="courses"
+      dataKey="id"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [rowsPerPageOptions]="[5, 10, 15]"
+      [paginator]="true"
+      [loading]="loading"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [globalFilterFields]="['titre', 'adresse.ville.nom', 'adresse1.ville.nom', 'date', 'prix']"
+      [tableStyle]="{ 'min-width': '75rem' }"
+      >
+      <ng-template pTemplate="caption">
+          <div class="flex">
+              <span class="p-input-icon-left ml-auto">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text"  placeholder="Search keyword" />
+              </span>
+          </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+          <tr>
+              <th style="width:20%">Titre</th>
+              <th style="width:20%">Ville de départ</th>
+              <th style="width:20%">Ville d'arrivée</th>
+              <th style="width:20%">Date</th>
+              <th style="width:14%">Prix</th>
+              <th style="width:6%">Actions</th>
+          </tr>
+          <tr>
+              <th>
+                <p-columnFilter type="text" field="titre"></p-columnFilter>
+              </th>
+              <th>
+                <p-columnFilter type="text" field="adresse.ville.nom"></p-columnFilter>
+              </th>
+              <th>
+                <p-columnFilter type="text" field="adresse1.ville.nom"></p-columnFilter>
+              </th>
+              <th>
+                <p-columnFilter type="text" field="date"></p-columnFilter>
+              </th>
+              <th>
+                <p-columnFilter type="text" field="prix"></p-columnFilter>
+              </th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-course>
+          <tr>
+              <td>
+                {{ course.titre }}
+              </td>
+              <td>
+                {{ course.adresse.ville.nom }}
+              </td>
+              <td>
+                {{ course.adresse1.ville.nom }}
+              </td>
+              <td>
+                {{ course.date | date:'dd/MM/yyyy'}}
+              </td>
+              <td>
+                {{ course.prix }} €
+              </td>
+              <td>
+                <!-- <p-menubar [model]="items"></p-menubar> -->
+                <p-button (click)="showDialog()" icon="pi pi-pencil"></p-button>
+                <p-button (click)="deleteCourse(course)" icon="pi pi-trash" ></p-button>
+              </td>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+          <tr>
+              <td colspan="5">Aucune course trouvées</td>
+          </tr>
+      </ng-template>
+  </p-table>
+</div>
+<!-- Popup confirm suppression -->
+<div class="card flex justify-content-center">
+  <p-toast></p-toast>
+  <p-confirmDialog #cd [style]="{ width: '50vw' }">
+      <ng-template pTemplate="header">
+          <h3>Suppresion de courses</h3>
+      </ng-template>
+      <ng-template pTemplate="message">
+          <p>Voulez-vous vraiment supprimer ?</p>
+      </ng-template>
+      <ng-template pTemplate="footer">
+          <button type="button" pButton icon="pi pi-times" label="Non" (click)="cd.reject()"></button>
+          <button type="button" pButton icon="pi pi-check" label="Oui" (click)="cd.accept()"></button>
+      </ng-template>
+  </p-confirmDialog>
+</div>
+<!-- Modif Course -->
+<p-toast></p-toast>
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+  <div class="align-items-center flex justify-content-center lg:px-4 md:px-8 ">
+    <div class="surface-card p-4 shadow-8 border-round w-full lg:w-9">
+        <div class="text-center mb-3">
+            <img src="assets/logo.png" alt="Image" height="100" class="mb-1">
+            <div class="text-900 text-3xl font-medium mb-2"> Modifier une course</div>
+        </div>
+            <form [formGroup]="courseForm">
+              <label for="titre" class="text-900 font-medium mb-2">Titre de la course</label>
+              <input id="titre" type="text" placeholder="Titre" pInputText class="w-full mb-3" formControlName="titre">
+
+              <label for="prix" class="text-900 font-medium mb-2">Prix</label>
+              <input id="prix" type="number" placeholder="Prix" pInputText class="w-full mb-3" formControlName="prix">
+
+              <label for="date" class="block text-900 font-medium mb-2">Date</label>
+              <input id="date" type="date" placeholder="Date" pInputText class="w-full mb-3" formControlName="date">
+
+              <label for="heure" class="block text-900 font-medium mb-2">Heure</label>
+              <input id="heure" type="time" placeholder="Heure" pInputText class="w-full mb-3" formControlName="heure">
+
+              <label for="adresse" class="block text-900 font-medium mb-2">Adresse de départ</label>
+              <input id="adresse" type="number" placeholder="Adresse de départ" pInputText class="w-full mb-3" formControlName="adresse">
+
+              <label for="adresse1" class="block text-900 font-medium mb-2">Adresse d'arrivé</label>
+              <input id="adresse1" type="number" placeholder="Adresse d'arrivé" pInputText class="w-full mb-3" formControlName="adresse1">
+
+              <button pButton pRipple type="submit" label="Modifier Course" class="w-full p-button-primary mt-2" (click)="modifCourse()"></button>
+            </form>
+    </div>
+  </div>
+</p-dialog>
+<div class="center"><p-button label="Ajouter une nouvelle course" [rounded]="true" [routerLink]="['/course-add']"></p-button></div>
