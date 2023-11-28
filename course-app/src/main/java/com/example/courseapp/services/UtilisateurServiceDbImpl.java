@@ -127,6 +127,10 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         emailService.sendEmail(user.getEmail(), "Code de connexion", buildEmailCodeConnexion(user.getPrenom(), codeMdp));
     }
 
+    public Long countUserDb(){
+        return this.utilisateurRepo.count();
+    }
+
     private String buildEmailCodeConnexion(String prenom,String codeMdp){
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
