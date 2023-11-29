@@ -140,6 +140,29 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         emailService.sendEmail(user.getEmail(), "Code de connexion", buildEmailCodeConnexion(user.getPrenom(), codeMdp));
     }
 
+    @Override
+    public void boclkUnclock(int id, boolean block) throws Exception{
+        Optional<Utilisateur> testId = utilisateurRepo.findById(id);
+        if (testId.isEmpty()){
+            throw new CustomException("L'utilisateur n'existe pas."); // a modif
+        }
+        Utilisateur user = Utilisateur.builder()
+                .id(testId.get().getId())
+                .nom(testId.get().getNom())
+                .prenom(testId.get().getPrenom())
+                .email(testId.get().getEmail())
+                .role(testId.get().getRole())
+                .code(testId.get().getCode())
+                .mdp(testId.get().getMdp())
+                .del(block)
+                .isActive(!block)
+                .build();
+        utilisateurRepo.save(user);
+        if (block==false){
+            emailService.sendEmail(user.getEmail(),"Votre compte a été réactivé.",emailReactivationCompte(user.getPrenom()));
+        }
+    }
+
     public Long countUserDb(){
         return this.utilisateurRepo.count();
     }
@@ -201,6 +224,74 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
                 "        <p>Utilise ton adresse mail ainsi que le code ci-dessous pour te connecter.</p>\n" +
                 "        <p class=\"code\">"+ codeMdp +"</p>\n" +
                 "        <p class=\"note\">Attention, pour plus de securité il t'es fortement recommandé de te créer un mot de passe une fois connecté.</p>\n" +
+                "    </div>\n" +
+                "</body>\n" +
+                "</html>";
+    }
+
+    private String emailReactivationCompte(String prenom){
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "    <title></title>\n" +
+                "    <style>\n" +
+                "        body {\n" +
+                "            font-family: Arial, sans-serif;\n" +
+                "            background-color: #f4f4f4;\n" +
+                "            margin: 0;\n" +
+                "            padding: 0;\n" +
+                "            text-align: center;\n" +
+                "            display: flex;\n" +
+                "            align-items: center;\n" +
+                "            justify-content: center;\n" +
+                "            height: 100vh;\n" +
+                "        }\n" +
+                "\n" +
+                "        .box {\n" +
+                "            max-width: 600px;\n" +
+                "            background-color: #fff;\n" +
+                "            padding: 20px;\n" +
+                "            border-radius: 5px;\n" +
+                "            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n" +
+                "        }\n" +
+                "\n" +
+                "        h1 {\n" +
+                "            color: #333;\n" +
+                "        }\n" +
+                "\n" +
+                "        p {\n" +
+                "            color: #666;\n" +
+                "            margin-bottom: 20px;\n" +
+                "        }\n" +
+                "\n" +
+                "        .button {\n" +
+                "            display: inline-block;\n" +
+                "            padding: 10px 20px;\n" +
+                "            font-size: 16px;\n" +
+                "            font-weight: bold;\n" +
+                "            text-align: center;\n" +
+                "            text-decoration: none;\n" +
+                "            background-color: #007bff;\n" +
+                "            color: #fff;\n" +
+                "            border-radius: 5px;\n" +
+                "        }\n" +
+                "\n" +
+                "        .note {\n" +
+                "            color: #999;\n" +
+                "            font-size: 12px;\n" +
+                "            margin-top: 10px;\n" +
+                "        }\n" +
+                "    </style>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "    <div class=\"box\">\n" +
+                "        <h1>Réactivation de Compte</h1>\n" +
+                "        <p>Bonjour "+ prenom +",</p>\n" +
+                "        <p>Votre compte a été réactivé avec succès. Vous pouvez maintenant vous reconnecter en utilisant le bouton ci-dessous :</p>\n" +
+                "        <a class=\"button\" href=\"/connexion\">Se Connecter</a>\n" +
+                "        <p class=\"note\">Si vous n'avez pas demandé la réactivation de votre compte, veuillez nous contacter.</p>\n" +
                 "    </div>\n" +
                 "</body>\n" +
                 "</html>";

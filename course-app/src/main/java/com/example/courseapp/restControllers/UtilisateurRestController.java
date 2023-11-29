@@ -48,23 +48,12 @@ public class UtilisateurRestController {
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) throws Exception{
-        /*** On vérifie que l'id est present dans la db puis on supprime ***/
-        Optional<Utilisateur> testId = utilisateurService.getUserById(id);
-        if (testId.isEmpty()){
-            throw new CustomException("L'utilisateur n'existe pas."); // a modif
-        }
-        Utilisateur userDel = Utilisateur.builder()
-                .id(testId.get().getId())
-                .nom(testId.get().getNom())
-                .prenom(testId.get().getPrenom())
-                .email(testId.get().getEmail())
-                .role(testId.get().getRole())
-                .code(testId.get().getCode())
-                .mdp(testId.get().getMdp())
-                .del(true)
-                .isActive(false)
-                .build();
-        utilisateurService.saveUser(userDel);
+        utilisateurService.boclkUnclock(id,true);
+    }
+
+    @PostMapping("/active")
+    public void activeUser(@RequestBody int id) throws Exception{
+        utilisateurService.boclkUnclock(id,false);
     }
 
     /*** Update les données personnel d'utilisateur ***/
