@@ -17,5 +17,6 @@ public interface IUtilisateurService {
     public boolean testMdp(String mdp) throws Exception;
     public boolean testCodeValid(String code);
     public Optional<Utilisateur> getUserByCode(String code);
+    public void boclkUnclock(int id, boolean block) throws Exception;
     public void addUserbyAdmin(Utilisateur user) throws Exception;
 }
