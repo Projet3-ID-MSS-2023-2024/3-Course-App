@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/models/user';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  providers: [ConfirmationService]
 })
 export class NavbarComponent implements OnInit {
   items: MenuItem[] | undefined;
@@ -15,7 +16,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.loggedUser = new User();
@@ -61,6 +63,17 @@ export class NavbarComponent implements OnInit {
       this.loggedUser= res;
       console.log(this.loggedUser)
     })
+  }
+
+  confirmLogOut(){
+    this.confirmationService.confirm({
+      message: 'Voulez-vous vraiment vous déconnecter ?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+          this.logout();
+      }
+  });
   }
 
   logout() {

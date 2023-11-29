@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -14,6 +14,7 @@ import { User } from 'src/models/user';
 })
 export class GestionAdminComponent implements OnInit{
 
+  items: MenuItem[];
   usersDel : boolean =false;
   loading : boolean = false;
   loggedUser !: User;
@@ -29,7 +30,25 @@ export class GestionAdminComponent implements OnInit{
     private fb: FormBuilder,
     private messageService: MessageService,
     private confirmationService : ConfirmationService,
-    private authService : AuthService) { }
+    private authService : AuthService
+    ) {
+      this.items = [
+        {
+            label: 'Ajouter',
+            icon: 'pi pi-plus',
+            command: () => {
+                this.showDialogAdd();
+            }
+        },
+        {
+            label: 'Utilisateurs supprimés',
+            icon: 'pi pi-users',
+            command: () => {
+                this.listDel();
+            }
+        }
+    ];
+     }
 
   ngOnInit(): void {
 
@@ -78,10 +97,6 @@ export class GestionAdminComponent implements OnInit{
 
   showDialogAdd(){
     this.visibleDiagAdd = true;
-  }
-
-  showDialogTri(){
-    this.visibleDiagAdd = false;
   }
 
   ajoutUser(){

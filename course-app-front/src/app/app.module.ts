@@ -21,6 +21,7 @@ import { ListboxModule } from 'primeng/listbox';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { FormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SplitButtonModule } from 'primeng/splitbutton';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -82,7 +83,8 @@ import { HttpInterceptorService } from './services/http-interceptor.service';
     ListboxModule,
     RadioButtonModule,
     FormsModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    SplitButtonModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

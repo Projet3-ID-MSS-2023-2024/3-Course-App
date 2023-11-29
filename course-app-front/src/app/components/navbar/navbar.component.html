@@ -7,8 +7,9 @@
         <div class="flex-1 flex align-items-center justify-content-center">
           <p-avatar icon="pi pi-user" styleClass="mr-1" [style]="{'background-color':'#2196F3', 'color': '#ffffff'}" shape="circle"></p-avatar>
           <div class="mr-4">{{ this.loggedUser.prenom }}</div>
-          <button pButton pRipple class="pi pi-fw pi-sign-out w-full p-button-danger" (click)="logout()"></button>
+          <button pButton pRipple class="pi pi-fw pi-sign-out w-full p-button-danger" (click)="confirmLogOut()"></button>
         </div>
       </div>
     </ng-template>
 </p-menubar>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

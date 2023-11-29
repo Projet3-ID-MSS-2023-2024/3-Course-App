@@ -2,24 +2,20 @@
 <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
 <div class="card m-5">
 
-  <p-toolbar styleClass="mb-4 gap-2">
-    <ng-template pTemplate="left">
-        <button pButton pRipple label="Ajouter" icon="pi pi-plus" class="p-button-success mr-2" (click)="showDialogAdd()"></button>
-    </ng-template>
-  </p-toolbar>
-
   <p-table #dt1 [value]="users" [scrollable]="true" scrollHeight="580px" [tableStyle]="{'min-width': '40rem'}"
   [globalFilterFields]="['nom','prenom','email','role']">
       <ng-template pTemplate="caption">
-        <div class="flex">
+
+        <div class="flex flex-wrap">
           <div *ngIf="usersDel==false; then noDel else del"></div>
           <ng-template #noDel>
-            <h5 class="m-2 text-xl">Liste des utilisateurs</h5>
-            <button pButton pRipple icon="pi pi-arrow-right-arrow-left" class="p-button-help" (click)="listDel()"></button>
+            <div>
+              <p-splitButton label="Liste des utilisateurs" [model]="items"></p-splitButton>
+            </div>
           </ng-template>
           <ng-template #del>
+            <button pButton pRipple icon="pi pi-arrow-left" class="p-button-danger p-button-outlined" (click)="getUsers()"></button>
             <h5 class="m-2 text-xl">Utilisateurs supprimés</h5>
-            <button pButton pRipple icon="pi pi-arrow-right-arrow-left" class="p-button-help p-button-outlined" (click)="getUsers()"></button>
           </ng-template>
           <span class="p-input-icon-left ml-auto">
               <i class="pi pi-search"></i>
