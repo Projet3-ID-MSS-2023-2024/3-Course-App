@@ -3,6 +3,7 @@ package com.example.courseapp.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
+@Builder
 @Table(name="adresse")
 public class Adresse {
     /*** Définitions des attributs***/

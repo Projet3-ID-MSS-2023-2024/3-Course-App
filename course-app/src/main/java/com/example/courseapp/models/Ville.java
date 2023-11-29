@@ -2,6 +2,7 @@ package com.example.courseapp.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @EqualsAndHashCode
+@Builder
 @Table(name="ville")
 public class Ville implements Serializable {
     /*** Définitions des attributs ***/
