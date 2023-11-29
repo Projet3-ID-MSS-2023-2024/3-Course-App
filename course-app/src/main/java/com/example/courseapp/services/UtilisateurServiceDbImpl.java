@@ -42,6 +42,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
                             .email(user.getEmail())
                             .role(user.getRole())
                             .isActive(user.isActive())
+                            .del(user.isDel())
                             .build()
             );
         };
@@ -126,6 +127,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         user.setEmail(user.getEmail().toLowerCase());
         user.setMdp(passwordEncoder.encode(codeMdp));
         user.setActive(true);
+        user.setDel(false);
         this.utilisateurRepo.save(user);
         emailService.sendEmail(user.getEmail(), "Code de connexion", buildEmailCodeConnexion(user.getPrenom(), codeMdp));
     }

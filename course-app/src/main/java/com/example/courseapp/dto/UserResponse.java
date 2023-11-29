@@ -19,4 +19,5 @@ public class UserResponse {
     private String email;
     private List<Role> role;
     private boolean isActive;
+    private boolean del;
 }
