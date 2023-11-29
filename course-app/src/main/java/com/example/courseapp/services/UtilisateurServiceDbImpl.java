@@ -290,7 +290,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
                 "        <h1>Réactivation de Compte</h1>\n" +
                 "        <p>Bonjour "+ prenom +",</p>\n" +
                 "        <p>Votre compte a été réactivé avec succès. Vous pouvez maintenant vous reconnecter en utilisant le bouton ci-dessous :</p>\n" +
-                "        <a class=\"button\" href=\"/connexion\">Se Connecter</a>\n" +
+                "        <a class=\"button\" href=\"http://localhost:4200/\">Se Connecter</a>\n" +
                 "        <p class=\"note\">Si vous n'avez pas demandé la réactivation de votre compte, veuillez nous contacter.</p>\n" +
                 "    </div>\n" +
                 "</body>\n" +

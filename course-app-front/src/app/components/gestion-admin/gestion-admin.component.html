@@ -2,6 +2,7 @@
 <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
 <div class="card m-5">
 
+  <p-progressBar *ngIf="progressBar" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
   <p-table #dt1 [value]="users" [scrollable]="true" scrollHeight="580px" [tableStyle]="{'min-width': '40rem'}"
   [globalFilterFields]="['nom','prenom','email','role']">
       <ng-template pTemplate="caption">
@@ -46,7 +47,7 @@
                 <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-danger" (click)="confirmDelete(user.id)"></button>
               </ng-template>
               <ng-template #del>
-                <button pButton pRipple type="button" [icon]="'pi pi-lock-open'" class="p-button-sm p-button-text p-button-success"></button>
+                <button pButton pRipple type="button" [icon]="'pi pi-lock-open'" class="p-button-sm p-button-text p-button-success" (click)="confirmActive(user.id)"></button>
               </ng-template>
             </td>
           </tr>
@@ -60,7 +61,7 @@
             <td class="text-primary font-semibold">{{user.email}}</td>
             <td class="text-primary font-semibold">{{user.role}}</td>
             <td>
-
+              <button pButton pRipple type="button" [icon]="'pi pi-cog'" class="p-button-sm p-button-text p-button-secondary"></button>
             </td>
           </tr>
         </ng-template>

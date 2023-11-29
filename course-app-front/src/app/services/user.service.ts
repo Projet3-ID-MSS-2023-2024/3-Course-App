@@ -25,4 +25,8 @@ export class UserService {
   delUser(id : Number){
     return this.http.delete(`http://localhost:8080/api/users/${id}`);
   }
+
+  activeUser(id: number){
+    return this.http.post('http://localhost:8080/api/users/active',id);
+  }
 }

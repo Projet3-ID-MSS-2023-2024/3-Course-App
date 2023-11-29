@@ -14,6 +14,7 @@ import { User } from 'src/models/user';
 })
 export class GestionAdminComponent implements OnInit{
 
+  progressBar: boolean = false;
   items: MenuItem[];
   usersDel : boolean =false;
   loading : boolean = false;
@@ -142,12 +143,39 @@ export class GestionAdminComponent implements OnInit{
   });
   }
 
+  confirmActive(id :number){
+    this.confirmationService.confirm({
+      message: 'Voulez-vous vraiment réactiver cet utilisateur ?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+          this.activeUser(id);
+      },
+      reject: () => {
+        this.messageService.add({severity: 'info', summary: 'Annulation', detail: ''})
+      }
+  });
+  }
+
   deleteUser(id :Number){
     this.userService.delUser(id).subscribe(()=>{
       this.messageService.add({ severity: 'success', summary: 'Suppression réussie !', detail: 'Vous avez supprimé un utilisateur.' });
       this.getUsers();
     },(error)=>{
-      this.messageService.add({ severity: 'success', summary: 'Une erreur est survenue !', detail: 'erreur' });
+      this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: 'erreur' });
+    })
+  }
+
+  activeUser(id:number){
+    this.progressBar = true;
+    this.userService.activeUser(id).subscribe(()=>{
+      this.progressBar=false;
+      this.messageService.add({ severity: 'success', summary: 'Réactivation réussie !', detail: 'Un mail a été envoyé '
+       +'à l\'utilisateur pour l\'avertir de la réactivation de son compte.' });
+      this.listDel();
+    },(error)=>{
+      this.progressBar=false;
+      this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: 'erreur' });
     })
   }
 
