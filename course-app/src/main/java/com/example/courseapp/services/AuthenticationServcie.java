@@ -33,7 +33,7 @@ public class AuthenticationServcie {
     private final EmailService emailService;
 
     public AuthenticationResponse register(RegisterRequest request, boolean IsAdmin) throws Exception {
-        if (utilisateurService.testEmail(request.getEmail())){}
+        if (utilisateurService.testEmail(request.getEmail().toLowerCase())){}
         if (utilisateurService.testMdp(request.getMdp())){}
 
         List<Role> listRole = new ArrayList<>();
@@ -49,7 +49,7 @@ public class AuthenticationServcie {
         var utilisateur = Utilisateur.builder()
                 .nom(request.getNom())
                 .prenom(request.getPrenom())
-                .email(request.getEmail())
+                .email(request.getEmail().toLowerCase())
                 .mdp(passwordEncoder.encode(request.getMdp()))
                 .code(code)
                 .isActive(false)

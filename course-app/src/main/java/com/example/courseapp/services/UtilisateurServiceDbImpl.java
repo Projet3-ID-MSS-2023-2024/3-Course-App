@@ -121,8 +121,9 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
 
     @Override
     public void addUserbyAdmin(Utilisateur user) throws Exception {
-        this.testEmail(user.getEmail());
+        this.testEmail(user.getEmail().toLowerCase());
         String codeMdp = UUID.randomUUID().toString();
+        user.setEmail(user.getEmail().toLowerCase());
         user.setMdp(passwordEncoder.encode(codeMdp));
         user.setActive(true);
         this.utilisateurRepo.save(user);
