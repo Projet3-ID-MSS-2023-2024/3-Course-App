@@ -28,19 +28,9 @@ public class UtilisateurRestController {
         return utilisateurService.getAllUsers();
     }
 
-    @GetMapping("/admin")
-    public List<Utilisateur> getAllAdmins(){
-        return utilisateurService.getAllAdmins();
-    }
-
-    @GetMapping("/coureur")
-    public List<Utilisateur> getAllCoureurs(){
-        return utilisateurService.getAllCoureurs();
-    }
-
-    @GetMapping("/gestionnaire")
-    public List<Utilisateur> getAllGestionnaires(){
-        return utilisateurService.getAllGestionnaires();
+    @GetMapping("/del")
+    public List<UserResponse> getAllDel(){
+        return utilisateurService.getAllUsersDel();
     }
 
     @GetMapping("/{id}")
@@ -63,7 +53,18 @@ public class UtilisateurRestController {
         if (testId.isEmpty()){
             throw new CustomException("L'utilisateur n'existe pas."); // a modif
         }
-        utilisateurService.deleteById(id);
+        Utilisateur userDel = Utilisateur.builder()
+                .id(testId.get().getId())
+                .nom(testId.get().getNom())
+                .prenom(testId.get().getPrenom())
+                .email(testId.get().getEmail())
+                .role(testId.get().getRole())
+                .code(testId.get().getCode())
+                .mdp(testId.get().getMdp())
+                .del(true)
+                .isActive(false)
+                .build();
+        utilisateurService.saveUser(userDel);
     }
 
     /*** Update les données personnel d'utilisateur ***/

@@ -1,22 +1,32 @@
 <app-navbar></app-navbar>
-
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
 <div class="card m-5">
 
   <p-toolbar styleClass="mb-4 gap-2">
     <ng-template pTemplate="left">
         <button pButton pRipple label="Ajouter" icon="pi pi-plus" class="p-button-success mr-2" (click)="showDialogAdd()"></button>
     </ng-template>
-
-    <ng-template pTemplate="center">
-      <span class="text-primary font-semibold text-xl">Liste Utilisateurs</span>
-    </ng-template>
-
-    <ng-template pTemplate="right">
-        <button pButton pRipple label="Trier" icon="pi pi-search" class="p-button-help" (click)="showDialogTri()"></button>
-    </ng-template>
   </p-toolbar>
 
-  <p-table [value]="users" [scrollable]="true" scrollHeight="580px" [tableStyle]="{'min-width': '40rem'}">
+  <p-table #dt1 [value]="users" [scrollable]="true" scrollHeight="580px" [tableStyle]="{'min-width': '40rem'}"
+  [globalFilterFields]="['nom','prenom','email','role']">
+      <ng-template pTemplate="caption">
+        <div class="flex">
+          <div *ngIf="usersDel==false; then noDel else del"></div>
+          <ng-template #noDel>
+            <h5 class="m-2 text-xl">Liste des utilisateurs</h5>
+            <button pButton pRipple icon="pi pi-arrow-right-arrow-left" class="p-button-help" (click)="listDel()"></button>
+          </ng-template>
+          <ng-template #del>
+            <h5 class="m-2 text-xl">Utilisateurs supprimés</h5>
+            <button pButton pRipple icon="pi pi-arrow-right-arrow-left" class="p-button-help p-button-outlined" (click)="getUsers()"></button>
+          </ng-template>
+          <span class="p-input-icon-left ml-auto">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Rechercher" />
+          </span>
+        </div>
+      </ng-template>
       <ng-template pTemplate="header">
           <tr>
               <th>Nom</th>
@@ -35,7 +45,13 @@
             <td>{{user.email}}</td>
             <td>{{user.role}}</td>
             <td>
-              <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-danger"></button>
+              <div *ngIf="usersDel==false; then noDel else del"></div>
+              <ng-template #noDel>
+                <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-danger" (click)="confirmDelete(user.id)"></button>
+              </ng-template>
+              <ng-template #del>
+                <button pButton pRipple type="button" [icon]="'pi pi-lock-open'" class="p-button-sm p-button-text p-button-success"></button>
+              </ng-template>
             </td>
           </tr>
         </ng-template>
@@ -48,15 +64,23 @@
             <td class="text-primary font-semibold">{{user.email}}</td>
             <td class="text-primary font-semibold">{{user.role}}</td>
             <td>
-              <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-danger"></button>
+
             </td>
           </tr>
         </ng-template>
       </ng-template>
         <ng-template pTemplate="summary">
-          <div class="flex align-items-center justify-content-between">
-            {{users ? users.length : 0 }} Utilisateur(s).
-          </div>
+          <div *ngIf="usersDel==false; then noDel else del"></div>
+          <ng-template #noDel>
+            <div class="flex align-items-center justify-content-between">
+              {{users ? users.length : 0 }} Utilisateur(s).
+            </div>
+          </ng-template>
+          <ng-template #del>
+            <div class="flex align-items-center justify-content-between">
+              {{users ? users.length : 0 }} Utilisateur(s) Supprimé(s).
+            </div>
+          </ng-template>
       </ng-template>
   </p-table>
 </div>
@@ -104,33 +128,4 @@
 
 </p-dialog>
 
-<!-- Formulaire pour le tri-->
-
-<p-dialog [(visible)]="visibleDiagTri" [modal]="true" [style]="{ top:'10%' }" [breakpoints]="{ '960px': '75vw', '740px': '100vw' }"
-[draggable]="false" [focusOnShow]="true" [dismissableMask]="true" position="top">
-
-
-  <form [formGroup]="formTri" >
-
-    <div class="card flex justify-content-center ml-3 mr-3">
-      <div class="flex flex-column gap-3">
-          <div *ngFor="let category of categories" class="field-checkbox">
-              <p-radioButton [inputId]="category.key" [value]="category.key" formControlName="tri"></p-radioButton>
-              <label [for]="category.key" class="ml-2">{{ category.name }}</label>
-          </div>
-      </div>
-    </div>
-
-  </form>
-
-  <ng-template pTemplate="footer">
-    <p-button
-        [rounded]="true"
-        icon="pi pi-search"
-        styleClass="p-button-rounded p-button-success p-3 p-button-help"
-        (click)="trier()"
-    ></p-button>
-    </ng-template>
-
-</p-dialog>
 <p-toast position="bottom-center"></p-toast>

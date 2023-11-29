@@ -2,8 +2,8 @@ package com.example.courseapp.restControllers;
 
 import com.example.courseapp.dto.AuthenticationRequest;
 import com.example.courseapp.dto.AuthenticationResponse;
-import com.example.courseapp.dto.RegisterRequest;
 import com.example.courseapp.dto.UserResponse;
+import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.services.AuthenticationServcie;
 import com.example.courseapp.services.UtilisateurServiceDbImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +21,15 @@ public class AuthRestController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register (
-            @RequestBody RegisterRequest request
+            @RequestBody Utilisateur user
     ) throws Exception {
-        return ResponseEntity.ok(service.register(request, false));
+        return ResponseEntity.ok(service.register(user, false));
     }
     @PostMapping("/firstAdmin")
     public ResponseEntity<AuthenticationResponse> registerFirstAdmin(
-            @RequestBody RegisterRequest request
-    ) throws Exception {
-        return ResponseEntity.ok(service.register(request, true));
+            @RequestBody Utilisateur user
+            ) throws Exception {
+        return ResponseEntity.ok(service.register(user, true));
     }
     @PostMapping("/authenticate")
     public ResponseEntity<String> Authenticate (

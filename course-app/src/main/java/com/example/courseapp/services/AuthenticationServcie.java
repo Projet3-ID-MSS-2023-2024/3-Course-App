@@ -3,7 +3,6 @@ package com.example.courseapp.services;
 import com.example.courseapp.config.JwtService;
 import com.example.courseapp.dto.AuthenticationRequest;
 import com.example.courseapp.dto.AuthenticationResponse;
-import com.example.courseapp.dto.RegisterRequest;
 import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.CustomException;
 import com.example.courseapp.models.Role;
@@ -32,9 +31,9 @@ public class AuthenticationServcie {
 
     private final EmailService emailService;
 
-    public AuthenticationResponse register(RegisterRequest request, boolean IsAdmin) throws Exception {
-        if (utilisateurService.testEmail(request.getEmail())){}
-        if (utilisateurService.testMdp(request.getMdp())){}
+    public AuthenticationResponse register(Utilisateur user, boolean IsAdmin) throws Exception {
+        if (utilisateurService.testEmail(user.getEmail().toLowerCase())){}
+        if (utilisateurService.testMdp(user.getMdp())){}
 
         List<Role> listRole = new ArrayList<>();
         if (IsAdmin){ listRole.add(Role.ADMIN); }
@@ -47,11 +46,12 @@ public class AuthenticationServcie {
         }
 
         var utilisateur = Utilisateur.builder()
-                .nom(request.getNom())
-                .prenom(request.getPrenom())
-                .email(request.getEmail())
-                .mdp(passwordEncoder.encode(request.getMdp()))
+                .nom(user.getNom())
+                .prenom(user.getPrenom())
+                .email(user.getEmail().toLowerCase())
+                .mdp(passwordEncoder.encode(user.getMdp()))
                 .code(code)
+                .del(false)
                 .isActive(false)
                 .role(listRole)
                 .build();
@@ -105,6 +105,7 @@ public class AuthenticationServcie {
                     .email(user.get().getEmail())
                     .mdp(user.get().getMdp())
                     .code(user.get().getCode())
+                    .del(user.get().isDel())
                     .role(user.get().getRole())
                     .isActive(true).build();
             utilisateurService.saveUser(userMod);

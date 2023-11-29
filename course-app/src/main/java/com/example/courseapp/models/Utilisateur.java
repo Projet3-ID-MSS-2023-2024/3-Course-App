@@ -33,7 +33,8 @@ public class Utilisateur implements UserDetails {
     private String mdp;
 
     private String code;
-
+    @Column(nullable = false)
+    private boolean del;
     @Column(nullable = false)
     private boolean isActive;
 

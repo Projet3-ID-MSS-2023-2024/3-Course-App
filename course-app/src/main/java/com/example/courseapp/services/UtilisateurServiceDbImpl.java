@@ -28,7 +28,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
     @Override
     public List<UserResponse> getAllUsers() {
 
-        List<Utilisateur> list = utilisateurRepo.findAll();
+        List<Utilisateur> list = utilisateurRepo.getUser();
         List<UserResponse> newList = new ArrayList<>();
 
         for (int i =0; i<list.size(); i++){
@@ -42,6 +42,30 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
                             .email(user.getEmail())
                             .role(user.getRole())
                             .isActive(user.isActive())
+                            .del(user.isDel())
+                            .build()
+            );
+        };
+        return newList;
+    }
+
+    @Override
+    public List<UserResponse> getAllUsersDel() {
+        List<Utilisateur> list = utilisateurRepo.getUserDel();
+        List<UserResponse> newList = new ArrayList<>();
+
+        for (int i =0; i<list.size(); i++){
+
+            Utilisateur user = list.get(i);
+            newList.add(
+                    UserResponse.builder()
+                            .id(user.getId())
+                            .nom(user.getNom())
+                            .prenom(user.getPrenom())
+                            .email(user.getEmail())
+                            .role(user.getRole())
+                            .isActive(user.isActive())
+                            .del(user.isDel())
                             .build()
             );
         };
@@ -56,21 +80,6 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
     @Override
     public Optional<Utilisateur> getUserById(int id) {
         return utilisateurRepo.findById(id);
-    }
-
-    @Override
-    public List<Utilisateur> getAllAdmins() {
-        return utilisateurRepo.getAdmins();
-    }
-
-    @Override
-    public List<Utilisateur> getAllCoureurs() {
-        return utilisateurRepo.getCoureurs();
-    }
-
-    @Override
-    public List<Utilisateur> getAllGestionnaires() {
-        return utilisateurRepo.getGestionnaire();
     }
 
     @Override
@@ -121,10 +130,12 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
 
     @Override
     public void addUserbyAdmin(Utilisateur user) throws Exception {
-        this.testEmail(user.getEmail());
+        this.testEmail(user.getEmail().toLowerCase());
         String codeMdp = UUID.randomUUID().toString();
+        user.setEmail(user.getEmail().toLowerCase());
         user.setMdp(passwordEncoder.encode(codeMdp));
         user.setActive(true);
+        user.setDel(false);
         this.utilisateurRepo.save(user);
         emailService.sendEmail(user.getEmail(), "Code de connexion", buildEmailCodeConnexion(user.getPrenom(), codeMdp));
     }
