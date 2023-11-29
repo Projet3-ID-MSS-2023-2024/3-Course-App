@@ -13,6 +13,7 @@ import java.util.Date;
 @EqualsAndHashCode
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Course {
