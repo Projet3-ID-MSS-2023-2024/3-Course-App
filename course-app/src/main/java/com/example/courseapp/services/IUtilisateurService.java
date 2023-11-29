@@ -9,10 +9,8 @@ import java.util.Optional;
 public interface IUtilisateurService {
     /*** Utilisation d'une interface pour avoir une vue globale des méthodes du service ***/
     public List<UserResponse> getAllUsers();
+    public List<UserResponse> getAllUsersDel();
     public Optional<Utilisateur> getUserById(int id);
-    public List<Utilisateur> getAllAdmins();
-    public List<Utilisateur> getAllCoureurs();
-    public List<Utilisateur> getAllGestionnaires();
     public Utilisateur saveUser(Utilisateur newUser);
     public void deleteById(int id);
     public boolean testEmail(String email) throws Exception;

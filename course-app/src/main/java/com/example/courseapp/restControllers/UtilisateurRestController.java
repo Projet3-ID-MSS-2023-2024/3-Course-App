@@ -28,19 +28,9 @@ public class UtilisateurRestController {
         return utilisateurService.getAllUsers();
     }
 
-    @GetMapping("/admin")
-    public List<Utilisateur> getAllAdmins(){
-        return utilisateurService.getAllAdmins();
-    }
-
-    @GetMapping("/coureur")
-    public List<Utilisateur> getAllCoureurs(){
-        return utilisateurService.getAllCoureurs();
-    }
-
-    @GetMapping("/gestionnaire")
-    public List<Utilisateur> getAllGestionnaires(){
-        return utilisateurService.getAllGestionnaires();
+    @GetMapping("/del")
+    public List<UserResponse> getAllDel(){
+        return utilisateurService.getAllUsersDel();
     }
 
     @GetMapping("/{id}")
