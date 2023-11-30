@@ -1,5 +1,6 @@
 import { Time } from "@angular/common";
 import { Adresse } from "./adresse";
+import { User } from "./user";
 
 export class Course {
   id!: number;
@@ -9,4 +10,5 @@ export class Course {
   heure!: Time;
   adresse!: Adresse;
   adresse1!: Adresse;
+  utilisateur!: User;
 }
