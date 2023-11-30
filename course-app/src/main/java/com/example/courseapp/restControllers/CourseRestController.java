@@ -7,6 +7,7 @@ import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.services.AdresseService;
 import com.example.courseapp.services.CourseService;
 import com.example.courseapp.services.ResultatService;
+import com.example.courseapp.services.UtilisateurServiceDbImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,11 +25,14 @@ public class CourseRestController {
 
     @Autowired
     ResultatService resultatService;
+    @Autowired
+    UtilisateurServiceDbImpl utilisateurServiceDb;
 
     @PostMapping
     public Course add(@RequestBody CourseRequest newCourse){
         Adresse adresse = adresseService.GetAdresseByRue(newCourse.getAdresse());
         Adresse adresse1 = adresseService.GetAdresseByRue(newCourse.getAdresse1());
+        Utilisateur utilisateur = utilisateurServiceDb.getByPrenom(newCourse.getUtilisateur());
 
         Course courseadd = Course.builder()
                 .adresse(adresse)
@@ -37,6 +41,7 @@ public class CourseRestController {
                 .heure(newCourse.getHeure())
                 .titre(newCourse.getTitre())
                 .prix(newCourse.getPrix())
+                .utilisateur(utilisateur)
                 .build();
 
 

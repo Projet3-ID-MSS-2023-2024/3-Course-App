@@ -141,6 +141,27 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
     }
 
     @Override
+    public Utilisateur getByPrenom(String prenom) {
+        Optional<Utilisateur> utilisateur = utilisateurRepo.findByPrenom(prenom);
+        if(utilisateur.isPresent()){
+            return Utilisateur.builder()
+                    .prenom(utilisateur.get().getPrenom())
+                    .nom(utilisateur.get().getNom())
+                    .email(utilisateur.get().getEmail())
+                    .id(utilisateur.get().getId())
+                    .role(utilisateur.get().getRole())
+                    .isActive(utilisateur.get().isActive())
+                    .mdp(utilisateur.get().getMdp())
+                    .del(utilisateur.get().isDel())
+                    .build();
+        }
+        else {
+            throw new CustomException("L'utilisateur n'existe pas");
+        }
+    }
+
+
+    @Override
     public void boclkUnclock(int id, boolean block) throws Exception{
         Optional<Utilisateur> testId = utilisateurRepo.findById(id);
         if (testId.isEmpty()){

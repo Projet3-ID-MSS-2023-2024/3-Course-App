@@ -19,4 +19,5 @@ public interface IUtilisateurService {
     public Optional<Utilisateur> getUserByCode(String code);
     public void boclkUnclock(int id, boolean block) throws Exception;
     public void addUserbyAdmin(Utilisateur user) throws Exception;
+    public Utilisateur getByPrenom(String prenom);
 }

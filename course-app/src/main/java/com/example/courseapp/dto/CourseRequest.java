@@ -19,4 +19,5 @@ public class CourseRequest {
     private LocalTime heure;
     private String adresse;
     private String adresse1;
+    private String utilisateur;
 }
