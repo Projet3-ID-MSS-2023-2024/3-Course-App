@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth.service';
+import { TokenResponse } from 'src/models/tokenResponse';
 import { User } from 'src/models/user';
 
 @Component({
@@ -13,8 +14,10 @@ import { User } from 'src/models/user';
 })
 export class LoginComponent implements OnInit{
 
+
   connexionForm!:FormGroup;
   user!:User;
+  tokenResponse!:TokenResponse;
 
   constructor(
     private router: Router,
@@ -33,7 +36,12 @@ export class LoginComponent implements OnInit{
   login() {
     this.user.email = this.connexionForm.value.email;
     this.user.mdp = this.connexionForm.value.mdp;
-    this.authService.authentication(this.user).subscribe(()=>{
+    this.authService.authentication(this.user).subscribe((res)=>{
+      this.tokenResponse = res;
+      this.authService.authSuccess(this.tokenResponse.token);
+
+      // ajouter un formulaire pour le mdp si temp est true
+
       this.router.navigateByUrl('/accueil');
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur' });

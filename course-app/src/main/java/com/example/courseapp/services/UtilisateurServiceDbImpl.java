@@ -134,6 +134,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         String codeMdp = UUID.randomUUID().toString();
         user.setEmail(user.getEmail().toLowerCase());
         user.setMdp(passwordEncoder.encode(codeMdp));
+        user.setTempMdp(true);
         user.setActive(true);
         user.setDel(false);
         this.utilisateurRepo.save(user);
@@ -167,17 +168,9 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         if (testId.isEmpty()){
             throw new CustomException("L'utilisateur n'existe pas."); // a modif
         }
-        Utilisateur user = Utilisateur.builder()
-                .id(testId.get().getId())
-                .nom(testId.get().getNom())
-                .prenom(testId.get().getPrenom())
-                .email(testId.get().getEmail())
-                .role(testId.get().getRole())
-                .code(testId.get().getCode())
-                .mdp(testId.get().getMdp())
-                .del(block)
-                .isActive(!block)
-                .build();
+        Utilisateur user = Utilisateur.builder().build();
+        user.setDel(block);
+        user.setActive(!block);
         utilisateurRepo.save(user);
         if (block==false){
             emailService.sendEmail(user.getEmail(),"Votre compte a été réactivé.",emailReactivationCompte(user.getPrenom()));

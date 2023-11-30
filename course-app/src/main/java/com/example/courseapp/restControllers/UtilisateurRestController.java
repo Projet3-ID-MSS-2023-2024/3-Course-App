@@ -41,7 +41,6 @@ public class UtilisateurRestController {
         }
         return user;
     }
-
     @PostMapping
     public void add(@RequestBody Utilisateur newUser) throws Exception {
         utilisateurService.addUserbyAdmin(newUser);

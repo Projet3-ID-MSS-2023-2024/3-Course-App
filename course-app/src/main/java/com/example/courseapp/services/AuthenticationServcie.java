@@ -50,6 +50,7 @@ public class AuthenticationServcie {
                 .prenom(user.getPrenom())
                 .email(user.getEmail().toLowerCase())
                 .mdp(passwordEncoder.encode(user.getMdp()))
+                .tempMdp(false)
                 .code(code)
                 .del(false)
                 .isActive(false)
@@ -67,17 +68,26 @@ public class AuthenticationServcie {
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    public ResponseEntity<String> authenticate(AuthenticationRequest request) {  //connexion
+    public ResponseEntity<AuthenticationResponse> authenticate(AuthenticationRequest request) {  //connexion
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getMdp()
                 )
         );
-        var user = utilisateurRepo.findByEmail(request.getEmail())
-                .orElseThrow();
+        var temp = false;
+        var user = utilisateurRepo.findByEmail(request.getEmail()).orElseThrow();
+        if (user.isTempMdp()){
+            user.setMdp(null);
+            user.setTempMdp(false);
+            utilisateurRepo.save(user);
+            temp=true;
+        }
         var jwtToken = jwtService.generateToken(user);
-        return ResponseEntity.ok(jwtToken);
+        var response = AuthenticationResponse.builder()
+                .token(jwtToken)
+                .temp(temp).build();
+        return ResponseEntity.ok(response);
     }
 
     public UserResponse getUserByToken(String token){
@@ -98,16 +108,10 @@ public class AuthenticationServcie {
             if (user.get().isActive()){
                 throw new CustomException("L'email a déja été confirmé");
             }
-            var userMod = Utilisateur.builder()
-                    .id(user.get().getId())
-                    .nom(user.get().getNom())
-                    .prenom(user.get().getPrenom())
-                    .email(user.get().getEmail())
-                    .mdp(user.get().getMdp())
-                    .code(user.get().getCode())
-                    .del(user.get().isDel())
-                    .role(user.get().getRole())
-                    .isActive(true).build();
+
+            Utilisateur userMod = Utilisateur.builder().build();
+            userMod.setActive(true);
+
             utilisateurService.saveUser(userMod);
             return true;
         } else {
