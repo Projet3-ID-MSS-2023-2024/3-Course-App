@@ -18,8 +18,8 @@ public class AdresseServiceImpl implements AdresseService{
     }
 
     @Override
-    public Adresse GetAdresseByRue(String rue) {
-        Optional<Adresse> adresse = adresseRepo.FindByRue(rue);
+    public Adresse getAdresseByRue(String rue) {
+        Optional<Adresse> adresse = adresseRepo.findByRue(rue);
         if(adresse.isPresent()){
             return Adresse.builder()
                     .rue(adresse.get().getRue())

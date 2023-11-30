@@ -30,8 +30,8 @@ public class CourseRestController {
 
     @PostMapping
     public Course add(@RequestBody CourseRequest newCourse){
-        Adresse adresse = adresseService.GetAdresseByRue(newCourse.getAdresse());
-        Adresse adresse1 = adresseService.GetAdresseByRue(newCourse.getAdresse1());
+        Adresse adresse = adresseService.getAdresseByRue(newCourse.getAdresse());
+        Adresse adresse1 = adresseService.getAdresseByRue(newCourse.getAdresse1());
         Utilisateur utilisateur = utilisateurServiceDb.getByPrenom(newCourse.getUtilisateur());
 
         Course courseadd = Course.builder()

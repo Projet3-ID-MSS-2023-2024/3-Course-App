@@ -7,13 +7,16 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+
 @Entity
 @Getter
 @Setter
 @EqualsAndHashCode
 @Builder
 @Table(name="adresse")
-public class Adresse {
+public class Adresse implements Serializable {
     /*** Définitions des attributs***/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

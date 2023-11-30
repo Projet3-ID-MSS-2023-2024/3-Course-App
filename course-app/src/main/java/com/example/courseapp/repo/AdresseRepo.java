@@ -17,7 +17,7 @@ public interface AdresseRepo extends JpaRepository<Adresse, Long> {
     Adresse getAdresseById(int id);
 
     /*** Recherche par rue ***/
-    public Optional<Adresse>FindByRue(String rue);
+    public Optional<Adresse>findByRue(String rue);
 
 
 }

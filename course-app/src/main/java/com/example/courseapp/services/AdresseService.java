@@ -4,5 +4,5 @@ import com.example.courseapp.models.Adresse;
 
 public interface AdresseService {
     public Adresse add(Adresse newAdresse);
-    public Adresse GetAdresseByRue(String rue);
+    public Adresse getAdresseByRue(String rue);
 }
