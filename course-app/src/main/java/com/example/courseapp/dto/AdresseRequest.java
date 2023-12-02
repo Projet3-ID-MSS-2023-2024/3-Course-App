@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdresseRequest {
-    private String latitude;
-    private String longitude;
+    private int latitude;
+    private int longitude;
     private String rue;
     private String ville;
 }
