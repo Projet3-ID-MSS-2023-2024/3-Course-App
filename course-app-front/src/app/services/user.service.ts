@@ -29,4 +29,8 @@ export class UserService {
   activeUser(id: number){
     return this.http.post('http://localhost:8080/api/users/active',id);
   }
+
+  addMdp(mdp: string){
+    return this.http.post('http://localhost:8080/api/users/addMdp', mdp);
+  }
 }

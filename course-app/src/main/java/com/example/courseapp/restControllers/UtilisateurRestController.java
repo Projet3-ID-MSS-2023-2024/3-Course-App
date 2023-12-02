@@ -6,6 +6,8 @@ import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.services.AuthenticationServcie;
 import com.example.courseapp.services.IUtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,6 +68,12 @@ public class UtilisateurRestController {
                     upUser.setEmail(utilisateur.getEmail());
                     return utilisateurService.saveUser(upUser);
                 });
+    }
+    @PostMapping("/addMdp")
+    public boolean addMdp(@RequestBody String mdp) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return utilisateurService.addMdp(mdp,email);
     }
 
 }

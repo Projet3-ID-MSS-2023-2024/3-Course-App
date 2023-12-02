@@ -39,10 +39,9 @@ export class LoginComponent implements OnInit{
     this.authService.authentication(this.user).subscribe((res)=>{
       this.tokenResponse = res;
       this.authService.authSuccess(this.tokenResponse.token);
-
-      // ajouter un formulaire pour le mdp si temp est true
-
-      this.router.navigateByUrl('/accueil');
+      if (this.tokenResponse.temp) {
+        this.router.navigateByUrl('/creer/mdp');
+      } else {this.router.navigateByUrl('/accueil');}
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur' });
     });

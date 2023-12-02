@@ -79,7 +79,6 @@ public class AuthenticationServcie {
         var user = utilisateurRepo.findByEmail(request.getEmail()).orElseThrow();
         if (user.isTempMdp()){
             user.setMdp(null);
-            user.setTempMdp(false);
             utilisateurRepo.save(user);
             temp=true;
         }
