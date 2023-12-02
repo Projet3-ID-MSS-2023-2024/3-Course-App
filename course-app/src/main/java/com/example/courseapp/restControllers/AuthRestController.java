@@ -32,7 +32,7 @@ public class AuthRestController {
         return ResponseEntity.ok(service.register(user, true));
     }
     @PostMapping("/authenticate")
-    public ResponseEntity<String> Authenticate (
+    public ResponseEntity<AuthenticationResponse> Authenticate (
             @RequestBody AuthenticationRequest request
     ){
         return service.authenticate(request);

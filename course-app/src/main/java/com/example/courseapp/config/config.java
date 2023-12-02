@@ -73,7 +73,7 @@ public class config {
         listRole.add(Role.ADMIN);
         listRole.add(Role.COUREUR);
         listRole.add(Role.GESTIONNAIRE);
-        Utilisateur user = new Utilisateur(1, "Bernard","Amaury","admin0@gmail.com", passwordEncoder.encode("mdp"), "fdsjhgdshg",false,true, listRole);
+        Utilisateur user = new Utilisateur(1, "Bernard","Amaury","admin0@gmail.com", passwordEncoder.encode("mdp"), "fdsjhgdshg",false, false,true, listRole);
         userRepo.save(user);
         return user;
     }

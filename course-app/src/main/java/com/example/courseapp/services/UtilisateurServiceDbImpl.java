@@ -2,9 +2,12 @@ package com.example.courseapp.services;
 
 import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.CustomException;
+import com.example.courseapp.models.Role;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.repo.UtilisateurRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -130,14 +133,23 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
 
     @Override
     public void addUserbyAdmin(Utilisateur user) throws Exception {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Optional<Utilisateur> author = utilisateurRepo.findByEmail(email);
+        if (!author.get().getRole().contains(Role.ADMIN)){
+            throw new CustomException("Vous n'avez pas les permissions requises.");
+        }
+
         this.testEmail(user.getEmail().toLowerCase());
         String codeMdp = UUID.randomUUID().toString();
         user.setEmail(user.getEmail().toLowerCase());
         user.setMdp(passwordEncoder.encode(codeMdp));
+        user.setTempMdp(true);
         user.setActive(true);
         user.setDel(false);
         this.utilisateurRepo.save(user);
-        emailService.sendEmail(user.getEmail(), "Code de connexion", buildEmailCodeConnexion(user.getPrenom(), codeMdp));
+        emailService.sendEmail(user.getEmail(), "Code de connexion", buildEmailCodeConnexion(user.getPrenom(), codeMdp,author.get().getPrenom()));
     }
 
     @Override
@@ -160,6 +172,20 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         }
     }
 
+    @Override
+    public boolean addMdp(String mdp, String email) throws Exception {
+        Optional<Utilisateur> user = utilisateurRepo.findByEmail(email);
+        if (user.isEmpty()){
+            throw new CustomException("L'utilisateur n'existe pas."); // a modif
+        }
+        if (this.testMdp(mdp)){}
+        Utilisateur userMod = user.get();
+        userMod.setMdp(passwordEncoder.encode(mdp));
+        userMod.setTempMdp(false);
+        utilisateurRepo.save(userMod);
+        return true;
+    }
+
 
     @Override
     public void boclkUnclock(int id, boolean block) throws Exception{
@@ -167,17 +193,9 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         if (testId.isEmpty()){
             throw new CustomException("L'utilisateur n'existe pas."); // a modif
         }
-        Utilisateur user = Utilisateur.builder()
-                .id(testId.get().getId())
-                .nom(testId.get().getNom())
-                .prenom(testId.get().getPrenom())
-                .email(testId.get().getEmail())
-                .role(testId.get().getRole())
-                .code(testId.get().getCode())
-                .mdp(testId.get().getMdp())
-                .del(block)
-                .isActive(!block)
-                .build();
+        Utilisateur user = testId.get();
+        user.setDel(block);
+        user.setActive(!block);
         utilisateurRepo.save(user);
         if (block==false){
             emailService.sendEmail(user.getEmail(),"Votre compte a été réactivé.",emailReactivationCompte(user.getPrenom()));
@@ -188,7 +206,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         return this.utilisateurRepo.count();
     }
 
-    private String buildEmailCodeConnexion(String prenom,String codeMdp){
+    private String buildEmailCodeConnexion(String prenom,String codeMdp, String admin){
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
@@ -241,10 +259,10 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
                 "    <div class=\"box\">\n" +
                 "        <h2>Code de Connexion</h2>\n" +
                 "        <p>Bonjour "+ prenom +",</p>\n" +
-                "        <p>Tu as été inscrit sur l'application Course App par un administrateur.</p>\n" +
-                "        <p>Utilise ton adresse mail ainsi que le code ci-dessous pour te connecter.</p>\n" +
+                "        <p>Tu as été inscrit sur l'application Course App par l'administrateur "+ admin +".</p>\n" +
+                "        <p>Utilise ton adresse mail ainsi que le mot de passe temporaire ci-dessous pour te connecter.</p>\n" +
                 "        <p class=\"code\">"+ codeMdp +"</p>\n" +
-                "        <p class=\"note\">Attention, pour plus de securité il t'es fortement recommandé de te créer un mot de passe une fois connecté.</p>\n" +
+                "        <p class=\"note\">Attention, ce mot de passe n'est valide qu'une seule fois, il t'es donc fortement recommandé de te créer un mot de passe une fois connecté.</p>\n" +
                 "    </div>\n" +
                 "</body>\n" +
                 "</html>";
