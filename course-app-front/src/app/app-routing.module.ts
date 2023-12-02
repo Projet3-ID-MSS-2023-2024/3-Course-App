@@ -12,6 +12,7 @@ import { UserProfileComponent } from './components/Profile/user-profile/user-pro
 import { CoursesListComponent } from './components/Course/courses-list/courses-list.component';
 import { CoursesListAdminComponent } from './components/Course/courses-list-admin/courses-list-admin.component';
 import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.component';
+import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
 
 
 const routes: Routes = [
@@ -27,7 +28,8 @@ const routes: Routes = [
   { path:'ville-add',component:VilleAddComponent},
   {path:'adresse-add',component:AdresseAddComponent},
   { path: 'user-profile',component:UserProfileComponent },
-  { path: 'administration',component:GestionAdminComponent }
+  { path: 'administration',component:GestionAdminComponent },
+  { path: 'creer/mdp',component:NouveauMdpComponent }
 ];
 
 @NgModule({
