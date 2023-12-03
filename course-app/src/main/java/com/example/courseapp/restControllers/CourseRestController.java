@@ -60,7 +60,6 @@ public class CourseRestController {
 
     @DeleteMapping("/admin/{id}")
     public void delete(@PathVariable int id){
-        resultatService.deleteResultats(id);
         courseService.deleteCourse(id);
     }
 

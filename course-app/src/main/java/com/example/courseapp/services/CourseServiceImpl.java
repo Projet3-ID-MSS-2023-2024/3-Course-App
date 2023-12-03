@@ -1,6 +1,7 @@
 package com.example.courseapp.services;
 
 import com.example.courseapp.models.Course;
+import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.repo.CourseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,19 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public void deleteCourse(int id) {
-        courseRepo.deleteById(id);
+        Optional<Course> courseDel = courseRepo.findById(id);
+        Course course = Course.builder()
+                .id(courseDel.get().getId())
+                .titre(courseDel.get().getTitre())
+                .date(courseDel.get().getDate())
+                .heure(courseDel.get().getHeure())
+                .prix(courseDel.get().getPrix())
+                .adresse1(courseDel.get().getAdresse1())
+                .adresse(courseDel.get().getAdresse())
+                .utilisateur(courseDel.get().getUtilisateur())
+                .supprimer(true)
+                .build();
+        courseRepo.save(course);
     }
 
     @Override
@@ -48,6 +61,7 @@ public class CourseServiceImpl implements CourseService{
         courseFromDB.setPrix(course.getPrix());
         courseFromDB.setAdresse1(course.getAdresse1());
         courseFromDB.setTitre(course.getTitre());
+        courseFromDB.setUtilisateur(course.getUtilisateur());
         courseRepo.save(courseFromDB);
     }
 }
