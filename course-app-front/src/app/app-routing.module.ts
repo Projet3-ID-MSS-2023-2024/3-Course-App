@@ -14,6 +14,7 @@ import { CoursesListAdminComponent } from './components/Course/courses-list-admi
 import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.component';
 import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
 import { CourseMapComponent } from './components/Course/course-map/course-map.component';
+import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
 
 
 const routes: Routes = [
@@ -31,7 +32,8 @@ const routes: Routes = [
   { path: 'user-profile',component:UserProfileComponent },
   { path: 'administration',component:GestionAdminComponent },
   { path: 'creer/mdp',component:NouveauMdpComponent },
-  { path: 'course/map',component:CourseMapComponent }
+  { path: 'course/map',component:CourseMapComponent },
+  { path: 'update-user',component:UpdateUserComponent },
 ];
 
 @NgModule({

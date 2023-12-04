@@ -42,6 +42,7 @@ import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.
 import { HttpInterceptorService } from './services/http-interceptor.service';
 import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
 import { CourseMapComponent } from './components/Course/course-map/course-map.component';
+import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { CourseMapComponent } from './components/Course/course-map/course-map.co
     CoursesListAdminComponent,
     GestionAdminComponent,
     NouveauMdpComponent,
-    CourseMapComponent
+    CourseMapComponent,
+    UpdateUserComponent
   ],
   imports: [
     BrowserModule,
