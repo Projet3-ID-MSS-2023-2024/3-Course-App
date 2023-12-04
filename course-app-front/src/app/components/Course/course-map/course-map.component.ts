@@ -18,6 +18,7 @@ export class CourseMapComponent implements OnInit{
     const control = L.Routing.control({
       waypoints: [
         L.latLng([50.419584, 4.573305]),
+        L.latLng([50.421769, 4.528363]),
         L.latLng([50.411496, 4.505646])
       ],
       routeWhileDragging: false,
@@ -27,6 +28,21 @@ export class CourseMapComponent implements OnInit{
     const bounds = L.latLngBounds([50.419584, 4.573305],[50.411496, 4.505646]);
     map.fitBounds(bounds);
 
+    control.on('routeselected', function(e) {
+      var waypoints = document.querySelectorAll('.leaflet-marker-draggable');
+      waypoints.forEach(function(waypoint) {
+        // Explicitly cast to HTMLElement to access the style property
+        (waypoint as HTMLElement).style.display = 'none';
+      });
+    });
+
+    control.on('routeselected', function(e) {
+      var waypoints = document.querySelectorAll('.leaflet-pane .leaflet-shadow-pane');
+      waypoints.forEach(function(waypoint) {
+        // Explicitly cast to HTMLElement to access the style property
+        (waypoint as HTMLElement).style.display = 'none';
+      });
+    });
     control.on('routeselected', function (e) {
       var instructionsContainer = document.querySelector('.leaflet-routing-container .leaflet-routing-alt ') as HTMLElement;
       if (instructionsContainer) {
