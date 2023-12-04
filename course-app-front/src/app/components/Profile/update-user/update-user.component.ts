@@ -14,7 +14,8 @@ import { User } from 'src/models/user';
 })
 export class UpdateUserComponent implements OnInit {
   UpdateUserForm!: FormGroup;
-  user!: User;
+  user !: User;
+  loggedUser !: User;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -24,6 +25,8 @@ export class UpdateUserComponent implements OnInit {
     
 
   ngOnInit(): void {
+    this.loggedUser = new User();
+    this.getLoggedUser();
     this.user = new User();
     this.UpdateUserForm = this.fb.group({
       nom: ['',Validators.required],
@@ -40,6 +43,13 @@ export class UpdateUserComponent implements OnInit {
       this.router.navigateByUrl('/update-user');
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+    })
+  }
+
+  getLoggedUser(){
+    this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
+      this.loggedUser = res
+      console.log(this.loggedUser)
     })
   }
   
