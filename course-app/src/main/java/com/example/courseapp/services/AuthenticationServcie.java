@@ -93,6 +93,7 @@ public class AuthenticationServcie {
         String email = jwtService.extractUsername(token);
         Optional<Utilisateur> user = utilisateurRepo.findByEmail(email);
         return UserResponse.builder()
+                .id(user.get().getId())
                 .email(user.get().getEmail())
                 .nom(user.get().getNom())
                 .prenom(user.get().getPrenom())
