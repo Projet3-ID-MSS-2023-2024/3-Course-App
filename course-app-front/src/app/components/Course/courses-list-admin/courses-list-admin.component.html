@@ -4,29 +4,20 @@
     <div class="text-500">Choisissez une course à administrer ou créer une nouvelle course</div>
 </div>
 
-<!-- (input)="dt2.filterGlobal($event.target.value, 'contains')" -->
 <div class="card">
   <p-table
       #dt2
       [value]="courses"
       dataKey="id"
-      [rows]="10"
+      [rows]="5"
       [showCurrentPageReport]="true"
       [rowsPerPageOptions]="[5, 10, 15]"
       [paginator]="true"
       [loading]="loading"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [globalFilterFields]="['titre', 'adresse.ville.nom', 'adresse1.ville.nom', 'date', 'prix']"
-      [tableStyle]="{ 'min-width': '75rem' }"
+      [tableStyle]="{ 'min-width': '75rem'}"
       >
-      <ng-template pTemplate="caption">
-          <div class="flex">
-              <span class="p-input-icon-left ml-auto">
-                  <i class="pi pi-search"></i>
-                  <input pInputText type="text"  placeholder="Search keyword" />
-              </span>
-          </div>
-      </ng-template>
+
       <ng-template pTemplate="header">
           <tr>
               <th style="width:20%">Titre</th>
@@ -52,6 +43,8 @@
               <th>
                 <p-columnFilter type="text" field="prix"></p-columnFilter>
               </th>
+              <th>
+              </th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-course>
@@ -72,9 +65,8 @@
                 {{ course.prix }} €
               </td>
               <td>
-                <!-- <p-menubar [model]="items"></p-menubar> -->
-                <p-button (click)="showDialog()" icon="pi pi-pencil"></p-button>
-                <p-button (click)="deleteCourse(course)" icon="pi pi-trash" ></p-button>
+                <button pButton pRipple type="button" [icon]="'pi pi-pencil'" class="p-button-sm p-button-text p-button-secondary" (click)="showDialog()"></button>
+                <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-secondary" (click)="deleteCourse(course)"></button>
               </td>
           </tr>
       </ng-template>
@@ -85,6 +77,11 @@
       </ng-template>
   </p-table>
 </div>
+<div class="center"><button pButton pRipple type="button" label="Ajouter une nouvelle course" [routerLink]="['/course-add']" class="p-button-secondary p-button-rounded"></button></div>
+
+
+
+
 <!-- Popup confirm suppression -->
 <div class="card flex justify-content-center">
   <p-toast></p-toast>
@@ -101,6 +98,9 @@
       </ng-template>
   </p-confirmDialog>
 </div>
+
+
+
 <!-- Modif Course -->
 <p-toast></p-toast>
 <p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
@@ -134,4 +134,3 @@
     </div>
   </div>
 </p-dialog>
-<div class="center"><p-button label="Ajouter une nouvelle course" [rounded]="true" [routerLink]="['/course-add']"></p-button></div>
