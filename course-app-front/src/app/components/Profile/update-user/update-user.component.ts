@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/models/user';
 
 @Component({
@@ -18,7 +19,9 @@ export class UpdateUserComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private userService: UserService,
+    private authService: AuthService,
     private messageService: MessageService) { }
+    
 
   ngOnInit(): void {
     this.user = new User();
