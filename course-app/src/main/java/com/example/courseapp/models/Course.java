@@ -34,6 +34,9 @@ public class Course {
     @Column(nullable = false)
     private LocalTime heure;
 
+    @Column(nullable = false)
+    private boolean supprimer;
+
 
     /*** Laisaions avec la table adress ***/
     @ManyToOne
