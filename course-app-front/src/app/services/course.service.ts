@@ -21,12 +21,14 @@ export class CourseService {
       catchError((error: Error) => this.handleError(error, undefined))
     );
   }
-  // getCoursesByGestionnaire(): Observable<CourseList[]>{
-  //   return this.http.get<CourseList[]>(`${this.courseApiUrl}`).pipe(
-  //     tap((courses: CourseList[]) => this.log(courses)),
-  //     catchError((error: Error) => this.handleError(error, undefined))
-  //   );
-  // }
+
+  getCoursesByGestionnaireAndNotDeleted(id: number): Observable<Course[]>{
+    return this.http.get<Course[]>(`${this.courseApiUrl}/admin/${id}`).pipe(
+      tap((courses: Course[]) => this.log(courses)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
   modifCourse(course: Course): Observable<any> {
     return this.http.put(`${this.courseApiUrl}/admin/${course.id}`, course);
   }

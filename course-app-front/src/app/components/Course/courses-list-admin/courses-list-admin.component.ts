@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseService } from 'src/app/services/course.service';
 import { Course} from 'src/models/course';
-import { MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Router, RouterLink } from '@angular/router';
 import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/models/user';
 
 @Component({
   selector: 'app-courses-list-admin',
@@ -17,17 +18,25 @@ export class CoursesListAdminComponent implements OnInit{
   courses!: Course[];
   visible: boolean = false;
   courseForm!:FormGroup;
-  // items!: MenuItem[];
   loading: boolean = true;
   course!:Course;
+  loggedUser !: User;
 
-  constructor(private courseService: CourseService, private confirmationService: ConfirmationService, private messageService: MessageService, private fb: FormBuilder,private router: Router) {}
+  constructor(private courseService: CourseService,
+              private confirmationService: ConfirmationService,
+              private messageService: MessageService,
+              private fb: FormBuilder,
+              private router: Router,
+              private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.courseService.getCourses().subscribe((courses: Course[]) => {
-      this.courses = courses;
-      this.loading = false;
-    });
+    this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
+      this.loggedUser = res;
+      this.courseService.getCoursesByGestionnaireAndNotDeleted(this.loggedUser.id).subscribe((courses: Course[]) => {
+        this.courses = courses;
+        this.loading = false;
+      });
+    })
     this.course = new Course();
     this.courseForm = this.fb.group({
       titre:['', Validators.required],
@@ -37,32 +46,37 @@ export class CoursesListAdminComponent implements OnInit{
       adresse: ['', Validators.required],
       adresse1: ['',Validators.required],
     })
-    // this.items = [
-    //   {
-    //       icon: 'pi pi-fw pi-pencil',
-    //       routerLink: ''
-    //   },
-    //   {
-    //     icon: 'pi pi-fw pi-trash',
-    //     onclick: 'deleteCourse(this.course)'
-    //   },
-    // ]
   }
 
    clear(table: Table) {
        table.clear();
    }
+
+
+   getLoggedUser(){
+    this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
+      this.loggedUser = res;
+    })
+  }
+
+   getCourses(){
+    this.getLoggedUser();
+    console.log(this.loggedUser);
+    this.courseService.getCoursesByGestionnaireAndNotDeleted(this.loggedUser.id).subscribe((courses: Course[]) => {
+      this.courses = courses;
+      console.log(this.loggedUser);
+      this.loading = false;
+    });
+  }
    /*** Suppression d'une course***/
    deleteCourse(course: Course): void {
     this.confirmationService.confirm({
       accept: () => {
           this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
-          console.log(course);
           this.courseService.deleteCourse(course.id)
             .subscribe({
               next: (res) => {
-                console.log(course);
-                console.log(res);
+                this.getCourses();
               },
               error: (e) => console.error(e)
             });
@@ -83,9 +97,11 @@ export class CoursesListAdminComponent implements OnInit{
     showDialog() {
         this.visible = true;
     }
+
     hideDialog() {
       this.visible = false;
     }
+
   modifCourse(): void{
     this.confirmationService.confirm({
       accept: () => {

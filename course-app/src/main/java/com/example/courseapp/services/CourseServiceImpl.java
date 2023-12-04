@@ -26,8 +26,8 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public List<Course> getCoursesByGestionnaire(int id) {
-        return courseRepo.getCourseByGestionnaire(id);
+    public List<Course> getCoursesByGestionnaireAndNotDeleted(int id) {
+        return courseRepo.getCourseByGestionnaireAndNotDeleted(id);
     }
 
     @Override

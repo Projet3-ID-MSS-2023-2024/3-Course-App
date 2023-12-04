@@ -53,9 +53,9 @@ public class CourseRestController {
         return this.courseService.getCourses();
     }
 
-    @GetMapping("/admin")
-    public List<Course> getCoursesByGestionnaire(int id) {
-        return this.courseService.getCoursesByGestionnaire(id);
+    @GetMapping("/admin/{id}")
+    public List<Course> getCoursesByGestionnaireAndNotDeleted(@PathVariable int id) {
+        return this.courseService.getCoursesByGestionnaireAndNotDeleted(id);
     }
 
     @DeleteMapping("/admin/{id}")
