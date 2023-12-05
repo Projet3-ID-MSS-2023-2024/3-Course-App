@@ -33,7 +33,7 @@ export class PaypalService {
           },
           items: [
             {
-              name: 'Enterprise Subscription',
+              name: 'Course',
               quantity: '1',
               category: 'DIGITAL_GOODS',
               unit_amount: {
