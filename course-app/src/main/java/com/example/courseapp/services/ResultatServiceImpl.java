@@ -1,9 +1,13 @@
 package com.example.courseapp.services;
 
 import com.example.courseapp.models.Resultat;
+import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.repo.ResultatRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ResultatServiceImpl implements ResultatService {
@@ -14,6 +18,11 @@ public class ResultatServiceImpl implements ResultatService {
     @Override
     public Resultat add(Resultat resultat) {
         return resultatRepo.save(resultat);
+    }
+
+    @Override
+    public List<Resultat> getResultatsByUser(Optional<Utilisateur> user) {
+        return resultatRepo.findAllByUtilisateur(user);
     }
 
     @Override

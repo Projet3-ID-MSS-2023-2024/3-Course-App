@@ -102,6 +102,7 @@ public class config {
 
         return listCourse;
     }
+
     /*** Configuration de la table Résultat ***/
     @Bean
     public List<Resultat> ResultatRepository(ResultatRepo repoResultat, List<Course> listCourse, Utilisateur user)
