@@ -18,5 +18,8 @@ public interface CourseService {
 
     public void deleteCourse(int id);
 
+    public List<Course> getCoursesByGestionnaireAndNotEnded(int id);
+
     public void updateCourse(Course course);
+
 }

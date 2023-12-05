@@ -24,8 +24,6 @@ public class CourseRestController {
     AdresseService adresseService;
 
     @Autowired
-    ResultatService resultatService;
-    @Autowired
     UtilisateurServiceDbImpl utilisateurServiceDb;
 
     @PostMapping

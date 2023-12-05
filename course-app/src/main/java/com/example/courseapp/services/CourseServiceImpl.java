@@ -31,6 +31,10 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
+    public List<Course> getCoursesByGestionnaireAndNotEnded(int id) {
+        return courseRepo.getCourseByGestionnaireAndNotEnded(id);
+    }
+    @Override
     public Optional<Course> getCourse(int id) {
         return courseRepo.findById(id);
     }
