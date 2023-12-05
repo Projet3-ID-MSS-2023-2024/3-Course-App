@@ -115,7 +115,7 @@ public class config {
         repoResultat.save(resultat1); // Sauvegarde dans le repository
 
         /*** Mise en place du resultat 2 ***/
-        Resultat resultat2 = new Resultat(2,null,"Pas Présenté",listCourse.get(0),user);
+        Resultat resultat2 = new Resultat(2,null,null,listCourse.get(0),user);
         listResultat.add(resultat2); //Ajout dans la liste listResultat
         repoResultat.save(resultat2); // Sauvegarde dans le repository
 

@@ -2,6 +2,67 @@
 
 <!-- Tableau qui récupère les courses non cloturées et non supprimées pour chaque gestionnaire de courses -->
 
+<div class="text-center mt-4">
+  <div class="font-bold text-900 text-3xl">Administration des résultats</div>
+  <div class="text-500">Choisissez une course pour pouvoir appliquer des résultats</div>
+</div>
+
+<div class="card">
+<p-table
+    #dt2
+    [value]="courses"
+    dataKey="id"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5, 10, 15]"
+    [paginator]="true"
+    [loading]="loading"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [tableStyle]="{ 'min-width': '75rem'}"
+    >
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width:20%">Titre</th>
+            <th style="width:20%">Ville de départ</th>
+            <th style="width:20%">Ville d'arrivée</th>
+            <th style="width:20%">Date</th>
+            <th style="width:14%">Heure</th>
+            <th style="width:6%">Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-course>
+        <tr>
+            <td>
+              {{ course.titre }}
+            </td>
+            <td>
+              {{ course.adresse.ville.nom }}
+            </td>
+            <td>
+              {{ course.adresse1.ville.nom }}
+            </td>
+            <td>
+              {{ course.date | date:'dd/MM/yyyy'}}
+            </td>
+            <td>
+              {{ course.heure }}
+            </td>
+            <td>
+               <button pButton pRipple type="button" [icon]="'pi pi-plus'" class="p-button-sm p-button-text p-button-secondary"></button>
+               <!-- (click)="showDialog()" -->
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="5">Aucune course trouvées</td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>
+
+
 <!-- tableau des résultats pour les courses sans résultats -->
 <!-- <p-table [value]="resultats" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }">
   <ng-template pTemplate="header">
