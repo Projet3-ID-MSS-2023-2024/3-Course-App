@@ -10,7 +10,7 @@ export class ResultatService {
 
   constructor(private http: HttpClient) { }
 
-  addResultat(resultat: Resultat) {
+  add(resultat: Resultat) {
     return this.http.post(this.resultatApiUrl, resultat, { responseType: 'text' });
   }
 }
