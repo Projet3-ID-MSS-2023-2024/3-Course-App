@@ -15,7 +15,7 @@ export class CourseService {
     return this.http.post(this.courseApiUrl, course, { responseType: 'text' });
   }
 
-  getCourses(): Observable<Course[]> {
+  getAvailableCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(`${this.courseApiUrl}`).pipe(
       tap((courses: Course[]) => this.log(courses)),
       catchError((error: Error) => this.handleError(error, undefined))
