@@ -1,10 +1,6 @@
 package com.example.courseapp.restControllers;
 
-import com.example.courseapp.dto.CourseRequest;
-import com.example.courseapp.models.Adresse;
-import com.example.courseapp.models.Course;
 import com.example.courseapp.models.Resultat;
-import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.services.CourseService;
 import com.example.courseapp.services.ResultatService;
 import org.springframework.beans.factory.annotation.Autowired;
