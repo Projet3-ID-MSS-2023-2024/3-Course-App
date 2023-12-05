@@ -23,6 +23,7 @@ import { FormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { TreeTableModule } from 'primeng/treetable';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -94,7 +95,8 @@ import { GestionResultatsComponent } from './components/gestion-resultats/gestio
     FormsModule,
     ProgressSpinnerModule,
     SplitButtonModule,
-    ProgressBarModule
+    ProgressBarModule,
+    TreeTableModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

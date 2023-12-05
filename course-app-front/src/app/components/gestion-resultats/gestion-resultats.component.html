@@ -1,1 +1,58 @@
-<p>gestion-resultats works!</p>
+<app-navbar></app-navbar>
+
+<!-- Tableau qui récupère les courses non cloturées et non supprimées pour chaque gestionnaire de courses -->
+
+<!-- tableau des résultats pour les courses sans résultats -->
+<!-- <p-table [value]="resultats" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }">
+  <ng-template pTemplate="header">
+      <tr>
+          <th style="width:33%">Coureur</th>
+          <th style="width:33%">Temps</th>
+          <th style="width:34%">Abandon</th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-product let-editing="editing">
+      <tr>
+          <td [pEditableColumn]="product.code" pEditableColumnField="code">
+              <p-cellEditor>
+                  <ng-template pTemplate="input">
+                      <input pInputText type="text" [(ngModel)]="product.code" />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                      {{ product.code }}
+                  </ng-template>
+              </p-cellEditor>
+          </td>
+          <td [pEditableColumn]="product.name" pEditableColumnField="name">
+              <p-cellEditor>
+                  <ng-template pTemplate="input">
+                      <input pInputText type="text" [(ngModel)]="product.name" required />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                      {{ product.name }}
+                  </ng-template>
+              </p-cellEditor>
+          </td>
+          <td [pEditableColumn]="product.inventoryStatus" pEditableColumnField="inventoryStatus">
+              <p-cellEditor>
+                  <ng-template pTemplate="input">
+                      <input pInputText [(ngModel)]="product.inventoryStatus" />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                      {{ product.inventoryStatus }}
+                  </ng-template>
+              </p-cellEditor>
+          </td>
+          <td [pEditableColumn]="product.price" pEditableColumnField="price">
+              <p-cellEditor>
+                  <ng-template pTemplate="input">
+                      <input pInputText type="text" [(ngModel)]="product.price" />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                      {{ product.price | currency: 'USD' }}
+                  </ng-template>
+              </p-cellEditor>
+          </td>
+      </tr>
+  </ng-template>
+</p-table> -->
