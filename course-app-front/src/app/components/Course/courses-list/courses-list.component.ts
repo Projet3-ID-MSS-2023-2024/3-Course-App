@@ -28,6 +28,8 @@ export class CoursesListComponent implements OnInit {
   newResultat: Resultat = new Resultat;
 
   courses: Course[] | undefined = [];
+  resultats: Resultat[] | undefined = [];
+  payedCourses: number[] = [];
 
   // Tri
   sortOptions!: SelectItem[];
@@ -38,6 +40,7 @@ export class CoursesListComponent implements OnInit {
   constructor(private courseService: CourseService, private authService: AuthService, private messageService: MessageService, private resultatService: ResultatService) {}
 
   ngOnInit(): void {
+    this.loadLoggedUserAndResultats();
     this.getCourses();
 
     this.sortField = 'prix';
@@ -63,6 +66,15 @@ export class CoursesListComponent implements OnInit {
     });
   }
 
+  getResultats(): void {
+    this.resultatService.getResultatsByUserId(this.loggedUser.id).subscribe((resultats: Resultat[] | undefined) => {
+      this.resultats = resultats;
+      resultats!.forEach(resultat => {
+        this.payedCourses!.push(resultat.course.id);
+      });
+    });
+  }
+
   showPaymentDial(prix: string, course: Course): void {
     this.coursePrice = prix;
     this.course = course;
@@ -73,7 +85,6 @@ export class CoursesListComponent implements OnInit {
   // email: sb-pfa1222784084@personal.example.com
   // mdp: p!V.L6f*
   configPayPal(): void {
-    this.loadLoggedUser();
     this.payPalConfig = {
       currency: 'EUR',
       clientId: 'AQY5t6tEDcJUBlLt9jAyxh-pTXXIKimV6HE6KGOr_lk72bOEZfpSmC4uHHF-DtDxR75wbBzr2gIL4uUI',
@@ -125,6 +136,7 @@ export class CoursesListComponent implements OnInit {
         this.newResultat.utilisateur = this.loggedUser;
 
         this.resultatService.add(this.newResultat).subscribe((res) => {
+          this.getResultats();
           this.paymentDialVisible = false;
           this.messageService.add({ severity: 'success', summary: 'Paiement réussi !', detail: 'Votre participation est enregistrée.' });
         }, (error) => {
@@ -143,10 +155,10 @@ export class CoursesListComponent implements OnInit {
     };
   }
 
-  loadLoggedUser(){
+  loadLoggedUserAndResultats(){
     this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
       this.loggedUser = res;
-      console.log(this.loggedUser)
+      this.getResultats();
     })
   }
 }
