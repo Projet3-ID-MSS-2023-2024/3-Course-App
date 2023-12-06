@@ -6,6 +6,7 @@ import com.example.courseapp.repo.CourseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,11 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public List<Course> getCourses() {
         return courseRepo.findAll();
+    }
+
+    public List<Course> getAvailableCourses() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return courseRepo.findAvailableCourses(timestamp);
     }
 
     @Override

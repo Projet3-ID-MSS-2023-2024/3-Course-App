@@ -47,8 +47,8 @@ public class CourseRestController {
     }
 
     @GetMapping("")
-    public List<Course> getCourses() {
-        return this.courseService.getCourses();
+    public List<Course> getAvailableCourses() {
+        return this.courseService.getAvailableCourses();
     }
 
     @GetMapping("/admin/{id}")

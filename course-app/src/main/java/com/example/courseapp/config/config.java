@@ -102,6 +102,7 @@ public class config {
 
         return listCourse;
     }
+
     /*** Configuration de la table Résultat ***/
     @Bean
     public List<Resultat> ResultatRepository(ResultatRepo repoResultat, List<Course> listCourse, Utilisateur user)
@@ -119,10 +120,10 @@ public class config {
         listResultat.add(resultat2); //Ajout dans la liste listResultat
         repoResultat.save(resultat2); // Sauvegarde dans le repository
 
-        /*** Mise en place du resultat 3 ***/
+        /*** Mise en place du resultat 3
         Resultat resultat3 = new Resultat(3,new Time(3,30,22),null,listCourse.get(2),user);//déprécié pour le time mais ok
         listResultat.add(resultat3); //Ajout dans la liste listResultat
-        repoResultat.save(resultat3); // Sauvegarde dans le repository
+        repoResultat.save(resultat3); // Sauvegarde dans le repository ***/
 
         return listResultat;
     }

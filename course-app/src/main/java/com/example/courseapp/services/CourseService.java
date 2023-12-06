@@ -12,6 +12,8 @@ public interface CourseService {
 
     public List<Course> getCourses();
 
+    public List<Course> getAvailableCourses();
+
     public List<Course> getCoursesByGestionnaireAndNotDeleted(int id);
 
     public Optional<Course> getCourse(int id);
