@@ -94,6 +94,8 @@
     <ng-template pTemplate="body" let-resultat let-editing="editing">
         <tr>
             <td>
+              {{resultat.utilisateur.nom}}
+              {{resultat.utilisateur.prenom}}
             </td>
             <td [pEditableColumn]="resultat.temps" pEditableColumnField="temps">
                 <p-cellEditor>
@@ -101,7 +103,6 @@
                         <input pInputText type="time" [(ngModel)]="resultat.temps" required />
                     </ng-template>
                     <ng-template pTemplate="output">
-                        ---
                     </ng-template>
                 </p-cellEditor>
             </td>
@@ -111,7 +112,6 @@
                         <input pInputText [(ngModel)]="resultat.abandon" required />
                     </ng-template>
                     <ng-template pTemplate="output">
-                        ---
                     </ng-template>
                 </p-cellEditor>
             </td>
