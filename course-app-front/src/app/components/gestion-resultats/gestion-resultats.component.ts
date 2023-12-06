@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/models/user';
 import { ResultatsService } from 'src/app/services/resultats.service';
 import { Resultat } from 'src/models/resultat';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-gestion-resultats',
@@ -18,9 +19,9 @@ export class GestionResultatsComponent implements OnInit{
   courses!: Course[];
   visible: boolean = false;
   loading: boolean = true;
-  course!: Course;
   resultats! : Resultat[];
   loggedUser !: User;
+
 
   constructor(private resultatService: ResultatsService,
               private confirmationService: ConfirmationService,
@@ -39,22 +40,32 @@ export class GestionResultatsComponent implements OnInit{
   }
 
 
-  //  clear(table: Table) {
-  //      table.clear();
-  //  }
+   clear(table: Table) {
+       table.clear();
+   }
 
+   showDialog() {
+    this.visible = true;
+   }
 
-  //  getLoggedUser(){
-  //   this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
-  //     this.loggedUser = res;
-  //   })
-  // }
+   getResultats(id: number){
+    this.showDialog();
+    this.resultatService.getResultatsByCourse(id).subscribe((resultats: Resultat[]) => {
+      this.resultats = resultats;
+      console.log(this.resultats);
+    })
+   }
+   getLoggedUser(){
+    this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
+      this.loggedUser = res;
+    })
+  }
 
-  //  getCourses(){
-  //   this.getLoggedUser();
-  //   this.courseService.getCoursesByGestionnaireAndNotDeleted(this.loggedUser.id).subscribe((courses: Course[]) => {
-  //     this.courses = courses;
-  //     this.loading = false;
-  //   });
-  // }
+   getCourses(){
+    this.getLoggedUser();
+    this.resultatService.getCoursesByGestionnaireAndNotEnded(this.loggedUser.id).subscribe((courses: Course[]) => {
+      this.courses = courses;
+      this.loading = false;
+    });
+  }
 }

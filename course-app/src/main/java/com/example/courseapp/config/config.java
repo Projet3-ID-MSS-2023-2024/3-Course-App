@@ -86,7 +86,7 @@ public class config {
         List<Course> listCourse = new ArrayList<>();
 
         /*** Mise en place de la course 1 ***/
-        Course course1 = new Course(1,"Course d'Halloween",5.50,new Date(2022,05,30),LocalTime.of(10,35,00),false ,true,adresseList.get(1),adresseList.get(0),user);
+        Course course1 = new Course(1,"Course d'Halloween",5.50,new Date(2022,05,30),LocalTime.of(10,35,00),false ,false,adresseList.get(1),adresseList.get(0),user);
         listCourse.add(course1); //Ajout dans la liste listCourse
         repoCourse.save(course1); // Sauvegarde dans le repository
 

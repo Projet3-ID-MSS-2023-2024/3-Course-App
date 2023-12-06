@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { Course } from 'src/models/course';
+import { Resultat } from 'src/models/resultat';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +18,14 @@ export class ResultatsService {
     );
   }
 
-  private log(response: Course | Course[] | boolean | undefined): void {
+  getResultatsByCourse(id: number):Observable<Resultat[]>{
+    return this.http.get<Resultat[]>(`${this.resultatsApiUrl}/admin/resultats/${id}`).pipe(
+      tap((resultats: Resultat[]) => this.log(resultats)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
+  private log(response: Course | Course[] | boolean | undefined | Resultat[]): void {
     console.table(response);
   }
 
