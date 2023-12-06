@@ -24,8 +24,6 @@ public class CourseRestController {
     AdresseService adresseService;
 
     @Autowired
-    ResultatService resultatService;
-    @Autowired
     UtilisateurServiceDbImpl utilisateurServiceDb;
 
     @PostMapping
@@ -49,8 +47,8 @@ public class CourseRestController {
     }
 
     @GetMapping("")
-    public List<Course> getCourses() {
-        return this.courseService.getCourses();
+    public List<Course> getAvailableCourses() {
+        return this.courseService.getAvailableCourses();
     }
 
     @GetMapping("/admin/{id}")

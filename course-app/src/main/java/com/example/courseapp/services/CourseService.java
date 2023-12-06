@@ -12,11 +12,16 @@ public interface CourseService {
 
     public List<Course> getCourses();
 
+    public List<Course> getAvailableCourses();
+
     public List<Course> getCoursesByGestionnaireAndNotDeleted(int id);
 
     public Optional<Course> getCourse(int id);
 
     public void deleteCourse(int id);
 
+    public List<Course> getCoursesByGestionnaireAndNotEnded(int id);
+
     public void updateCourse(Course course);
+
 }

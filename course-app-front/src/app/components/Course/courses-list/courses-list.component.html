@@ -32,7 +32,8 @@
                         </div>
                         <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
                             <span class="text-2xl font-semibold">{{ course.prix + '€' }}</span>
-                            <button (click)="showPaymentDial(course.prix)" pButton class="md:align-self-end mb-2 p-button-rounded">Participer</button>
+                            <button *ngIf="!payedCourses.includes(course.id)" (click)="showPaymentDial(course.prix, course)" pButton class="md:align-self-end mb-2 p-button-rounded">Participer</button>
+                            <button *ngIf="payedCourses.includes(course.id)" pButton class="md:align-self-end mb-2 p-button-rounded" disabled><i class="pi pi-check mr-1"></i>Participation validée</button>
                         </div>
                     </div>
                 </div>
@@ -45,3 +46,5 @@
 <p-dialog header="Veuillez choisir un mode de paiement" (onShow)="configPayPal()" [(visible)]="paymentDialVisible" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false" [modal]="true" [dismissableMask]="true">
     <ngx-paypal #paypal [config]="this.payPalConfig"></ngx-paypal>
 </p-dialog>
+
+<p-toast position="top-center"></p-toast>
