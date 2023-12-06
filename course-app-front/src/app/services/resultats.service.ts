@@ -7,7 +7,7 @@ import { Resultat } from 'src/models/resultat';
   providedIn: 'root'
 })
 export class ResultatsService {
-  private resultatsApiUrl = 'http://localhost:8080/api/resultats';
+  private resultatsApiUrl = 'http://localhost:8080/api/resultat';
 
   constructor(private http: HttpClient){}
 
