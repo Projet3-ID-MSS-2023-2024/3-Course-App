@@ -23,6 +23,7 @@ import { FormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { TreeTableModule } from 'primeng/treetable';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -43,6 +44,7 @@ import { HttpInterceptorService } from './services/http-interceptor.service';
 import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
 import { CourseMapComponent } from './components/Course/course-map/course-map.component';
 import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
+import { GestionResultatsComponent } from './components/gestion-resultats/gestion-resultats.component';
 
 
 @NgModule({
@@ -63,7 +65,8 @@ import { UpdateUserComponent } from './components/Profile/update-user/update-use
     GestionAdminComponent,
     NouveauMdpComponent,
     CourseMapComponent,
-    UpdateUserComponent
+    UpdateUserComponent,
+    GestionResultatsComponent
   ],
   imports: [
     BrowserModule,
@@ -92,7 +95,8 @@ import { UpdateUserComponent } from './components/Profile/update-user/update-use
     FormsModule,
     ProgressSpinnerModule,
     SplitButtonModule,
-    ProgressBarModule
+    ProgressBarModule,
+    TreeTableModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

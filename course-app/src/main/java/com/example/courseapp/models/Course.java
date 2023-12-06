@@ -37,6 +37,9 @@ public class Course {
     @Column(nullable = false)
     private boolean supprimer;
 
+    @Column(nullable = false)
+    private boolean cloturer;
+
 
     /*** Laisaions avec la table adress ***/
     @ManyToOne

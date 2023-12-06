@@ -15,6 +15,7 @@ import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.
 import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
 import { CourseMapComponent } from './components/Course/course-map/course-map.component';
 import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
+import { GestionResultatsComponent } from './components/gestion-resultats/gestion-resultats.component';
 
 
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'firstRegister', component: FirstRegisterComponent},
   { path: 'courses', component: CoursesListComponent},
   { path: 'courses/admin', component: CoursesListAdminComponent},
+  { path: 'resultats/admin', component: GestionResultatsComponent},
   { path: 'course-add', component: CourseAddComponent},
   { path: 'inscription', component: InscriptionComponent},
   { path: 'confirm/inscription/:code', component: ConfirmInscriptionComponent},

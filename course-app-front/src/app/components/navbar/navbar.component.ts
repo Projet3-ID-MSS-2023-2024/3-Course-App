@@ -46,6 +46,22 @@ export class NavbarComponent implements OnInit {
           routerLink: '/courses/admin'
         },
         {
+          label: 'Administration Résultats',
+          icon: 'pi pi-fw pi-bars',
+          items: [
+              {
+                  label: 'Encoder des résultats',
+                  icon: 'pi pi-fw pi-plus',
+                  routerLink:'/resultats/admin'
+              },
+              {
+                  label: 'Modifier des résultats',
+                  icon: 'pi pi-fw pi-pencil',
+                  routerLink:'/resultats/admin'
+              },
+          ]
+      },
+        {
           label: 'Administration',
           icon: 'pi pi-fw pi-sitemap',
           routerLink: '/administration'
