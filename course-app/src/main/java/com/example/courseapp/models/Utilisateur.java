@@ -34,6 +34,10 @@ public class Utilisateur implements UserDetails {
 
     private String code;
 
+    private boolean tempMdp;
+
+    @Column(nullable = false)
+    private boolean del;
     @Column(nullable = false)
     private boolean isActive;
 

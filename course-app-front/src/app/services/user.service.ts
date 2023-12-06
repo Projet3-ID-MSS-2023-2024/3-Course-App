@@ -14,11 +14,26 @@ export class UserService {
     return this.http.get<User[]>('http://localhost:8080/api/users');
   }
 
-  get(str : string): Observable<User[]>{
-    return this.http.get<User[]>(`http://localhost:8080/api/users/${str}`);
+  getDel(): Observable<User[]>{
+    return this.http.get<User[]>(`http://localhost:8080/api/users/del`);
   }
 
   add(user : User){
     return this.http.post('http://localhost:8080/api/users', user, { responseType: 'text' });
+  }
+
+  delUser(id : Number){
+    return this.http.delete(`http://localhost:8080/api/users/${id}`);
+  }
+
+  activeUser(id: number){
+    return this.http.post('http://localhost:8080/api/users/active',id);
+  }
+
+  addMdp(mdp: string){
+    return this.http.post('http://localhost:8080/api/users/addMdp', mdp);
+  }
+  updateUser(id: number, user: User){
+    return this.http.put(`http://localhost:8080/api/users/${id}`,user );
   }
 }

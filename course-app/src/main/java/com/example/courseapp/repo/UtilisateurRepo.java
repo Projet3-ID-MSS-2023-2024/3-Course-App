@@ -11,16 +11,13 @@ public interface UtilisateurRepo extends JpaRepository<Utilisateur, Integer> {
 
     /*** Récupération des utilisateurs en fonction de leurs roles ***/
 
-    @Query("SELECT u FROM Utilisateur u JOIN u.role r where r = 'ADMIN' ")
-    public List<Utilisateur> getAdmins();
-
-    @Query("SELECT u FROM Utilisateur u JOIN u.role r where r = 'COUREUR' ")
-    public List<Utilisateur> getCoureurs();
-
-    @Query("SELECT u FROM Utilisateur u JOIN u.role r where r = 'GESTIONNAIRE' ")
-    public List<Utilisateur> getGestionnaire();
+    @Query("SELECT u FROM Utilisateur u where u.del = false ")
+    public List<Utilisateur> getUser();
+    @Query("SELECT u FROM Utilisateur u where u.del = true ")
+    public List<Utilisateur> getUserDel();
 
     Optional<Utilisateur> findByEmail (String email);
 
     Optional<Utilisateur> findByCode (String code);
+    Optional<Utilisateur> findByPrenom(String prenom);
 }

@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MenubarModule } from 'primeng/menubar';
 import { AvatarModule } from 'primeng/avatar';
@@ -12,12 +12,18 @@ import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPayPalModule } from 'ngx-paypal';
 import { DataViewModule } from 'primeng/dataview';
-import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
-import { ToolbarModule } from 'primeng/toolbar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { ToolbarModule } from 'primeng/toolbar';
 import { ListboxModule } from 'primeng/listbox';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { FormsModule } from '@angular/forms';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { TreeTableModule } from 'primeng/treetable';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -32,7 +38,13 @@ import { VilleAddComponent } from './components/Ville/ville-add/ville-add.compon
 import { AdresseAddComponent } from './components/Adresse/adresse-add/adresse-add.component';
 import { UserProfileComponent } from './components/Profile/user-profile/user-profile.component';
 import { CoursesListComponent } from './components/Course/courses-list/courses-list.component';
+import { CoursesListAdminComponent } from './components/Course/courses-list-admin/courses-list-admin.component';
 import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.component';
+import { HttpInterceptorService } from './services/http-interceptor.service';
+import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
+import { CourseMapComponent } from './components/Course/course-map/course-map.component';
+import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
+import { GestionResultatsComponent } from './components/gestion-resultats/gestion-resultats.component';
 
 
 @NgModule({
@@ -49,7 +61,12 @@ import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.
     AdresseAddComponent,
     UserProfileComponent,
     CoursesListComponent,
-    GestionAdminComponent
+    CoursesListAdminComponent,
+    GestionAdminComponent,
+    NouveauMdpComponent,
+    CourseMapComponent,
+    UpdateUserComponent,
+    GestionResultatsComponent
   ],
   imports: [
     BrowserModule,
@@ -66,14 +83,26 @@ import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.
     MessagesModule,
     NgxPayPalModule,
     DataViewModule,
+    TableModule,
+    ConfirmDialogModule,
+    DialogModule,
     DropdownModule,
     TableModule,
     ToolbarModule,
     DialogModule,
     ListboxModule,
-    RadioButtonModule
+    RadioButtonModule,
+    FormsModule,
+    ProgressSpinnerModule,
+    SplitButtonModule,
+    ProgressBarModule,
+    TreeTableModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

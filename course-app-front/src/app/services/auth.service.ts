@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import { TokenResponse } from 'src/models/tokenResponse';
 import { User } from 'src/models/user';
 
 @Injectable({
@@ -11,10 +12,7 @@ export class AuthService {
   constructor(private http : HttpClient) { }
 
   authentication(user:User){
-    return this.http.post('http://localhost:8080/api/auth/authenticate', user, { responseType: 'text' })
-    .pipe(map((res) => {
-      this.authSuccess(res);
-    }));
+    return this.http.post<TokenResponse>('http://localhost:8080/api/auth/authenticate', user);
   }
 
   register(user:User){

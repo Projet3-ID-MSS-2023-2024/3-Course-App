@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/models/user';
@@ -9,33 +10,55 @@ import { User } from 'src/models/user';
   selector: 'app-gestion-admin',
   templateUrl: './gestion-admin.component.html',
   styleUrls: ['./gestion-admin.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class GestionAdminComponent implements OnInit{
 
+  progressBar: boolean = false;
+  items: MenuItem[];
+  usersDel : boolean =false;
+  loading : boolean = false;
   loggedUser !: User;
   users !: User[];
   addUser !: User;
   roles !: String[];
   visibleDiagAdd : boolean = false;
-  visibleDiagTri : boolean = false;
   addUserForm !: FormGroup;
-  formTri !: FormGroup;
+  cols: any[] = [];
 
   constructor(
     private userService : UserService,
     private fb: FormBuilder,
     private messageService: MessageService,
-    private authService : AuthService) { }
-
-  categories: any[] = [
-    { name: 'Afficher uniquement les admins', key: 'admin' },
-    { name: 'Afficher uniquement les gestionnaires', key: 'gestionnaire' },
-    { name: 'Afficher uniquement les coureurs', key: 'coureur' },
-    { name: 'Afficher tous les utilisateurs', key: 'all' }
-  ];
+    private confirmationService : ConfirmationService,
+    private authService : AuthService
+    ) {
+      this.items = [
+        {
+            label: 'Ajouter',
+            icon: 'pi pi-plus',
+            command: () => {
+                this.showDialogAdd();
+            }
+        },
+        {
+            label: 'Utilisateurs supprimés',
+            icon: 'pi pi-users',
+            command: () => {
+                this.listDel();
+            }
+        }
+    ];
+     }
 
   ngOnInit(): void {
+
+    this.cols = [
+      { field: "nom", header: "Nom" },
+      { field: "prenom", header: "Prenom" },
+      { field: "email", header: "Email" },
+      { field: "role", header: "Role" }
+    ];
 
     this.roles = [
       "Admin",
@@ -50,9 +73,6 @@ export class GestionAdminComponent implements OnInit{
       role: ['', [Validators.required]]
     })
 
-    this.formTri = this.fb.group({
-      tri : ['', [Validators.required]]
-    })
     this.loggedUser = new User();
     this.getLoggedUser();
     this.getUsers();
@@ -68,20 +88,20 @@ export class GestionAdminComponent implements OnInit{
   getUsers(){
     this.userService.getAll().subscribe((res)=>{
       this.users = res;
+      this.usersDel = false;
     })
+  }
+
+  clear(table: Table) {
+    table.clear();
   }
 
   showDialogAdd(){
     this.visibleDiagAdd = true;
-    this.visibleDiagTri = false;
-  }
-
-  showDialogTri(){
-    this.visibleDiagAdd = false;
-    this.visibleDiagTri = true;
   }
 
   ajoutUser(){
+    this.loading =true;
     this.addUser = new User();
     this.addUser.email = this.addUserForm.value.email;
     this.addUser.nom = this.addUserForm.value.nom;
@@ -90,29 +110,73 @@ export class GestionAdminComponent implements OnInit{
     for (let i = 0; i < this.addUser.role.length; i++) {
       this.addUser.role[i]=this.addUser.role[i].toUpperCase();
     }
-    console.log(this.addUser.role)
     this.userService.add(this.addUser).subscribe((res)=>{
       this.addUserForm.reset();
       this.visibleDiagAdd = false;
       this.messageService.add({ severity: 'success', summary: 'Ajout réussi !', detail: 'Vous avez ajouté un utilisateur.' });
       this.getUsers();
+      this.loading =false;
     },(error)=>{
-      this.messageService.add({ severity: 'error', summary: 'erreur', detail: 'erreur' });
+      this.loading =false;
+      this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });
     })
   }
 
-  trier(){
-    if (this.formTri.value.tri === "all") {
+  listDel(){
+    this.userService.getDel().subscribe((res)=>{
+      this.users = res;
+      this.usersDel =true;
+    })
+  }
+
+  confirmDelete(id :number){
+    this.confirmationService.confirm({
+      message: 'Voulez-vous vraiment supprimer cet utilisateur ?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+          this.deleteUser(id);
+      },
+      reject: () => {
+        this.messageService.add({severity: 'info', summary: 'Annulation', detail: ''})
+      }
+  });
+  }
+
+  confirmActive(id :number){
+    this.confirmationService.confirm({
+      message: 'Voulez-vous vraiment réactiver cet utilisateur ?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+          this.activeUser(id);
+      },
+      reject: () => {
+        this.messageService.add({severity: 'info', summary: 'Annulation', detail: ''})
+      }
+  });
+  }
+
+  deleteUser(id :Number){
+    this.userService.delUser(id).subscribe(()=>{
+      this.messageService.add({ severity: 'success', summary: 'Suppression réussie !', detail: 'Vous avez supprimé un utilisateur.' });
       this.getUsers();
-      this.visibleDiagTri = false;
-      this.formTri.reset()
-    } else {
-      this.userService.get(this.formTri.value.tri).subscribe((res)=>{
-        this.users = res;
-        this.visibleDiagTri = false;
-        this.formTri.reset()
-      })
-    }
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: 'erreur' });
+    })
+  }
+
+  activeUser(id:number){
+    this.progressBar = true;
+    this.userService.activeUser(id).subscribe(()=>{
+      this.progressBar=false;
+      this.messageService.add({ severity: 'success', summary: 'Réactivation réussie !', detail: 'Un mail a été envoyé '
+       +'à l\'utilisateur pour l\'avertir de la réactivation de son compte.' });
+      this.listDel();
+    },(error)=>{
+      this.progressBar=false;
+      this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: 'erreur' });
+    })
   }
 
 }

@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
-    private String nom;
-    private String prenom;
-    private String email;
-    private String mdp;
+public class AdresseRequest {
+    private int latitude;
+    private int longitude;
+    private String rue;
+    private String ville;
 }

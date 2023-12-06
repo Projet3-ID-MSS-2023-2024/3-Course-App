@@ -2,3 +2,8 @@
 <div class="mr-4">{{ this.loggedUser.prenom }}</div>
 <div class="mr-4">{{ this.loggedUser.nom }}</div>
 <div class="mr-4">{{ this.loggedUser.email }}</div>
+<div class="mr-4">{{ this.loggedUser.id }}</div>
+
+
+    <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-danger" (click)="deleteUser(loggedUser.id)"></button>
+

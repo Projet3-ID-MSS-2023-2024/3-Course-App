@@ -3,15 +3,20 @@ package com.example.courseapp.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+
 @Entity
 @Getter
 @Setter
 @EqualsAndHashCode
+@Builder
 @Table(name="adresse")
-public class Adresse {
+public class Adresse implements Serializable {
     /*** Définitions des attributs***/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +24,9 @@ public class Adresse {
 
     private String rue;
 
-    private String latitude;
+    private int latitude;
 
-    private String longitude;
+    private int longitude;
 
     /*** Laisaion avec la table ville ***/
     @Getter@Setter
@@ -35,7 +40,7 @@ public class Adresse {
     /*** Constructeur ***/
     public Adresse() {}
 
-    public Adresse(int id, String rue, String latitude, String longitude, Ville ville) {
+    public Adresse(int id, String rue, int latitude, int longitude, Ville ville) {
         this.id = id;
         this.rue = rue;
         this.latitude = latitude;

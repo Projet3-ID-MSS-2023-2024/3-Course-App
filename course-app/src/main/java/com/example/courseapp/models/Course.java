@@ -13,6 +13,7 @@ import java.util.Date;
 @EqualsAndHashCode
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Course {
@@ -32,6 +33,12 @@ public class Course {
 
     @Column(nullable = false)
     private LocalTime heure;
+
+    @Column(nullable = false)
+    private boolean supprimer;
+
+    @Column(nullable = false)
+    private boolean cloturer;
 
 
     /*** Laisaions avec la table adress ***/

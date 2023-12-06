@@ -50,17 +50,17 @@ public class config {
         List<Adresse> adresseList = new ArrayList<>(3);
 
         /*** Mise en place de l'adresse 1 ***/
-        Adresse adresse1 = new Adresse(1,"Clos plein sud","-2122324325","214325324",villeList.get(1));
+        Adresse adresse1 = new Adresse(1,"Clos plein sud",-2122324325,214325324,villeList.get(1));
         adresseList.add(adresse1); //Ajoute dans la liste adresseList
         adresseRepo.save(adresse1); // Sauvegarde dans le repository
 
         /*** Mise en place de l'adresse 2 ***/
-        Adresse adresse2 = new Adresse(2,"Rue des gaux","-22893894385","58734837",villeList.get(0));
+        Adresse adresse2 = new Adresse(2,"Rue des gaux",-228938943,58734837,villeList.get(0));
         adresseList.add(adresse2); //Ajoute dans la liste adresseList
         adresseRepo.save(adresse2); // Sauvegarde dans le repository
 
         /*** Mise en place de l'adresse 3 ***/
-        Adresse adresse3 = new Adresse(3,"Rue de la montagne","-2122324325","214325324",villeList.get(2));
+        Adresse adresse3 = new Adresse(3,"Rue de la montagne",-2122324325,214325324,villeList.get(2));
         adresseList.add(adresse3); //Ajoute dans la liste adresseList
         adresseRepo.save(adresse3); // Sauvegarde dans le repository
 
@@ -72,7 +72,8 @@ public class config {
         List<Role> listRole = new ArrayList<>();
         listRole.add(Role.ADMIN);
         listRole.add(Role.COUREUR);
-        Utilisateur user = new Utilisateur(1, "Bernard","Amaury","admin0@gmail.com", passwordEncoder.encode("mdp"), "fdsjhgdshg",true, listRole);
+        listRole.add(Role.GESTIONNAIRE);
+        Utilisateur user = new Utilisateur(1, "Bernard","Amaury","admin0@gmail.com", passwordEncoder.encode("mdp"), "fdsjhgdshg",false, false,true, listRole);
         userRepo.save(user);
         return user;
     }
@@ -85,22 +86,23 @@ public class config {
         List<Course> listCourse = new ArrayList<>();
 
         /*** Mise en place de la course 1 ***/
-        Course course1 = new Course(1,"Course d'Halloween",5.50,new Date(2022,05,30),LocalTime.of(10,35,00) ,adresseList.get(1),adresseList.get(0),user);
+        Course course1 = new Course(1,"Course d'Halloween",5.50,new Date(2022,05,30),LocalTime.of(10,35,00),false ,false,adresseList.get(1),adresseList.get(0),user);
         listCourse.add(course1); //Ajout dans la liste listCourse
         repoCourse.save(course1); // Sauvegarde dans le repository
 
         /*** Mise en place de la course 2 ***/
-        Course course2 = new Course(2,"Course de Noel",10,new Date(2023,10,30),LocalTime.of(10,35,00),adresseList.get(2),adresseList.get(2),user);
+        Course course2 = new Course(2,"Course de Noel",10,new Date(2023,10,30),LocalTime.of(10,35,00),false,false,adresseList.get(2),adresseList.get(2),user);
         listCourse.add(course2); //Ajout dans la liste listCourse
         repoCourse.save(course2); // Sauvegarde dans le repository
 
         /*** Mise en place de la course 3 ***/
-        Course course3 = new Course(3,"Charleroi-Chatelet",20.5,new Date(2023,12,30),LocalTime.of(10,35,00),adresseList.get(2),adresseList.get(1),user);
+        Course course3 = new Course(3,"Charleroi-Chatelet",20.5,new Date(2023,12,30),LocalTime.of(10,35,00),true,false,adresseList.get(2),adresseList.get(1),user);
         listCourse.add(course3); //Ajout dans la liste listCourse
         repoCourse.save(course3); // Sauvegarde dans le repository
 
         return listCourse;
     }
+
     /*** Configuration de la table Résultat ***/
     @Bean
     public List<Resultat> ResultatRepository(ResultatRepo repoResultat, List<Course> listCourse, Utilisateur user)
@@ -114,14 +116,14 @@ public class config {
         repoResultat.save(resultat1); // Sauvegarde dans le repository
 
         /*** Mise en place du resultat 2 ***/
-        Resultat resultat2 = new Resultat(2,null,"Pas Présenté",listCourse.get(0),user);
+        Resultat resultat2 = new Resultat(2,null,null,listCourse.get(0),user);
         listResultat.add(resultat2); //Ajout dans la liste listResultat
         repoResultat.save(resultat2); // Sauvegarde dans le repository
 
         /*** Mise en place du resultat 3 ***/
         Resultat resultat3 = new Resultat(3,new Time(3,30,22),null,listCourse.get(2),user);//déprécié pour le time mais ok
         listResultat.add(resultat3); //Ajout dans la liste listResultat
-        repoResultat.save(resultat3); // Sauvegarde dans le repository
+        repoResultat.save(resultat3); // Sauvegarde dans le repository 
 
         return listResultat;
     }
