@@ -24,9 +24,9 @@ public class Adresse implements Serializable {
 
     private String rue;
 
-    private int latitude;
+    private double latitude;
 
-    private int longitude;
+    private double longitude;
 
     /*** Laisaion avec la table ville ***/
     @Getter@Setter
@@ -40,7 +40,7 @@ public class Adresse implements Serializable {
     /*** Constructeur ***/
     public Adresse() {}
 
-    public Adresse(int id, String rue, int latitude, int longitude, Ville ville) {
+    public Adresse(int id, String rue, double latitude, double longitude, Ville ville) {
         this.id = id;
         this.rue = rue;
         this.latitude = latitude;

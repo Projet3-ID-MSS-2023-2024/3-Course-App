@@ -13,7 +13,6 @@ import { CoursesListComponent } from './components/Course/courses-list/courses-l
 import { CoursesListAdminComponent } from './components/Course/courses-list-admin/courses-list-admin.component';
 import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.component';
 import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
-import { CourseMapComponent } from './components/Course/course-map/course-map.component';
 import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
 import { GestionResultatsComponent } from './components/gestion-resultats/gestion-resultats.component';
 
@@ -34,7 +33,6 @@ const routes: Routes = [
   { path: 'user-profile',component:UserProfileComponent },
   { path: 'administration',component:GestionAdminComponent },
   { path: 'creer/mdp',component:NouveauMdpComponent },
-  { path: 'course/map',component:CourseMapComponent },
   { path: 'update-user',component:UpdateUserComponent },
 ];
 

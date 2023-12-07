@@ -42,7 +42,6 @@ import { CoursesListAdminComponent } from './components/Course/courses-list-admi
 import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.component';
 import { HttpInterceptorService } from './services/http-interceptor.service';
 import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
-import { CourseMapComponent } from './components/Course/course-map/course-map.component';
 import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
 import { GestionResultatsComponent } from './components/gestion-resultats/gestion-resultats.component';
 
@@ -64,7 +63,6 @@ import { GestionResultatsComponent } from './components/gestion-resultats/gestio
     CoursesListAdminComponent,
     GestionAdminComponent,
     NouveauMdpComponent,
-    CourseMapComponent,
     UpdateUserComponent,
     GestionResultatsComponent
   ],
