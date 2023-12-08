@@ -15,25 +15,26 @@ import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.
 import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
 import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
 import { GestionResultatsComponent } from './components/gestion-resultats/gestion-resultats.component';
+import { mdpTempGuard } from './guards/mdp-temp.guard';
 
 
 const routes: Routes = [
-  { path: '', component: LoginComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'accueil', component: AccueilComponent},
-  { path: 'firstRegister', component: FirstRegisterComponent},
-  { path: 'courses', component: CoursesListComponent},
-  { path: 'courses/admin', component: CoursesListAdminComponent},
-  { path: 'resultats/admin', component: GestionResultatsComponent},
-  { path: 'course-add', component: CourseAddComponent},
-  { path: 'inscription', component: InscriptionComponent},
-  { path: 'confirm/inscription/:code', component: ConfirmInscriptionComponent},
-  { path:'ville-add',component:VilleAddComponent},
-  {path:'adresse-add',component:AdresseAddComponent},
-  { path: 'user-profile',component:UserProfileComponent },
-  { path: 'administration',component:GestionAdminComponent },
+  { path: '', component: LoginComponent, canActivate: [mdpTempGuard]},
+  { path: 'login', component: LoginComponent, canActivate: [mdpTempGuard]},
+  { path: 'accueil', component: AccueilComponent, canActivate: [mdpTempGuard]},
+  { path: 'firstRegister', component: FirstRegisterComponent, canActivate: [mdpTempGuard]},
+  { path: 'courses', component: CoursesListComponent, canActivate: [mdpTempGuard]},
+  { path: 'courses/admin', component: CoursesListAdminComponent, canActivate: [mdpTempGuard]},
+  { path: 'resultats/admin', component: GestionResultatsComponent, canActivate: [mdpTempGuard]},
+  { path: 'course-add', component: CourseAddComponent, canActivate: [mdpTempGuard]},
+  { path: 'inscription', component: InscriptionComponent, canActivate: [mdpTempGuard]},
+  { path: 'confirm/inscription/:code', component: ConfirmInscriptionComponent, canActivate: [mdpTempGuard]},
+  { path:'ville-add',component:VilleAddComponent, canActivate: [mdpTempGuard]},
+  {path:'adresse-add',component:AdresseAddComponent, canActivate: [mdpTempGuard]},
+  { path: 'user-profile',component:UserProfileComponent, canActivate: [mdpTempGuard]},
+  { path: 'administration',component:GestionAdminComponent, canActivate: [mdpTempGuard]},
   { path: 'creer/mdp',component:NouveauMdpComponent },
-  { path: 'update-user',component:UpdateUserComponent },
+  { path: 'update-user',component:UpdateUserComponent, canActivate: [mdpTempGuard]},
 ];
 
 @NgModule({

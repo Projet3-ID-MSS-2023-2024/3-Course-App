@@ -98,6 +98,7 @@ public class AuthenticationServcie {
                 .nom(user.get().getNom())
                 .prenom(user.get().getPrenom())
                 .role(user.get().getRole())
+                .temp(user.get().isTempMdp())
                 .build();
     }
 
