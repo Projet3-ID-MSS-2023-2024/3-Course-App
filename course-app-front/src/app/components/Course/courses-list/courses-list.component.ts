@@ -193,6 +193,7 @@ export class CoursesListComponent implements OnInit {
         L.latLng([course.adresse.latitude, course.adresse.longitude]),
         L.latLng([course.adresse1.latitude, course.adresse1.longitude])
       ],
+      addWaypoints: false,
       routeWhileDragging: false,
       showAlternatives: false
     });
