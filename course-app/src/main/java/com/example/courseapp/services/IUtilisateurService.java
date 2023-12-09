@@ -20,6 +20,6 @@ public interface IUtilisateurService {
     public void boclkUnclock(int id, boolean block) throws Exception;
     public void addUserbyAdmin(Utilisateur user) throws Exception;
     public Utilisateur getByPrenom(String prenom);
-
     public boolean addMdp(String mdp, String email) throws Exception;
+    public void newMdpTemp(int id) throws Exception;
 }

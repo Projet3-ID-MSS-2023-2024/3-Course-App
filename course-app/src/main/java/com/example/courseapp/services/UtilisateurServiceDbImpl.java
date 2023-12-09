@@ -186,6 +186,27 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         return true;
     }
 
+    @Override
+    public void newMdpTemp(int id) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Optional<Utilisateur> author = utilisateurRepo.findByEmail(email);
+        if (!author.get().getRole().contains(Role.ADMIN)){
+            throw new CustomException("Vous n'avez pas les permissions requises.");
+        }
+
+        Optional<Utilisateur> user = utilisateurRepo.findById(id);
+        if (user.isEmpty()){
+            throw new CustomException("L'utilisateur n'existe pas.");
+        }
+        Utilisateur userMod = user.get();
+        String codeMdp = UUID.randomUUID().toString();
+        userMod.setMdp(passwordEncoder.encode(codeMdp));
+        userMod.setTempMdp(true);
+        utilisateurRepo.save(userMod);
+        emailService.sendEmail(userMod.getEmail(), "Mot de passe temporaire", buildEmailCodeConnexion(userMod.getPrenom(), codeMdp,author.get().getPrenom()));
+    }
+
 
     @Override
     public void boclkUnclock(int id, boolean block) throws Exception{

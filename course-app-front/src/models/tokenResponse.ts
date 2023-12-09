@@ -1,11 +1,11 @@
 export class TokenResponse {
 
   token: string;
-  temp:boolean;
+  tempMdp:boolean;
 
   constructor() {
     this.token ="";
-    this.temp=false;
+    this.tempMdp=false;
   }
 
 }

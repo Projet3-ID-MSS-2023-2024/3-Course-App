@@ -56,6 +56,10 @@ public class UtilisateurRestController {
     public void activeUser(@RequestBody int id) throws Exception{
         utilisateurService.boclkUnclock(id,false);
     }
+    @PostMapping("/generate/mdpTemp")
+    public void generateNewMdpTemp(@RequestBody int id) throws Exception {
+        utilisateurService.newMdpTemp(id);
+    }
 
     /*** Update les données personnel d'utilisateur ***/
     @PutMapping("/{id}")

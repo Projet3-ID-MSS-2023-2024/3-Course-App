@@ -9,7 +9,7 @@ export const mdpTempGuard: CanActivateFn = (route, state) => {
 
   authService.getUserWithToken(authService.getLoggedInToken()).subscribe((res)=>{
     let user : User = res;
-    if (user.temp) {
+    if (user.tempMdp) {
       router.navigateByUrl('/creer/mdp');
     }
   })
