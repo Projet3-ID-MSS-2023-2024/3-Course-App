@@ -22,6 +22,8 @@ public interface CourseService {
 
     public List<Course> getCoursesByGestionnaireAndNotEnded(int id);
 
+    public List<Course> getCourseEndedAndNotDeleted();
+
     public void updateCourse(Course course);
 
 }
