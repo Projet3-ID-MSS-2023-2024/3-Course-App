@@ -62,14 +62,32 @@ public class UtilisateurRestController {
     }
 
     /*** Update les données personnel d'utilisateur ***/
-    @PutMapping("/{id}")
-    public Optional<Utilisateur> putUserById(@RequestBody Utilisateur utilisateur, @PathVariable("id") int id){
+    @PutMapping("/name/{id}")
+    public Optional<Utilisateur> putUserNameById(@RequestBody Utilisateur utilisateur, @PathVariable("id") int id){
 
         return this.utilisateurService.getUserById(id)
                 .map(upUser -> {
                     upUser.setNom(utilisateur.getNom());
+                    return utilisateurService.saveUser(upUser);
+                });
+    }
+
+    @PutMapping("/mail/{id}")
+    public Optional<Utilisateur> putUserMailById(@RequestBody Utilisateur utilisateur, @PathVariable("id") int id){
+
+        return this.utilisateurService.getUserById(id)
+                .map(upUser -> {
+                    upUser.setEmail((utilisateur.getEmail()));
+                    return utilisateurService.saveUser(upUser);
+                });
+    }
+
+    @PutMapping("/prenom/{id}")
+    public Optional<Utilisateur> putUserPrenomById(@RequestBody Utilisateur utilisateur, @PathVariable("id") int id){
+
+        return this.utilisateurService.getUserById(id)
+                .map(upUser -> {
                     upUser.setPrenom(utilisateur.getPrenom());
-                    upUser.setEmail(utilisateur.getEmail());
                     return utilisateurService.saveUser(upUser);
                 });
     }
