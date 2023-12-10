@@ -34,6 +34,11 @@ public class ResultatRestController {
         return this.courseService.getCourseEndedAndNotDeleted();
     }
 
+    @GetMapping("/courses/{id}")
+    public List<Resultat> getResultatsByCourseEndedAndNotDeleted(@PathVariable int id) {
+        return this.resultatService.getAllResultByCourseId(id);
+    }
+
     @GetMapping("/admin/{id}")
     public List<Course> getCoursesByGestionnaireAndNotEnded(@PathVariable int id) {
         return this.courseService.getCoursesByGestionnaireAndNotEnded(id);
