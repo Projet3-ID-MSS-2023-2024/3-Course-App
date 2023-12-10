@@ -29,6 +29,11 @@ public class ResultatRestController {
     @Autowired
     IUtilisateurService userService;
 
+    @GetMapping("/courses")
+    public List<Course> getCoursesEndedAndNotDeleted() {
+        return this.courseService.getCourseEndedAndNotDeleted();
+    }
+
     @GetMapping("/admin/{id}")
     public List<Course> getCoursesByGestionnaireAndNotEnded(@PathVariable int id) {
         return this.courseService.getCoursesByGestionnaireAndNotEnded(id);

@@ -91,7 +91,7 @@ public class config {
         repoCourse.save(course1); // Sauvegarde dans le repository
 
         /*** Mise en place de la course 2 ***/
-        Course course2 = new Course(2,"Course de Noel",10,new Date(2023,10,30),LocalTime.of(10,35,00),false,false,adresseList.get(2),adresseList.get(2),user);
+        Course course2 = new Course(2,"Course de Noel",10,new Date(2023,10,30),LocalTime.of(10,35,00),false,true,adresseList.get(2),adresseList.get(2),user);
         listCourse.add(course2); //Ajout dans la liste listCourse
         repoCourse.save(course2); // Sauvegarde dans le repository
 
