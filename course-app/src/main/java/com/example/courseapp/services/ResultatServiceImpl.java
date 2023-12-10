@@ -12,6 +12,7 @@ import java.util.Optional;
 @Service
 public class ResultatServiceImpl implements ResultatService {
 
+    /*** initialisation du répo ***/
     @Autowired
     ResultatRepo resultatRepo;
 
@@ -25,6 +26,7 @@ public class ResultatServiceImpl implements ResultatService {
         return resultatRepo.findAllByUtilisateur(user);
     }
 
+    /*** Récupération des résultats pour une course ***/
     @Override
     public List<Resultat> getAllResultByCourseId(int id) {
         return resultatRepo.getAllByIdCourse(id);
