@@ -10,15 +10,9 @@
             <label for="nom" class="text-900 font-medium mb-2">Changez votre nom</label>
             <input id="nom" type="text" placeholder="Nom" pInputText class="w-full mb-3" formControlName="nom">
 
-            <label for="prenom" class="text-900 font-medium mb-2">Changez votre prénom</label>
-            <input id="prenom" type="text" placeholder="Prénom" pInputText class="w-full mb-3" formControlName="prenom">
-
-            <label for="mail" class="block text-900 font-medium mb-2">Changez votre adresse email</label>
-            <input id="mail" type="text" placeholder="Email" pInputText class="w-full mb-3" formControlName="mail">
-
             
 
-            <button pButton pRipple type="submit" label="Modifiez" class="w-full p-button-primary mt-2" (click)="updateUser(loggedUser.id)"></button>
+            <button pButton pRipple type="submit" label="Modifiez" class="w-full p-button-primary mt-2" (click)="updateUserName(loggedUser.id)"></button>
           </form>
       </div>
   </div>

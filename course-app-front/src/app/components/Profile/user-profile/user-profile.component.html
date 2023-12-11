@@ -1,9 +1,25 @@
 <app-navbar></app-navbar>
-<div class="mr-4">{{ this.loggedUser.prenom }}</div>
-<div class="mr-4">{{ this.loggedUser.nom }}</div>
-<div class="mr-4">{{ this.loggedUser.email }}</div>
-<div class="mr-4">{{ this.loggedUser.id }}</div>
 
 
-    <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-danger" (click)="deleteUser(loggedUser.id)"></button>
+    <p-fieldset>
+        <ng-template pTemplate="header">
+            <div class="flex align-items-center text-primary">
+                <span class="pi pi-user mr-2"></span>
+                <span class="font-bold text-lg">Information utilisateur</span>
+            </div>
+        </ng-template>
+         <div class="mr-4"><u>Prénom :</u> {{ this.loggedUser.prenom }}</div>
+         <br>
+         <div class="mr-4"><u>Nom de famille :</u> {{ this.loggedUser.nom }}</div>
+         <br>
+         <div class="mr-4"><u>Votre adresse mail :</u> {{ this.loggedUser.email }}</div>
+         <br>
+         <div class="mr-4"><u>Vos rôles sont :</u> {{ this.loggedUser.role }}</div>
+    </p-fieldset>
 
+    <p-fieldset legend="Modification de profil" [toggleable]="true">
+        <p>
+            Que souhaitez-vous faire ?
+        </p>
+        <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-danger" (click)="deleteUser(loggedUser.id)"></button>
+    </p-fieldset>

@@ -24,6 +24,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TreeTableModule } from 'primeng/treetable';
+import { FieldsetModule } from 'primeng/fieldset';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -94,7 +95,8 @@ import { GestionResultatsComponent } from './components/gestion-resultats/gestio
     ProgressSpinnerModule,
     SplitButtonModule,
     ProgressBarModule,
-    TreeTableModule
+    TreeTableModule,
+    FieldsetModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
