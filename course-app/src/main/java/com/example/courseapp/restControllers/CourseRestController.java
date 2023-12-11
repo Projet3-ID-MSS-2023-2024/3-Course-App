@@ -57,6 +57,13 @@ public class CourseRestController {
     public List<Course> getCoursesByGestionnaireAndNotDeleted(@PathVariable int id) {
         return this.courseService.getCoursesByGestionnaireAndNotDeleted(id);
     }
+
+    /*** Récupération des courses supprimées pour un gestionnaire  ***/
+    @GetMapping("/admin/supprimees/{id}")
+    public List<Course> getCoursesByGestionnaireAndDeleted(@PathVariable int id) {
+        return this.courseService.getCoursesByGestionnaireAndDeleted(id);
+    }
+
     /*** Suppression logique pour une course ***/
     @DeleteMapping("/admin/{id}")
     public void delete(@PathVariable int id){

@@ -18,6 +18,9 @@ public interface CourseService {
     /*** Methode qui récupère les courses non supprimées par gestionnaire ***/
     public List<Course> getCoursesByGestionnaireAndNotDeleted(int id);
 
+    /*** Methode qui récupère les courses  supprimées par gestionnaire ***/
+    public List<Course> getCoursesByGestionnaireAndDeleted(int id);
+
     /*** Methode qui récupère une course ***/
 
     public Optional<Course> getCourse(int id);
