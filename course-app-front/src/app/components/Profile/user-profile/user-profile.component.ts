@@ -13,6 +13,8 @@ import { User } from 'src/models/user';
 })
 export class UserProfileComponent implements OnInit{
   loggedUser!:User;
+  visible: boolean = false;
+  show: boolean = false;
 
   constructor(
     private router: Router,
@@ -35,7 +37,13 @@ export class UserProfileComponent implements OnInit{
     })
   }
 
+  showDialogName() {
+    this.visible = true;
+}
 
+showDialogFirstName() {
+  this.show = true;
+}
 
   deleteUser(id :Number){
     this.userService.delUser(id).subscribe(()=>{

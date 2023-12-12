@@ -22,4 +22,32 @@
             Que souhaitez-vous faire ?
         </p>
         <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-danger" (click)="deleteUser(loggedUser.id)"></button>
+        <button pButton pRipple type="button" [icon]="'pi pi-pencil'" class="p-button-sm p-button-text p-button-secondary" (click)="showDialogName()"></button>
+        <button pButton pRipple type="button" [icon]="'pi pi-pencil'" class="p-button-sm p-button-text p-button-secondary" (click)="showDialogFirstName()"></button>
     </p-fieldset>
+
+    <!-- Modif Course -->
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+    <div class="align-items-center flex justify-content-center lg:px-4 md:px-8 ">
+      <div class="surface-card p-4 shadow-8 border-round w-full lg:w-9">
+          <div class="text-center mb-3">
+              <img src="assets/logo.png" alt="Image" height="100" class="mb-1">
+              <div class="text-900 text-3xl font-medium mb-2"> Modifier votre prénom</div>
+          </div>
+<h1>test123</h1>
+      </div>
+    </div>
+  </p-dialog>
+
+      <!-- Modif Course -->
+<p-dialog [(visible)]="show" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+    <div class="align-items-center flex justify-content-center lg:px-4 md:px-8 ">
+      <div class="surface-card p-4 shadow-8 border-round w-full lg:w-9">
+          <div class="text-center mb-3">
+              <img src="assets/logo.png" alt="Image" height="100" class="mb-1">
+              <div class="text-900 text-3xl font-medium mb-2"> Modifier votre nom de famille</div>
+          </div>
+<h1>test123</h1>
+      </div>
+    </div>
+  </p-dialog>
