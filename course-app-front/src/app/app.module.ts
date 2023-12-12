@@ -24,6 +24,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TreeTableModule } from 'primeng/treetable';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -44,6 +45,7 @@ import { HttpInterceptorService } from './services/http-interceptor.service';
 import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
 import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
 import { GestionResultatsComponent } from './components/gestion-resultats/gestion-resultats.component';
+import { UpdateCourseAddComponent } from './components/Course/update-course-add/update-course-add.component';
 
 
 @NgModule({
@@ -64,7 +66,8 @@ import { GestionResultatsComponent } from './components/gestion-resultats/gestio
     GestionAdminComponent,
     NouveauMdpComponent,
     UpdateUserComponent,
-    GestionResultatsComponent
+    GestionResultatsComponent,
+    UpdateCourseAddComponent
   ],
   imports: [
     BrowserModule,
@@ -94,7 +97,8 @@ import { GestionResultatsComponent } from './components/gestion-resultats/gestio
     ProgressSpinnerModule,
     SplitButtonModule,
     ProgressBarModule,
-    TreeTableModule
+    TreeTableModule,
+    AutoCompleteModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
