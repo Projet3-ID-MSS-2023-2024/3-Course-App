@@ -47,7 +47,14 @@
               <img src="assets/logo.png" alt="Image" height="100" class="mb-1">
               <div class="text-900 text-3xl font-medium mb-2"> Modifier votre nom de famille</div>
           </div>
-<h1>test123</h1>
+          <form [formGroup]="UpdateForm">
+          <label for="nom" class="text-900 font-medium mb-2">Changez votre nom</label>
+          <input id="nom" type="text" placeholder="Nom" pInputText class="w-full mb-3" formControlName="nom">
+
+        
+
+          <button pButton pRipple type="submit" label="Modifiez" class="w-full p-button-primary mt-2" (click)="updateUserName(loggedUser.id)"></button>
+        </form>
       </div>
     </div>
   </p-dialog>
