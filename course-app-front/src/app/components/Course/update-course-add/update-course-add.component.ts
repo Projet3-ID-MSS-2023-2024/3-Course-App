@@ -8,6 +8,8 @@ import { Course } from 'src/models/course';
 import { Ville } from 'src/models/ville';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
+import { CourseService } from 'src/app/services/course.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-course-add',
@@ -26,10 +28,13 @@ export class UpdateCourseAddComponent implements OnInit{
   villeArr !: Ville;
   dialogMap:boolean =false;
   map : any;
+  isLoading:boolean =false;
 
   constructor(
+    private router: Router,
     private adresseService : AdresseService,
-    private fb : FormBuilder){}
+    private fb : FormBuilder,
+    private courseService: CourseService){}
 
   ngOnInit(): void {
     this.course = new Course();
@@ -129,12 +134,12 @@ export class UpdateCourseAddComponent implements OnInit{
   }
 
   ajouter(){
+    this.isLoading=true;
     this.adresseService.getLatLong(this.addCourseForm.value.adresseDep).subscribe((res)=>{
       const lat = res.map((item: any) => item.lat);
       const long = res.map((item:any)=> item.lon);
 
       this.adresseService.getAddressFromCoordinates(lat, long).subscribe((res)=>{
-        console.log(res.address)
         if (res.address.city_district) {
           this.villeDepart.nom = res.address.city_district;
         } else if (res.address.village) {
@@ -147,8 +152,11 @@ export class UpdateCourseAddComponent implements OnInit{
 
         this.villeDepart.code_postale = +res.address.postcode;
         this.adresseDepart.ville = this.villeDepart;
-        let num ="" + res.address.house_number;
-        this.adresseDepart.rue = res.address.road + " "+num;
+
+        if (res.address.house_number) {
+          this.adresseDepart.rue = res.address.road + " "+res.address.house_number;
+        } else { this.adresseDepart.rue = res.address.road }
+
         this.adresseDepart.latitude =+lat;
         this.adresseDepart.longitude =+long;
         this.course.adresse = this.adresseDepart;
@@ -158,7 +166,6 @@ export class UpdateCourseAddComponent implements OnInit{
           const long1 = res.map((item:any)=> item.lon);
 
           this.adresseService.getAddressFromCoordinates(lat1,long1).subscribe((res)=>{
-            console.log(res.address)
             if (res.address.city_district) {
               this.villeArr.nom = res.address.city_district;
             } else if (res.address.village) {
@@ -170,13 +177,26 @@ export class UpdateCourseAddComponent implements OnInit{
             }
             this.villeArr.code_postale = +res.address.postcode;
             this.adresseArr.ville = this.villeArr;
-            let num ="" + res.address.house_number;
-            this.adresseArr.rue = res.address.road + " "+num;
+
+            if (res.address.house_number) {
+              this.adresseArr.rue = res.address.road + " "+res.address.house_number;
+            } else { this.adresseDepart.rue = res.address.road }
+
             this.adresseArr.latitude =+lat1;
             this.adresseArr.longitude =+long1;
             this.course.adresse1 = this.adresseArr;
 
+            this.course.titre = this.addCourseForm.value.titre;
+            this.course.prix = this.addCourseForm.value.prix;
+            this.course.date = this.addCourseForm.value.date;
+            this.course.heure = this.addCourseForm.value.heure;
             console.log(this.course)
+            this.courseService.addCourse(this.course).subscribe((res)=>{
+              this.isLoading=false;
+              console.log(res)
+              this.addCourseForm.reset();
+              this.router.navigateByUrl('/courses/admin');
+            })
           })
         })
       })
