@@ -20,6 +20,7 @@ import java.util.Optional;
 @RequestMapping("api/resultat")
 public class ResultatRestController {
 
+    /*** Initialisation des services ***/
     @Autowired
     CourseService courseService;
 
@@ -29,6 +30,18 @@ public class ResultatRestController {
     @Autowired
     IUtilisateurService userService;
 
+    /*** Récupération des courses non supprimées et terminées ainsi que leurs résultats ***/
+    @GetMapping("/courses")
+    public List<Course> getCoursesEndedAndNotDeleted() {
+        return this.courseService.getCourseEndedAndNotDeleted();
+    }
+
+    @GetMapping("/courses/{id}")
+    public List<Resultat> getResultatsByCourseEndedAndNotDeleted(@PathVariable int id) {
+        return this.resultatService.getAllResultByCourseId(id);
+    }
+
+    /*** Récupération des courses non terminées ainsi que leurs résultats par gestion de courses ***/
     @GetMapping("/admin/{id}")
     public List<Course> getCoursesByGestionnaireAndNotEnded(@PathVariable int id) {
         return this.courseService.getCoursesByGestionnaireAndNotEnded(id);

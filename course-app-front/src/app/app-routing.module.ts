@@ -16,6 +16,7 @@ import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.compon
 import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
 import { GestionResultatsComponent } from './components/gestion-resultats/gestion-resultats.component';
 import { mdpTempGuard } from './guards/mdp-temp.guard';
+import { UpdateCourseAddComponent } from './components/Course/update-course-add/update-course-add.component';
 
 
 const routes: Routes = [
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'administration',component:GestionAdminComponent, canActivate: [mdpTempGuard]},
   { path: 'creer/mdp',component:NouveauMdpComponent },
   { path: 'update-user',component:UpdateUserComponent, canActivate: [mdpTempGuard]},
+  { path: 'maj/course/add',component:UpdateCourseAddComponent },
 ];
 
 @NgModule({
