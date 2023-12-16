@@ -24,7 +24,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TreeTableModule } from 'primeng/treetable';
+import { FieldsetModule } from 'primeng/fieldset';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -98,7 +100,9 @@ import { UpdateCourseAddComponent } from './components/Course/update-course-add/
     SplitButtonModule,
     ProgressBarModule,
     TreeTableModule,
+    FieldsetModule
     AutoCompleteModule
+
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

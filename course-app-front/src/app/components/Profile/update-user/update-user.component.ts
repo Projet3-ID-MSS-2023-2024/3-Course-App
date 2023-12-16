@@ -35,11 +35,27 @@ export class UpdateUserComponent implements OnInit {
     })
   }
 
-  updateUser(id: number){
+  updateUserName(id: number){
     this.user.nom = this.UpdateUserForm.value.nom;
+    this.userService.updateUserName(id, this.user).subscribe(()=>{
+      this.router.navigateByUrl('/update-user');
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+    })
+  }
+
+  updateUserPrenom(id: number){
     this.user.prenom = this.UpdateUserForm.value.prenom;
-    this.user.email = this.UpdateUserForm.value.mail;
-    this.userService.updateUser(id, this.user).subscribe(()=>{
+    this.userService.updateUserPrenom(id, this.user).subscribe(()=>{
+      this.router.navigateByUrl('/update-user');
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+    })
+  }
+
+  updateUserMail(id: number){
+    this.user.email = this.UpdateUserForm.value.email;
+    this.userService.updateUserPrenom(id, this.user).subscribe(()=>{
       this.router.navigateByUrl('/update-user');
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
