@@ -35,11 +35,41 @@ export class AdresseService {
     return this.http.get('https://nominatim.openstreetmap.org/search',{params});
   }
 
-  getAddressFromCoordinates(lat: number, lon: number): Observable<any> {
-    const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
+  getAddressFromCoordinates(lat: number, lon: number): Promise<Adresse> {
+    return new Promise<Adresse>((resolve, reject) => {
+      const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
 
-    return this.http.get(apiUrl);
+      this.http.get(apiUrl).subscribe((res: any) => {
+        const adresse = new Adresse();
+        const ville = new Ville();
+
+        if (res.address.city_district) {
+          ville.nom = res.address.city_district;
+        } else if (res.address.village) {
+          ville.nom = res.address.village;
+        } else if (res.address.town) {
+          ville.nom = res.address.town;
+        } else {
+          ville.nom = res.address.county;
+        }
+
+        ville.code_postale = +res.address.postcode;
+        adresse.ville = ville;
+
+        if (res.address.house_number) {
+          adresse.rue = res.address.road + " " + res.address.house_number;
+        } else {
+          adresse.rue = res.address.road;
+        }
+
+        adresse.latitude = +lat;
+        adresse.longitude = +lon;
+
+        resolve(adresse);
+      }, (error: any) => {
+        reject(error);
+      });
+    });
   }
-
 
 }

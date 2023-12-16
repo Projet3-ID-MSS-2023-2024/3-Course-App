@@ -32,7 +32,7 @@ public class VilleServiceImpl implements VilleService{
                     .code_postale(ville.get().getCode_postale())
                     .build();
         } else {
-            throw new CustomException("ville existe pas");
+            return null;
         }
     }
 }

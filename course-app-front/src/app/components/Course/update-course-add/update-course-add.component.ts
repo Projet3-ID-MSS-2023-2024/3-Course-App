@@ -21,10 +21,6 @@ export class UpdateCourseAddComponent implements OnInit{
   suggestions!: any[];
   addCourseForm!: FormGroup;
   course!:Course;
-  adresseDepart !: Adresse;
-  villeDepart !: Ville;
-  adresseArr !: Adresse;
-  villeArr !: Ville;
   dialogMap:boolean =false;
   isLoading:boolean =false;
 
@@ -33,15 +29,11 @@ export class UpdateCourseAddComponent implements OnInit{
     private adresseService : AdresseService,
     private fb : FormBuilder,
     private courseService: CourseService,
-    private mapService: MapService){}
+    private mapService: MapService,
+    private messageService : MessageService){}
 
   ngOnInit(): void {
     this.course = new Course();
-    this.adresseDepart = new Adresse();
-    this.villeDepart = new Ville();
-    this.adresseArr = new Adresse();
-    this.villeArr = new Ville();
-
     this.addCourseForm = this.fb.group({
       titre: ['', Validators.required],
       prix: ['', Validators.required],
@@ -67,11 +59,9 @@ export class UpdateCourseAddComponent implements OnInit{
       this.adresseService.getLatLong(this.addCourseForm.value.adresseArr).subscribe((res)=>{
         const lat1 = res.map((item: any) => item.lat);
         const long1 = res.map((item:any)=> item.lon);
-
-        this.mapService.loadMap(lati[0], long[0], lat1[0], long1[0]);
+        this.mapService.loadMap(lati[0], long[0], lat1[0], long1[0]);  /* Chargement de la carte */
         })
       })
-
   }
 
   ajouter(){
@@ -80,66 +70,36 @@ export class UpdateCourseAddComponent implements OnInit{
       const lat = res.map((item: any) => item.lat);
       const long = res.map((item:any)=> item.lon);
 
-      this.adresseService.getAddressFromCoordinates(lat, long).subscribe((res)=>{
-        if (res.address.city_district) {
-          this.villeDepart.nom = res.address.city_district;
-        } else if (res.address.village) {
-          this.villeDepart.nom = res.address.village;
-        } else if (res.address.town) {
-          this.villeDepart.nom = res.address.town;
-        } else {
-          this.villeDepart.nom = res.address.county;
-        }
-
-        this.villeDepart.code_postale = +res.address.postcode;
-        this.adresseDepart.ville = this.villeDepart;
-
-        if (res.address.house_number) {
-          this.adresseDepart.rue = res.address.road + " "+res.address.house_number;
-        } else { this.adresseDepart.rue = res.address.road }
-
-        this.adresseDepart.latitude =+lat;
-        this.adresseDepart.longitude =+long;
-        this.course.adresse = this.adresseDepart;
-
+      this.adresseService.getAddressFromCoordinates(lat,long).then((adresse : Adresse)=>{
+        this.course.adresse = adresse;
         this.adresseService.getLatLong(this.addCourseForm.value.adresseArr).subscribe((res)=>{
           const lat1 = res.map((item: any) => item.lat);
           const long1 = res.map((item:any)=> item.lon);
 
-          this.adresseService.getAddressFromCoordinates(lat1,long1).subscribe((res)=>{
-            if (res.address.city_district) {
-              this.villeArr.nom = res.address.city_district;
-            } else if (res.address.village) {
-              this.villeArr.nom = res.address.village;
-            } else if (res.address.town) {
-              this.villeArr.nom = res.address.town;
-            } else {
-              this.villeArr.nom = res.address.county;
-            }
-            this.villeArr.code_postale = +res.address.postcode;
-            this.adresseArr.ville = this.villeArr;
-
-            if (res.address.house_number) {
-              this.adresseArr.rue = res.address.road + " "+res.address.house_number;
-            } else { this.adresseDepart.rue = res.address.road }
-
-            this.adresseArr.latitude =+lat1;
-            this.adresseArr.longitude =+long1;
-            this.course.adresse1 = this.adresseArr;
-
+          this.adresseService.getAddressFromCoordinates(lat1,long1).then((adresse1 : Adresse)=>{
+            this.course.adresse1 = adresse1;
             this.course.titre = this.addCourseForm.value.titre;
             this.course.prix = this.addCourseForm.value.prix;
             this.course.date = this.addCourseForm.value.date;
             this.course.heure = this.addCourseForm.value.heure;
-            console.log(this.course)
+
             this.courseService.addCourse(this.course).subscribe((res)=>{
               this.isLoading=false;
               console.log(res)
               this.addCourseForm.reset();
               this.router.navigateByUrl('/courses/admin');
+            },(error)=>{
+              this.isLoading=false;
+              this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });
             })
+          }).catch((error)=>{
+            this.isLoading=false;
+            this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: 'L\'adresse d\'arrivé est incorrect.' });
           })
         })
+      }).catch((error)=>{
+        this.isLoading=false;
+        this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: 'L\'adresse de départ est incorrect.' });
       })
     })
   }
