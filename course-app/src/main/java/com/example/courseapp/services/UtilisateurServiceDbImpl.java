@@ -1,16 +1,19 @@
 package com.example.courseapp.services;
 
+import com.example.courseapp.dto.ChangePasswordRequest;
 import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.CustomException;
 import com.example.courseapp.models.Role;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.repo.UtilisateurRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -184,6 +187,21 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         userMod.setTempMdp(false);
         utilisateurRepo.save(userMod);
         return true;
+    }
+
+    @Override
+    public void changePassword(ChangePasswordRequest request, Principal connectedUser){
+        var user = (Utilisateur) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+
+        if(!passwordEncoder.matches(request.getCurrentPassword(), user.getMdp())){
+            throw new IllegalStateException("Wrong password");
+        }
+
+        if(!request.getNewPassword().equals(request.getConfirmationPassword())){
+            throw new IllegalStateException("Password are not the same");
+        }
+         user.setMdp(passwordEncoder.encode(request.getNewPassword()));
+        utilisateurRepo.save(user);
     }
 
 
