@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Adresse } from 'src/models/adresse';
+import { Ville } from 'src/models/ville';
 
 @Injectable({
   providedIn: 'root'
@@ -39,4 +40,6 @@ export class AdresseService {
 
     return this.http.get(apiUrl);
   }
+
+
 }
