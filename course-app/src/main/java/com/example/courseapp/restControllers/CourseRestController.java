@@ -44,32 +44,8 @@ public class CourseRestController {
             newCourse.setUtilisateur(user);
         }
 
-        Adresse adresse = adresseService.getAdresseByLatLong(
-                newCourse.getAdresse().getLatitude(),newCourse.getAdresse().getLongitude());
-        Ville ville = villeService.getVilleByNom(newCourse.getAdresse().getVille().getNom());
-        if (adresse==null){
-            if (ville == null) {
-                villeService.add(newCourse.getAdresse().getVille());
-            } else {
-                newCourse.getAdresse().setVille(ville);
-            }
-            adresseService.add(newCourse.getAdresse());
-        } else {
-            newCourse.setAdresse(adresse);
-        }
-        Adresse adresse1 = adresseService.getAdresseByLatLong(
-                newCourse.getAdresse1().getLatitude(),newCourse.getAdresse1().getLongitude());
-        Ville ville1 = villeService.getVilleByNom(newCourse.getAdresse1().getVille().getNom());
-        if (adresse1==null){
-            if (ville1 == null) {
-                villeService.add(newCourse.getAdresse1().getVille());
-            } else {
-                newCourse.getAdresse1().setVille(ville1);
-            }
-            adresseService.add(newCourse.getAdresse1());
-        } else {
-            newCourse.setAdresse1(adresse1);
-        }
+        newCourse = courseService.verifAdresseVille(newCourse.getAdresse(), newCourse.getAdresse().getVille(),newCourse);
+        newCourse = courseService.verifAdresseVille(newCourse.getAdresse1(), newCourse.getAdresse1().getVille(),newCourse);
 
         return courseService.add(newCourse);
     }

@@ -1,7 +1,9 @@
 package com.example.courseapp.services;
 
+import com.example.courseapp.models.Adresse;
 import com.example.courseapp.models.Course;
 import com.example.courseapp.models.Utilisateur;
+import com.example.courseapp.models.Ville;
 import com.example.courseapp.repo.CourseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,10 @@ public class CourseServiceImpl implements CourseService{
     /*** initialisation du repo ***/
     @Autowired
     CourseRepo courseRepo;
+    @Autowired
+    AdresseService adresseService;
+    @Autowired
+    VilleService villeService;
 
     @Override
     public Course add(Course newCourse) {
@@ -97,5 +103,24 @@ public class CourseServiceImpl implements CourseService{
         courseFromDB.setTitre(course.getTitre());
         courseFromDB.setUtilisateur(course.getUtilisateur());
         courseRepo.save(courseFromDB);
+    }
+
+    @Override
+    public Course verifAdresseVille(Adresse adresse, Ville ville, Course newCourse) {
+        Adresse testAdresse = adresseService.getAdresseByLatLong(
+                adresse.getLatitude(),adresse.getLongitude());
+        Ville testVille = villeService.getVilleByNom(ville.getNom());
+        if (testAdresse==null){
+            if (testVille == null) {
+                villeService.add(ville);
+            } else {
+                newCourse.getAdresse().setVille(testVille);
+                adresse.setVille(testVille);
+            }
+            adresseService.add(adresse);
+        } else {
+            newCourse.setAdresse(testAdresse);
+        }
+        return newCourse;
     }
 }
