@@ -14,9 +14,10 @@ import { CoursesListAdminComponent } from './components/Course/courses-list-admi
 import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.component';
 import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
 import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
-import { GestionResultatsComponent } from './components/gestion-resultats/gestion-resultats.component';
+import { GestionResultatsComponent } from './components/Resultats/gestion-resultats/gestion-resultats.component';
 import { mdpTempGuard } from './guards/mdp-temp.guard';
 import { UpdateCourseAddComponent } from './components/Course/update-course-add/update-course-add.component';
+import { CoursesDeleteListComponent } from './components/Course/courses-delete-list/courses-delete-list.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'firstRegister', component: FirstRegisterComponent, canActivate: [mdpTempGuard]},
   { path: 'courses', component: CoursesListComponent, canActivate: [mdpTempGuard]},
   { path: 'courses/admin', component: CoursesListAdminComponent, canActivate: [mdpTempGuard]},
+  { path: 'courses/admin/supprimees', component: CoursesDeleteListComponent, canActivate: [mdpTempGuard]},
   { path: 'resultats/admin', component: GestionResultatsComponent, canActivate: [mdpTempGuard]},
   { path: 'course-add', component: CourseAddComponent, canActivate: [mdpTempGuard]},
   { path: 'inscription', component: InscriptionComponent, canActivate: [mdpTempGuard]},

@@ -79,6 +79,7 @@ public class CourseServiceImpl implements CourseService{
                 .adresse1(courseDel.get().getAdresse1())
                 .adresse(courseDel.get().getAdresse())
                 .utilisateur(courseDel.get().getUtilisateur())
+                .cloturer(courseDel.get().isCloturer())
                 .supprimer(true)
                 .build();
         courseRepo.save(course);
