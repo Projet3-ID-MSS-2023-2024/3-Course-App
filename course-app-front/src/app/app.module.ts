@@ -46,9 +46,12 @@ import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.
 import { HttpInterceptorService } from './services/http-interceptor.service';
 import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
 import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
-import { GestionResultatsComponent } from './components/gestion-resultats/gestion-resultats.component';
+import { GestionResultatsComponent } from './components/Resultats/gestion-resultats/gestion-resultats.component';
 import { UpdateCourseAddComponent } from './components/Course/update-course-add/update-course-add.component';
 import { CoursesDeleteListComponent } from './components/Course/courses-delete-list/courses-delete-list.component';
+import { ModifResultatsComponent } from './components/Resultats/modif-resultats/modif-resultats.component';
+import { ListResultatsComponent } from './components/Resultats/list-resultats/list-resultats.component';
+import { ListResultatsPersonnelsComponent } from './components/Resultats/list-resultats-personnels/list-resultats-personnels.component';
 
 
 @NgModule({
@@ -71,7 +74,10 @@ import { CoursesDeleteListComponent } from './components/Course/courses-delete-l
     UpdateUserComponent,
     GestionResultatsComponent,
     UpdateCourseAddComponent,
-    CoursesDeleteListComponent
+    CoursesDeleteListComponent,
+    ModifResultatsComponent,
+    ListResultatsComponent,
+    ListResultatsPersonnelsComponent
   ],
   imports: [
     BrowserModule,
