@@ -48,6 +48,7 @@ import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.compon
 import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
 import { GestionResultatsComponent } from './components/gestion-resultats/gestion-resultats.component';
 import { UpdateCourseAddComponent } from './components/Course/update-course-add/update-course-add.component';
+import { CoursesDeleteListComponent } from './components/Course/courses-delete-list/courses-delete-list.component';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { UpdateCourseAddComponent } from './components/Course/update-course-add/
     NouveauMdpComponent,
     UpdateUserComponent,
     GestionResultatsComponent,
-    UpdateCourseAddComponent
+    UpdateCourseAddComponent,
+    CoursesDeleteListComponent
   ],
   imports: [
     BrowserModule,
@@ -100,7 +102,7 @@ import { UpdateCourseAddComponent } from './components/Course/update-course-add/
     SplitButtonModule,
     ProgressBarModule,
     TreeTableModule,
-    FieldsetModule
+    FieldsetModule,
     AutoCompleteModule
 
   ],
