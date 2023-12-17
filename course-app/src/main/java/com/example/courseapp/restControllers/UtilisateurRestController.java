@@ -95,13 +95,11 @@ public class UtilisateurRestController {
                 });
     }
 
-    @PatchMapping
-    public ResponseEntity<?> changePassword(
-            @RequestBody ChangePasswordRequest request,
-            Principal connectedUser
-            ){
-        utilisateurService.changePassword(request, connectedUser);
-        return ResponseEntity.ok().build();
+    @PutMapping
+    public Optional<Utilisateur> changePassword(@RequestBody ChangePasswordRequest request, @PathVariable("id") int id){
+
+         utilisateurService.changePassword(request,id);
+         return utilisateurService.saveUser(request);
     }
     @PostMapping("/addMdp")
     public boolean addMdp(@RequestBody String mdp) throws Exception {

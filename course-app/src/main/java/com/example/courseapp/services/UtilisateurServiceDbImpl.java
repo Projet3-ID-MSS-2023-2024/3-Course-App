@@ -190,18 +190,19 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
     }
 
     @Override
-    public void changePassword(ChangePasswordRequest request, Principal connectedUser){
-        var user = (Utilisateur) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+    public void changePassword(ChangePasswordRequest request, int id){
+        Optional<Utilisateur> user = utilisateurRepo.findById(id);
+        Utilisateur userPwd = user.get();
 
-        if(!passwordEncoder.matches(request.getCurrentPassword(), user.getMdp())){
+        if(!passwordEncoder.matches(request.getCurrentPassword(),userPwd.getMdp() )){
             throw new IllegalStateException("Wrong password");
         }
 
         if(!request.getNewPassword().equals(request.getConfirmationPassword())){
             throw new IllegalStateException("Password are not the same");
         }
-         user.setMdp(passwordEncoder.encode(request.getNewPassword()));
-        utilisateurRepo.save(user);
+         userPwd.setMdp(passwordEncoder.encode(request.getNewPassword()));
+        utilisateurRepo.save(userPwd);
     }
 
 

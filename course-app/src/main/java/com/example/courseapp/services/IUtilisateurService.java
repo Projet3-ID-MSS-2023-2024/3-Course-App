@@ -24,7 +24,7 @@ public interface IUtilisateurService {
     public Utilisateur getByPrenom(String prenom);
     public boolean addMdp(String mdp, String email) throws Exception;
 
-    void changePassword(ChangePasswordRequest request, Principal connectedUser);
+    void changePassword(ChangePasswordRequest request, int id);
 
     public void newMdpTemp(int id) throws Exception;
 
