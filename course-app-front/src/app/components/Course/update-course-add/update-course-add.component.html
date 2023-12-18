@@ -37,8 +37,15 @@
           </div>
         </div>
       </form>
-      <button pButton pRipple type="submit" label="Visualiser l'itinéraire" class="p-button-help w-full mb-2 p-button-sm" (click)="displayMap()"></button>
-      <button pButton pRipple type="submit" label="Ajouter" class="p-button-primary w-full" (click)="ajouter()"></button>
+      <div *ngIf="this.isLoading==true; then load else noLoad"></div>
+      <ng-template #load>
+        <button [disabled]="true" pButton pRipple type="submit" label="Visualiser l'itinéraire" class="p-button-help w-full mb-2 p-button-sm"></button>
+        <button [disabled]="true" pButton icon="pi pi-spin pi-spinner" class="w-full p-button-primary" ></button>
+      </ng-template>
+      <ng-template #noLoad>
+        <button pButton pRipple type="submit" label="Visualiser l'itinéraire" class="p-button-help w-full mb-2 p-button-sm" (click)="displayMap()"></button>
+        <button pButton pRipple type="submit" label="Ajouter" class="p-button-primary w-full" (click)="ajouter()"></button>
+      </ng-template>
   </div>
 </div>
 

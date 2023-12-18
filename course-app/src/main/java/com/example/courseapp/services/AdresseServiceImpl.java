@@ -33,4 +33,13 @@ public class AdresseServiceImpl implements AdresseService{
         }
     }
 
+    @Override
+    public Adresse getAdresseByLatLong(double lat, double lon){
+        Optional<Adresse> test = adresseRepo.findByLatitudeAndLongitude(lat,lon);
+        if (test.isPresent()){
+            Adresse adr = test.get();
+            return adr;
+        } else return null;
+    }
+
 }

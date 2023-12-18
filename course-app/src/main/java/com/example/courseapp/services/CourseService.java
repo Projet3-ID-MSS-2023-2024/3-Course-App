@@ -1,6 +1,8 @@
 package com.example.courseapp.services;
 
+import com.example.courseapp.models.Adresse;
 import com.example.courseapp.models.Course;
+import com.example.courseapp.models.Ville;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,5 +42,7 @@ public interface CourseService {
     /*** Methode qui modifie une course ***/
 
     public void updateCourse(Course course);
+
+    public Course verifAdresseVille(Adresse adresse, Ville ville, Course newCourse);
 
 }
