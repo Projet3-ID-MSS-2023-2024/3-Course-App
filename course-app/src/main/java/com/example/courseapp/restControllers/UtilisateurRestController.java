@@ -1,5 +1,6 @@
 package com.example.courseapp.restControllers;
 
+import com.example.courseapp.dto.ChangePasswordRequest;
 import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.CustomException;
 import com.example.courseapp.models.Role;
@@ -8,11 +9,13 @@ import com.example.courseapp.services.AuthenticationServcie;
 import com.example.courseapp.services.IUtilisateurService;
 import com.example.courseapp.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,6 +99,18 @@ public class UtilisateurRestController {
                     upUser.setPrenom(utilisateur.getPrenom());
                     return utilisateurService.saveUser(upUser);
                 });
+    }
+
+    @PutMapping("/changePassword/{id}")
+    public Optional<Utilisateur> changePassword(@RequestBody ChangePasswordRequest request, @PathVariable("id") int id){
+
+        return this.utilisateurService.getUserById(id)
+                .map(chgUser -> {
+                    chgUser.setMdp((request.getNewPassword()));
+                    return utilisateurService.saveUser(chgUser);
+                });
+
+
     }
     @PostMapping("/addMdp")
     public boolean addMdp(@RequestBody String mdp) throws Exception {

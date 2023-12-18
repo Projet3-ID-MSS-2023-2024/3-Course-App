@@ -1,8 +1,10 @@
 package com.example.courseapp.services;
 
+import com.example.courseapp.dto.ChangePasswordRequest;
 import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.Utilisateur;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,5 +23,9 @@ public interface IUtilisateurService {
     public void addUserbyAdmin(Utilisateur user) throws Exception;
     public Utilisateur getByPrenom(String prenom);
     public boolean addMdp(String mdp, String email) throws Exception;
+
+    void changePassword(ChangePasswordRequest request, int id);
+
     public void newMdpTemp(int id) throws Exception;
+
 }

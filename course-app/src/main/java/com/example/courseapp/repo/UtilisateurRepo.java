@@ -20,4 +20,5 @@ public interface UtilisateurRepo extends JpaRepository<Utilisateur, Integer> {
 
     Optional<Utilisateur> findByCode (String code);
     Optional<Utilisateur> findByPrenom(String prenom);
+
 }

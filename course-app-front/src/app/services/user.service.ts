@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from 'src/models/user';
+import { ChangePassword } from 'src/models/changePassword';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,9 @@ export class UserService {
 
   updateUserMail(id: number, user: User){
     return this.http.put(`http://localhost:8080/api/users/mail/${id}`,user );
+  }
+
+  updateUserPassword(id: number, changePassword: ChangePassword){
+    return this.http.put(`http://localhost:8080/api/users/changePassword/${id}`,changePassword );
   }
 }
