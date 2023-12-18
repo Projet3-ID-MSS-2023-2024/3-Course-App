@@ -2,9 +2,11 @@ package com.example.courseapp.restControllers;
 
 import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.CustomException;
+import com.example.courseapp.models.Role;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.services.AuthenticationServcie;
 import com.example.courseapp.services.IUtilisateurService;
+import com.example.courseapp.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +26,8 @@ public class UtilisateurRestController {
     PasswordEncoder passwordEncoder;
     @Autowired
     AuthenticationServcie authenticationServcie;
+    @Autowired
+    RoleService roleService;
 
     @GetMapping
     public List<UserResponse> getAll(){
@@ -49,11 +53,13 @@ public class UtilisateurRestController {
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) throws Exception{
+        roleService.verifRole(Role.ADMIN);
         utilisateurService.boclkUnclock(id,true);
     }
 
     @PostMapping("/active")
     public void activeUser(@RequestBody int id) throws Exception{
+        roleService.verifRole(Role.ADMIN);
         utilisateurService.boclkUnclock(id,false);
     }
     @PostMapping("/generate/mdpTemp")

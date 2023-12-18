@@ -28,21 +28,13 @@ public class CourseRestController {
     UtilisateurServiceDbImpl utilisateurServiceDb;
     @Autowired
     UtilisateurRepo utilisateurRepo;
-
+    @Autowired
+    RoleService roleService;
     @PostMapping
     public Course add(@RequestBody Course newCourse){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        Optional<Utilisateur> author = utilisateurRepo.findByEmail(email);
-
-        if (author.isPresent()){
-            Utilisateur user = author.get();
-            if (!user.getRole().contains(Role.GESTIONNAIRE)){
-                throw new CustomException("Vous n'avez pas les permissions requises.");
-            }
-            newCourse.setUtilisateur(user);
-        } else throw new CustomException("Vous devez vous connecter pour réaliser cette opération.");
+        Utilisateur user = roleService.verifRole(Role.GESTIONNAIRE);
+        newCourse.setUtilisateur(user);
 
         newCourse = courseService.verifAdresseVille(newCourse.getAdresse(), newCourse.getAdresse().getVille(),newCourse);
         newCourse = courseService.verifAdresseVille(newCourse.getAdresse1(), newCourse.getAdresse1().getVille(),newCourse);
