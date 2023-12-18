@@ -7,8 +7,7 @@ import { ResultatService } from 'src/app/services/resultat.service';
 import { Course } from 'src/models/course';
 import { Resultat } from 'src/models/resultat';
 import { User } from 'src/models/user';
-import * as L from 'leaflet';
-import 'leaflet-routing-machine';
+import { MapService } from 'src/app/services/map.service';
 
 @Component({
   selector: 'app-courses-list',
@@ -43,7 +42,13 @@ export class CoursesListComponent implements OnInit {
   sortField!: string;
   sortKey: any;
 
-  constructor(private courseService: CourseService, private authService: AuthService, private messageService: MessageService, private resultatService: ResultatService) {}
+  constructor(
+    private courseService: CourseService,
+    private authService: AuthService,
+    private messageService: MessageService,
+    private resultatService: ResultatService,
+    private mapService : MapService
+       ) {}
 
   ngOnInit(): void {
     this.loadLoggedUserAndResultats();
@@ -172,64 +177,7 @@ export class CoursesListComponent implements OnInit {
     this.courseMap = course;
     this.dialogMap = true;
     setTimeout(() => {
-      this.loadMap(course);
+      this.mapService.loadMap(course.adresse.latitude,course.adresse.longitude,course.adresse1.latitude,course.adresse1.longitude);
     }, 0);
-  }
-
-  loadMap(course : Course){
-    if (this.map) {
-      this.map.off();
-      this.map.remove();
-    }
-
-    this.map = L.map('map').setView([course.adresse.latitude, course.adresse.longitude], 10);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(this.map);
-
-    const control = L.Routing.control({
-      waypoints: [
-        L.latLng([course.adresse.latitude, course.adresse.longitude]),
-        L.latLng([course.adresse1.latitude, course.adresse1.longitude])
-      ],
-      addWaypoints: false,
-      routeWhileDragging: false,
-      showAlternatives: false
-    });
-    control.addTo(this.map)
-    const bounds = L.latLngBounds([course.adresse.latitude, course.adresse.longitude],[course.adresse1.latitude, course.adresse1.longitude]);
-    this.map.fitBounds(bounds);
-
-    control.on('routeselected', function(e) {
-      var waypoints = document.querySelectorAll('.leaflet-marker-draggable');
-      waypoints.forEach(function(waypoint) {
-        // Explicitly cast to HTMLElement to access the style property
-        (waypoint as HTMLElement).style.display = 'none';
-      });
-    });
-
-    control.on('routeselected', function(e) {
-      var waypoints = document.querySelectorAll('.leaflet-pane .leaflet-shadow-pane');
-      waypoints.forEach(function(waypoint) {
-        // Explicitly cast to HTMLElement to access the style property
-        (waypoint as HTMLElement).style.display = 'none';
-      });
-    });
-    control.on('routeselected', function (e) {
-      var instructionsContainer = document.querySelector('.leaflet-routing-container .leaflet-routing-alt ') as HTMLElement;
-      if (instructionsContainer) {
-        instructionsContainer.style.display = 'none';
-      }
-    });
-    control.on('routeselected', function (e) {
-      var instructionsContainer = document.querySelector('.leaflet-routing-alternatives-container') as HTMLElement;
-      if (instructionsContainer) {
-        instructionsContainer.style.display = 'none';
-      }
-    });
-
-    let marker = L.marker([course.adresse.latitude, course.adresse.longitude]).addTo(this.map).bindPopup("Départ").openPopup();
-    let marker2 = L.marker([course.adresse1.latitude, course.adresse1.longitude]).addTo(this.map).bindPopup("Arrivé");
   }
 }

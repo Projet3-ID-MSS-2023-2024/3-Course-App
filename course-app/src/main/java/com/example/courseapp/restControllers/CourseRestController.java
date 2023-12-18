@@ -1,14 +1,12 @@
 package com.example.courseapp.restControllers;
 
 import com.example.courseapp.dto.CourseRequest;
-import com.example.courseapp.models.Adresse;
-import com.example.courseapp.models.Course;
-import com.example.courseapp.models.Utilisateur;
-import com.example.courseapp.services.AdresseService;
-import com.example.courseapp.services.CourseService;
-import com.example.courseapp.services.ResultatService;
-import com.example.courseapp.services.UtilisateurServiceDbImpl;
+import com.example.courseapp.models.*;
+import com.example.courseapp.repo.UtilisateurRepo;
+import com.example.courseapp.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,26 +23,23 @@ public class CourseRestController {
     AdresseService adresseService;
 
     @Autowired
+    VilleService villeService;
+    @Autowired
     UtilisateurServiceDbImpl utilisateurServiceDb;
-
+    @Autowired
+    UtilisateurRepo utilisateurRepo;
+    @Autowired
+    RoleService roleService;
     @PostMapping
-    public Course add(@RequestBody CourseRequest newCourse){
-        Adresse adresse = adresseService.getAdresseByRue(newCourse.getAdresse());
-        Adresse adresse1 = adresseService.getAdresseByRue(newCourse.getAdresse1());
-        Utilisateur utilisateur = utilisateurServiceDb.getByPrenom(newCourse.getUtilisateur());
+    public Course add(@RequestBody Course newCourse){
 
-        Course courseadd = Course.builder()
-                .adresse(adresse)
-                .adresse1(adresse1)
-                .date(newCourse.getDate())
-                .heure(newCourse.getHeure())
-                .titre(newCourse.getTitre())
-                .prix(newCourse.getPrix())
-                .utilisateur(utilisateur)
-                .build();
+        Utilisateur user = roleService.verifRole(Role.GESTIONNAIRE);
+        newCourse.setUtilisateur(user);
 
+        newCourse = courseService.verifAdresseVille(newCourse.getAdresse(), newCourse.getAdresse().getVille(),newCourse);
+        newCourse = courseService.verifAdresseVille(newCourse.getAdresse1(), newCourse.getAdresse1().getVille(),newCourse);
 
-        return courseService.add(courseadd);
+        return courseService.add(newCourse);
     }
 
     @GetMapping("")

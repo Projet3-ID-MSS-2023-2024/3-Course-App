@@ -19,5 +19,7 @@ public interface AdresseRepo extends JpaRepository<Adresse, Long> {
     /*** Recherche par rue ***/
     public Optional<Adresse>findByRue(String rue);
 
+    public Optional<Adresse>findByLatitudeAndLongitude(double latitude, double longitude);
+
 
 }
