@@ -95,11 +95,16 @@ public class UtilisateurRestController {
                 });
     }
 
-    @PutMapping
+    @PutMapping("/changePassword/{id}")
     public Optional<Utilisateur> changePassword(@RequestBody ChangePasswordRequest request, @PathVariable("id") int id){
 
-         utilisateurService.changePassword(request,id);
-         return utilisateurService.saveUser(request);
+        return this.utilisateurService.getUserById(id)
+                .map(chgUser -> {
+                    chgUser.setMdp((request.getNewPassword()));
+                    return utilisateurService.saveUser(chgUser);
+                });
+
+
     }
     @PostMapping("/addMdp")
     public boolean addMdp(@RequestBody String mdp) throws Exception {
