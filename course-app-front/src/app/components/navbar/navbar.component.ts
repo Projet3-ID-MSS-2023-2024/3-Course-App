@@ -38,29 +38,46 @@ export class NavbarComponent implements OnInit {
         },
         {
             label: 'Résultats',
-            icon: 'pi pi-fw pi-chart-bar',
+            icon: 'pi pi-fw pi-bars',
+            items: [
+              {
+                label: 'Résultats des courses',
+                icon: 'pi pi-fw pi-chart-bar',
+                routerLink: '/resultats'
+              },
+              {
+                label: 'Résultats personnels',
+                icon: 'pi pi-fw pi-chart-bar',
+                routerLink: '/resultats/personnel'
+              },
+          ]
         },
         {
           label: 'Administration Courses',
-          icon: 'pi pi-fw pi-cog',
-          routerLink: '/courses/admin'
-        },
-        {
-          label: 'Administration Résultats',
           icon: 'pi pi-fw pi-bars',
           items: [
-              {
-                  label: 'Encoder des résultats',
-                  icon: 'pi pi-fw pi-plus',
-                  routerLink:'/resultats/admin'
-              },
-              {
-                  label: 'Modifier des résultats',
-                  icon: 'pi pi-fw pi-pencil',
-                  routerLink:'/resultats/admin'
-              },
-          ]
-      },
+            {
+              label: 'Gestion des courses',
+              icon: 'pi pi-fw pi-cog',
+              routerLink: '/courses/admin'
+            },
+            {
+              label: 'Affichage courses supprimées',
+              icon: 'pi pi-fw pi-eye',
+              routerLink: '/courses/admin/supprimees'
+            },
+            {
+                label: 'Encoder des résultats',
+                icon: 'pi pi-fw pi-plus',
+                routerLink:'/resultats/admin'
+            },
+            {
+                label: 'Modifier des résultats',
+                icon: 'pi pi-fw pi-pencil',
+                routerLink:'/resultats/admin/modif'
+            },
+        ]
+        },
         {
           label: 'Administration',
           icon: 'pi pi-fw pi-sitemap',

@@ -1,0 +1,55 @@
+<p-toast></p-toast>
+<div class="align-items-center flex justify-content-center lg:px-4 md:px-8 px-4 py-4">
+  <div class="surface-card p-4 shadow-4 border-round w-full lg:w-5">
+      <div class="text-center mb-3">
+          <img src="assets/logo.png" alt="Image" height="100" class="mb-1">
+          <div class="text-900 text-3xl font-medium mb-2">Ajouter une course</div>
+      </div>
+      <form [formGroup]="addCourseForm">
+        <div class="formgrid grid">
+          <div class="field col-12 md:col-6">
+            <label for="titre" class="text-900 font-medium">Titre</label>
+            <input id="titre" type="text" placeholder="Titre" pInputText class="w-full" formControlName="titre">
+          </div>
+          <div class="field col-12 md:col-6">
+            <label for="prix" class="text-900 font-medium">Prix</label>
+            <input id="prix" type="number" placeholder="Prix" pInputText class="w-full" formControlName="prix">
+          </div>
+          <div class="field col-12 md:col-6">
+            <label for="date" class="block text-900 font-medium">Date</label>
+            <input id="date" type="date" placeholder="Date" pInputText class="w-full" formControlName="date">
+          </div>
+          <div class="field col-12 md:col-6">
+            <label for="heure" class="block text-900 font-medium">Heure</label>
+            <input id="heure" type="time" placeholder="Heure" pInputText class="w-full" formControlName="heure">
+          </div>
+          <div class="field col-12">
+            <span class="p-fluid">
+              <label for="adresseDep" class="block text-900 font-medium">Adresse de départ</label>
+              <p-autoComplete inputId="adresseDep" placeholder="Rue du pont 12 6000" [suggestions]="suggestions" (completeMethod)="search($event.query)" formControlName="adresseDep"></p-autoComplete>
+            </span>
+          </div>
+          <div class="field col-12">
+            <span class="p-fluid">
+              <label for="adresseArr" class="block text-900 font-medium">Adresse d'arrivé</label>
+              <p-autoComplete inputId="adresseArr" placeholder="Rue du pont 12 6000" [suggestions]="suggestions" (completeMethod)="search($event.query)" formControlName="adresseArr"></p-autoComplete>
+            </span>
+          </div>
+        </div>
+      </form>
+      <div *ngIf="this.isLoading==true; then load else noLoad"></div>
+      <ng-template #load>
+        <button [disabled]="true" pButton pRipple type="submit" label="Visualiser l'itinéraire" class="p-button-help w-full mb-2 p-button-sm"></button>
+        <button [disabled]="true" pButton icon="pi pi-spin pi-spinner" class="w-full p-button-primary" ></button>
+      </ng-template>
+      <ng-template #noLoad>
+        <button pButton pRipple type="submit" label="Visualiser l'itinéraire" class="p-button-help w-full mb-2 p-button-sm" (click)="displayMap()"></button>
+        <button pButton pRipple type="submit" label="Ajouter" class="p-button-primary w-full" (click)="ajouter()"></button>
+      </ng-template>
+  </div>
+</div>
+
+<p-dialog header="Itinéraire de la course" [(visible)]="dialogMap" [modal]="true">
+  <ng-template pTemplate="header"><span class="font-bold">Visualisation de l'itinéraire de la crouse</span></ng-template>
+  <div id="map"></div>
+</p-dialog>

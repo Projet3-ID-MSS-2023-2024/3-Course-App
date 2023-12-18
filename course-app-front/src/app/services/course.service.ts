@@ -29,6 +29,12 @@ export class CourseService {
     );
   }
 
+  getCoursesByGestionnaireAndDeleted(id: number): Observable<Course[]>{
+    return this.http.get<Course[]>(`${this.courseApiUrl}/admin/supprimees/${id}`).pipe(
+      tap((courses: Course[]) => this.log(courses)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
   modifCourse(course: Course): Observable<any> {
     return this.http.put(`${this.courseApiUrl}/admin/${course.id}`, course);
   }

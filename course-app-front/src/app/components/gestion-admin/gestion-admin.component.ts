@@ -142,6 +142,19 @@ export class GestionAdminComponent implements OnInit{
       }
   });
   }
+  confirmNewMdpTemp(id :number){
+    this.confirmationService.confirm({
+      message: 'Voulez-vous generer un nouveau mot de passe temporaire pour cet utilisateur ?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+          this.newMdpTemp(id);
+      },
+      reject: () => {
+        this.messageService.add({severity: 'info', summary: 'Annulation', detail: ''})
+      }
+  });
+  }
 
   confirmActive(id :number){
     this.confirmationService.confirm({
@@ -176,6 +189,19 @@ export class GestionAdminComponent implements OnInit{
     },(error)=>{
       this.progressBar=false;
       this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: 'erreur' });
+    })
+  }
+
+  newMdpTemp(id:number){
+    this.progressBar = true;
+    this.userService.newMdpTemp(id).subscribe(()=>{
+      this.progressBar=false;
+      this.messageService.add({ severity: 'success', summary: 'Nouveau mot de passe temporaire !', detail: 'Un mail a été envoyé '
+       +'à l\'utilisateur pour l\'avertir de son nouveau mot de passe temporaire.' });
+      this.getUsers();
+    },(error)=>{
+      this.progressBar=false;
+      this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });
     })
   }
 

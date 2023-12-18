@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit{
     this.authService.authentication(this.user).subscribe((res)=>{
       this.tokenResponse = res;
       this.authService.authSuccess(this.tokenResponse.token);
-      if (this.tokenResponse.temp) {
+      if (this.tokenResponse.tempMdp) {
         this.router.navigateByUrl('/creer/mdp');
       } else {this.router.navigateByUrl('/accueil');}
     },(error)=>{

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from 'src/models/user';
+import { ChangePassword } from 'src/models/changePassword';
 
 @Injectable({
   providedIn: 'root'
@@ -30,10 +31,26 @@ export class UserService {
     return this.http.post('http://localhost:8080/api/users/active',id);
   }
 
+  newMdpTemp(id : number){
+    return this.http.post('http://localhost:8080/api/users/generate/mdpTemp',id);
+  }
+
   addMdp(mdp: string){
     return this.http.post('http://localhost:8080/api/users/addMdp', mdp);
   }
-  updateUser(id: number, user: User){
-    return this.http.put(`http://localhost:8080/api/users/${id}`,user );
+  updateUserName(id: number, user: User){
+    return this.http.put(`http://localhost:8080/api/users/name/${id}`,user );
+  }
+
+  updateUserPrenom(id: number, user: User){
+    return this.http.put(`http://localhost:8080/api/users/prenom/${id}`,user );
+  }
+
+  updateUserMail(id: number, user: User){
+    return this.http.put(`http://localhost:8080/api/users/mail/${id}`,user );
+  }
+
+  updateUserPassword(id: number, changePassword: ChangePassword){
+    return this.http.put(`http://localhost:8080/api/users/changePassword/${id}`,changePassword );
   }
 }

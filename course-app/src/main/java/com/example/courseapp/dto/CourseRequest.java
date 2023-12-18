@@ -1,5 +1,6 @@
 package com.example.courseapp.dto;
 
+import com.example.courseapp.models.Adresse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class CourseRequest {
     private double prix;
     private Date date;
     private LocalTime heure;
-    private String adresse;
-    private String adresse1;
+    private Adresse adresse;
+    private Adresse adresse1;
     private String utilisateur;
 }

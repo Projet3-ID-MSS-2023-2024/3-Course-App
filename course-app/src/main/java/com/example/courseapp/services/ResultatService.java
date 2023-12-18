@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ResultatService {
 
+    /*** Methode pour récupérer des Résultats pour une course ***/
+
     public List<Resultat> getAllResultByCourseId(int id);
 
     public Resultat add(Resultat resultat);

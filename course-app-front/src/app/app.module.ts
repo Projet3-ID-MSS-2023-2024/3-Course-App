@@ -24,6 +24,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TreeTableModule } from 'primeng/treetable';
+import { FieldsetModule } from 'primeng/fieldset';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -42,9 +45,13 @@ import { CoursesListAdminComponent } from './components/Course/courses-list-admi
 import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.component';
 import { HttpInterceptorService } from './services/http-interceptor.service';
 import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
-import { CourseMapComponent } from './components/Course/course-map/course-map.component';
 import { UpdateUserComponent } from './components/Profile/update-user/update-user.component';
-import { GestionResultatsComponent } from './components/gestion-resultats/gestion-resultats.component';
+import { GestionResultatsComponent } from './components/Resultats/gestion-resultats/gestion-resultats.component';
+import { UpdateCourseAddComponent } from './components/Course/update-course-add/update-course-add.component';
+import { CoursesDeleteListComponent } from './components/Course/courses-delete-list/courses-delete-list.component';
+import { ModifResultatsComponent } from './components/Resultats/modif-resultats/modif-resultats.component';
+import { ListResultatsComponent } from './components/Resultats/list-resultats/list-resultats.component';
+import { ListResultatsPersonnelsComponent } from './components/Resultats/list-resultats-personnels/list-resultats-personnels.component';
 
 
 @NgModule({
@@ -64,9 +71,13 @@ import { GestionResultatsComponent } from './components/gestion-resultats/gestio
     CoursesListAdminComponent,
     GestionAdminComponent,
     NouveauMdpComponent,
-    CourseMapComponent,
     UpdateUserComponent,
-    GestionResultatsComponent
+    GestionResultatsComponent,
+    UpdateCourseAddComponent,
+    CoursesDeleteListComponent,
+    ModifResultatsComponent,
+    ListResultatsComponent,
+    ListResultatsPersonnelsComponent
   ],
   imports: [
     BrowserModule,
@@ -96,7 +107,10 @@ import { GestionResultatsComponent } from './components/gestion-resultats/gestio
     ProgressSpinnerModule,
     SplitButtonModule,
     ProgressBarModule,
-    TreeTableModule
+    TreeTableModule,
+    FieldsetModule,
+    AutoCompleteModule
+
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
+import { ChangePassword } from 'src/models/changePassword';
 import { User } from 'src/models/user';
 
 @Component({
@@ -13,6 +15,12 @@ import { User } from 'src/models/user';
 })
 export class UserProfileComponent implements OnInit{
   loggedUser!:User;
+  changePassword!: ChangePassword;
+  visible: boolean = false;
+  show: boolean = false;
+  UpdateForm!: any;
+  user !: User;
+  
 
   constructor(
     private router: Router,
@@ -20,13 +28,23 @@ export class UserProfileComponent implements OnInit{
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private userService: UserService,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
     this.loggedUser = new User();
+    this.changePassword = new ChangePassword();
     if (this.authService.isUserLoggedIn()) {      // on vérifie qu'il y a un token en LC
       this.loadLoggedUser();
     }
+    this.UpdateForm = this.fb.group({
+      nom: ['',Validators.required],
+      prenom: ['',Validators.required],
+      mail: ['',Validators.required],
+      currentPassword: ['',Validators.required],
+      newPassword: ['',Validators.required],
+      confirmationPassword: ['',Validators.required]
+    })
   }
   loadLoggedUser(){
     this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
@@ -35,7 +53,13 @@ export class UserProfileComponent implements OnInit{
     })
   }
 
+  showDialogName() {
+    this.visible = true;
+}
 
+showDialogFirstName() {
+  this.show = true;
+}
 
   deleteUser(id :Number){
     this.userService.delUser(id).subscribe(()=>{
@@ -46,5 +70,41 @@ export class UserProfileComponent implements OnInit{
     })
   }
 
+  updateUserName(id: number){
+    this.user.nom = this.UpdateForm.value.nom;
+    this.userService.updateUserName(id, this.user).subscribe(()=>{
+      this.router.navigateByUrl('/user-profile');
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+    })
+  }
 
+  updateUserPrenom(id: number){
+    this.user.prenom = this.UpdateForm.value.prenom;
+    this.userService.updateUserPrenom(id, this.user).subscribe(()=>{
+      this.router.navigateByUrl('/user-profile');
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+    })
+  }
+
+  updateUserMail(id: number){
+    this.user.email = this.UpdateForm.value.email;
+    this.userService.updateUserPrenom(id, this.user).subscribe(()=>{
+      this.router.navigateByUrl('/user-profile');
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+    })
+  }
+
+  updateUserPassword(id: number, changePassword: ChangePassword){
+    this.changePassword.currentPassword = this.UpdateForm.value.currentPassword;
+    this.changePassword.newPassword = this.UpdateForm.value.newPassword;
+    this.changePassword.confirmationPassword = this.UpdateForm.value.confirmationPassword;
+    this.userService.updateUserPassword(id, this.changePassword).subscribe(()=>{
+      this.router.navigateByUrl('/user-profile');
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+    })
+  }
 }

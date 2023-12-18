@@ -1,16 +1,21 @@
 package com.example.courseapp.restControllers;
 
+import com.example.courseapp.dto.ChangePasswordRequest;
 import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.CustomException;
+import com.example.courseapp.models.Role;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.services.AuthenticationServcie;
 import com.example.courseapp.services.IUtilisateurService;
+import com.example.courseapp.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +29,8 @@ public class UtilisateurRestController {
     PasswordEncoder passwordEncoder;
     @Autowired
     AuthenticationServcie authenticationServcie;
+    @Autowired
+    RoleService roleService;
 
     @GetMapping
     public List<UserResponse> getAll(){
@@ -49,25 +56,61 @@ public class UtilisateurRestController {
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) throws Exception{
+        roleService.verifRole(Role.ADMIN);
         utilisateurService.boclkUnclock(id,true);
     }
 
     @PostMapping("/active")
     public void activeUser(@RequestBody int id) throws Exception{
+        roleService.verifRole(Role.ADMIN);
         utilisateurService.boclkUnclock(id,false);
+    }
+    @PostMapping("/generate/mdpTemp")
+    public void generateNewMdpTemp(@RequestBody int id) throws Exception {
+        utilisateurService.newMdpTemp(id);
     }
 
     /*** Update les données personnel d'utilisateur ***/
-    @PutMapping("/{id}")
-    public Optional<Utilisateur> putUserById(@RequestBody Utilisateur utilisateur, @PathVariable("id") int id){
+    @PutMapping("/name/{id}")
+    public Optional<Utilisateur> putUserNameById(@RequestBody Utilisateur utilisateur, @PathVariable("id") int id){
 
         return this.utilisateurService.getUserById(id)
                 .map(upUser -> {
                     upUser.setNom(utilisateur.getNom());
-                    upUser.setPrenom(utilisateur.getPrenom());
-                    upUser.setEmail(utilisateur.getEmail());
                     return utilisateurService.saveUser(upUser);
                 });
+    }
+
+    @PutMapping("/mail/{id}")
+    public Optional<Utilisateur> putUserMailById(@RequestBody Utilisateur utilisateur, @PathVariable("id") int id){
+
+        return this.utilisateurService.getUserById(id)
+                .map(upUser -> {
+                    upUser.setEmail((utilisateur.getEmail()));
+                    return utilisateurService.saveUser(upUser);
+                });
+    }
+
+    @PutMapping("/prenom/{id}")
+    public Optional<Utilisateur> putUserPrenomById(@RequestBody Utilisateur utilisateur, @PathVariable("id") int id){
+
+        return this.utilisateurService.getUserById(id)
+                .map(upUser -> {
+                    upUser.setPrenom(utilisateur.getPrenom());
+                    return utilisateurService.saveUser(upUser);
+                });
+    }
+
+    @PutMapping("/changePassword/{id}")
+    public Optional<Utilisateur> changePassword(@RequestBody ChangePasswordRequest request, @PathVariable("id") int id){
+
+        return this.utilisateurService.getUserById(id)
+                .map(chgUser -> {
+                    chgUser.setMdp((request.getNewPassword()));
+                    return utilisateurService.saveUser(chgUser);
+                });
+
+
     }
     @PostMapping("/addMdp")
     public boolean addMdp(@RequestBody String mdp) throws Exception {

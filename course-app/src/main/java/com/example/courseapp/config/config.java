@@ -50,17 +50,17 @@ public class config {
         List<Adresse> adresseList = new ArrayList<>(3);
 
         /*** Mise en place de l'adresse 1 ***/
-        Adresse adresse1 = new Adresse(1,"Clos plein sud",-2122324325,214325324,villeList.get(1));
+        Adresse adresse1 = new Adresse(1,"Clos plein sud",50.410152706722116,4.544180481405427,villeList.get(1));
         adresseList.add(adresse1); //Ajoute dans la liste adresseList
         adresseRepo.save(adresse1); // Sauvegarde dans le repository
 
         /*** Mise en place de l'adresse 2 ***/
-        Adresse adresse2 = new Adresse(2,"Rue des gaux",-228938943,58734837,villeList.get(0));
+        Adresse adresse2 = new Adresse(2,"Rue des gaux",50.404346607640875,4.529331066585797,villeList.get(0));
         adresseList.add(adresse2); //Ajoute dans la liste adresseList
         adresseRepo.save(adresse2); // Sauvegarde dans le repository
 
         /*** Mise en place de l'adresse 3 ***/
-        Adresse adresse3 = new Adresse(3,"Rue de la montagne",-2122324325,214325324,villeList.get(2));
+        Adresse adresse3 = new Adresse(3,"Rue de la montagne",50.412077017660664, 4.442564632361124,villeList.get(2));
         adresseList.add(adresse3); //Ajoute dans la liste adresseList
         adresseRepo.save(adresse3); // Sauvegarde dans le repository
 
@@ -91,7 +91,7 @@ public class config {
         repoCourse.save(course1); // Sauvegarde dans le repository
 
         /*** Mise en place de la course 2 ***/
-        Course course2 = new Course(2,"Course de Noel",10,new Date(2023,10,30),LocalTime.of(10,35,00),false,false,adresseList.get(2),adresseList.get(2),user);
+        Course course2 = new Course(2,"Course de Noel",10,new Date(2023,10,30),LocalTime.of(10,35,00),false,true,adresseList.get(2),adresseList.get(2),user);
         listCourse.add(course2); //Ajout dans la liste listCourse
         repoCourse.save(course2); // Sauvegarde dans le repository
 

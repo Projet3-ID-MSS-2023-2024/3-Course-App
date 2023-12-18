@@ -85,7 +85,7 @@ public class AuthenticationServcie {
         var jwtToken = jwtService.generateToken(user);
         var response = AuthenticationResponse.builder()
                 .token(jwtToken)
-                .temp(temp).build();
+                .tempMdp(temp).build();
         return ResponseEntity.ok(response);
     }
 
@@ -98,6 +98,7 @@ public class AuthenticationServcie {
                 .nom(user.get().getNom())
                 .prenom(user.get().getPrenom())
                 .role(user.get().getRole())
+                .tempMdp(user.get().isTempMdp())
                 .build();
     }
 

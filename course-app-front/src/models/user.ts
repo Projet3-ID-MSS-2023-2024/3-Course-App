@@ -5,6 +5,7 @@ export class User {
   email: string;
   mdp: string;
   role: String[];
+  tempMdp: boolean;
 
   constructor() {
     this.id = 0;
@@ -13,6 +14,7 @@ export class User {
     this.email = "";
     this.mdp = "";
     this.role = [];
+    this.tempMdp = false;
   }
 
 }

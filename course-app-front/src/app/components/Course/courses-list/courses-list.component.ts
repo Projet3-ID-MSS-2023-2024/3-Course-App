@@ -7,6 +7,7 @@ import { ResultatService } from 'src/app/services/resultat.service';
 import { Course } from 'src/models/course';
 import { Resultat } from 'src/models/resultat';
 import { User } from 'src/models/user';
+import { MapService } from 'src/app/services/map.service';
 
 @Component({
   selector: 'app-courses-list',
@@ -26,6 +27,10 @@ export class CoursesListComponent implements OnInit {
   course!: Course;
   loggedUser!: User;
   newResultat: Resultat = new Resultat;
+  map : any;
+  dialogMap:boolean =false;
+  courseMap!: Course;
+
 
   courses: Course[] | undefined = [];
   resultats: Resultat[] | undefined = [];
@@ -37,7 +42,13 @@ export class CoursesListComponent implements OnInit {
   sortField!: string;
   sortKey: any;
 
-  constructor(private courseService: CourseService, private authService: AuthService, private messageService: MessageService, private resultatService: ResultatService) {}
+  constructor(
+    private courseService: CourseService,
+    private authService: AuthService,
+    private messageService: MessageService,
+    private resultatService: ResultatService,
+    private mapService : MapService
+       ) {}
 
   ngOnInit(): void {
     this.loadLoggedUserAndResultats();
@@ -160,5 +171,13 @@ export class CoursesListComponent implements OnInit {
       this.loggedUser = res;
       this.getResultats();
     })
+  }
+
+  showMapDialog(course : Course){
+    this.courseMap = course;
+    this.dialogMap = true;
+    setTimeout(() => {
+      this.mapService.loadMap(course.adresse.latitude,course.adresse.longitude,course.adresse1.latitude,course.adresse1.longitude);
+    }, 0);
   }
 }

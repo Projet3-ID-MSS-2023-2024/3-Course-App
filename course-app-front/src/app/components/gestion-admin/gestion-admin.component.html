@@ -44,6 +44,7 @@
             <td>
               <div *ngIf="usersDel==false; then noDel else del"></div>
               <ng-template #noDel>
+                <button pButton pRipple type="button" [icon]="'pi pi-key'" class="p-button-sm p-button-text p-button-help" (click)="confirmNewMdpTemp(user.id)"></button>
                 <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-danger" (click)="confirmDelete(user.id)"></button>
               </ng-template>
               <ng-template #del>
