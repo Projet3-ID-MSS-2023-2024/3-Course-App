@@ -42,7 +42,7 @@ public class CourseRestController {
                 throw new CustomException("Vous n'avez pas les permissions requises.");
             }
             newCourse.setUtilisateur(user);
-        }
+        } else throw new CustomException("Vous devez vous connecter pour réaliser cette opération.");
 
         newCourse = courseService.verifAdresseVille(newCourse.getAdresse(), newCourse.getAdresse().getVille(),newCourse);
         newCourse = courseService.verifAdresseVille(newCourse.getAdresse1(), newCourse.getAdresse1().getVille(),newCourse);
