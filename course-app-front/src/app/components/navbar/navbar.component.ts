@@ -38,7 +38,19 @@ export class NavbarComponent implements OnInit {
         },
         {
             label: 'Résultats',
-            icon: 'pi pi-fw pi-chart-bar',
+            icon: 'pi pi-fw pi-bars',
+            items: [
+              {
+                label: 'Résultats des courses',
+                icon: 'pi pi-fw pi-chart-bar',
+                routerLink: '/resultats'
+              },
+              {
+                label: 'Résultats personnels',
+                icon: 'pi pi-fw pi-chart-bar',
+                routerLink: '/resultats/personnel'
+              },
+          ]
         },
         {
           label: 'Administration Courses',
