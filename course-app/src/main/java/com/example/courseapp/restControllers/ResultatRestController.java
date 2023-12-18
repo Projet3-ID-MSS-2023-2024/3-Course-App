@@ -41,17 +41,24 @@ public class ResultatRestController {
         return this.resultatService.getAllResultByCourseId(id);
     }
 
-    /*** Récupération des courses non terminées ainsi que leurs résultats par gestion de courses ***/
+    /*** Récupération des courses non terminées par gestionaire de courses ***/
     @GetMapping("/admin/{id}")
     public List<Course> getCoursesByGestionnaireAndNotEnded(@PathVariable int id) {
         return this.courseService.getCoursesByGestionnaireAndNotEnded(id);
     }
 
+    /*** Récupération des courses terminées par gestionaire de courses ***/
+    @GetMapping("/admin/terminees/{id}")
+    public List<Course> getCoursesByGestionnaireAndEnded(@PathVariable int id) {
+        return this.courseService.getCoursesByGestionnaireAndEnded(id);
+    }
+
+    /*** Récupération des résultats d'une course ***/
     @GetMapping("/admin/resultats/{id}")
     public List<Resultat> getResultatsByCourse(@PathVariable int id) {
         return this.resultatService.getAllResultByCourseId(id);
     }
-    
+
     @PostMapping
     public Resultat add(@RequestBody Resultat newResultat) {
         return resultatService.add(newResultat);

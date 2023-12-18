@@ -27,7 +27,13 @@ public interface CourseRepo extends JpaRepository<Course, Integer> {
     @Query("select c from Course c where c.utilisateur.id =:id and c.cloturer = false and c.supprimer = false")
     public List<Course> getCourseByGestionnaireAndNotEnded(int id);
 
+    /*** Récup des courses non supprimée, cloturées par gestionnaire ***/
+    @Query("select c from Course c where c.utilisateur.id =:id and c.cloturer = true and c.supprimer = false")
+    public List<Course> getCourseByGestionnaireAndEnded(int id);
+
     /*** Récup des courses non supprimée qui sont terminées ***/
     @Query("select c from Course c where c.cloturer = true and c.supprimer = false")
     public List<Course> getCourseForResults();
+
+
 }
