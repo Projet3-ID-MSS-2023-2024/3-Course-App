@@ -100,7 +100,7 @@ import { UpdateCourseAddComponent } from './components/Course/update-course-add/
     SplitButtonModule,
     ProgressBarModule,
     TreeTableModule,
-    FieldsetModule
+    FieldsetModule,
     AutoCompleteModule
 
   ],
