@@ -33,6 +33,10 @@ public interface CourseService {
 
     public List<Course> getCoursesByGestionnaireAndNotEnded(int id);
 
+    /*** Methode qui récupère les courses terminées par gestionnaire ***/
+
+    public List<Course> getCoursesByGestionnaireAndEnded(int id);
+
     /*** Methode qui récupère les courses non supprimées et non terminées ***/
 
     public List<Course> getCourseEndedAndNotDeleted();

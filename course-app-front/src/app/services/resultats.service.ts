@@ -25,6 +25,13 @@ export class ResultatsService {
     );
   }
 
+  getCoursesByGestionnaireAndEnded(id: number): Observable<Course[]>{
+    return this.http.get<Course[]>(`${this.resultatsApiUrl}/admin/terminees/${id}`).pipe(
+      tap((courses: Course[]) => this.log(courses)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
   private log(response: Course | Course[] | boolean | undefined | Resultat[]): void {
     console.table(response);
   }

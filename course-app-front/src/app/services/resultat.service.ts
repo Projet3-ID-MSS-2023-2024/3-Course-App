@@ -30,6 +30,13 @@ export class ResultatService {
     );
   }
 
+  getCoursesByGestionnaireAndEnded(id: number): Observable<Course[]>{
+    return this.http.get<Course[]>(`${this.resultatApiUrl}/admin/terminees/${id}`).pipe(
+      tap((courses: Course[]) => this.log(courses)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
   getResultatsByCourse(id: number):Observable<Resultat[]>{
     return this.http.get<Resultat[]>(`${this.resultatApiUrl}/admin/resultats/${id}`).pipe(
       tap((resultats: Resultat[]) => this.log(resultats)),

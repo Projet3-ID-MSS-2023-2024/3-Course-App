@@ -35,12 +35,4 @@ export class CoursesDeleteListComponent implements OnInit {
    clear(table: Table) {
        table.clear();
    }
-
-    showDialog() {
-        this.visible = true;
-    }
-
-    hideDialog() {
-      this.visible = false;
-    }
 }

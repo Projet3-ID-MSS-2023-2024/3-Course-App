@@ -51,6 +51,12 @@ public class CourseServiceImpl implements CourseService{
         return courseRepo.getCourseByGestionnaireAndNotEnded(id);
     }
 
+    /*** Récupération des courses terminées par gestionnaire ***/
+    @Override
+    public List<Course> getCoursesByGestionnaireAndEnded(int id) {
+        return courseRepo.getCourseByGestionnaireAndEnded(id);
+    }
+
     /*** Récupération des courses non supprimées et non terminées ***/
 
     @Override
