@@ -18,6 +18,8 @@ export class UserProfileComponent implements OnInit{
   changePassword!: ChangePassword;
   visible: boolean = false;
   show: boolean = false;
+  showPassword: boolean = false;
+  showMail: boolean = false;
   UpdateForm!: any;
   user !: User;
   
@@ -33,6 +35,7 @@ export class UserProfileComponent implements OnInit{
 
   ngOnInit(): void {
     this.loggedUser = new User();
+    this.user = new User();
     this.changePassword = new ChangePassword();
     if (this.authService.isUserLoggedIn()) {      // on vérifie qu'il y a un token en LC
       this.loadLoggedUser();
@@ -40,11 +43,11 @@ export class UserProfileComponent implements OnInit{
     this.UpdateForm = this.fb.group({
       nom: ['',Validators.required],
       prenom: ['',Validators.required],
-      mail: ['',Validators.required],
+      email: ['',Validators.required],
       currentPassword: ['',Validators.required],
       newPassword: ['',Validators.required],
       confirmationPassword: ['',Validators.required]
-    })
+    });
   }
   loadLoggedUser(){
     this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
@@ -61,6 +64,12 @@ showDialogFirstName() {
   this.show = true;
 }
 
+showDialogMail() {
+  this.showMail = true;
+}
+showDialogPassword() {
+  this.showPassword = true;
+}
   deleteUser(id :Number){
     this.userService.delUser(id).subscribe(()=>{
       this.messageService.add({ severity: 'success', summary: 'Suppression réussie !', detail: 'Vous avez supprimé Votre compte' });
@@ -81,6 +90,8 @@ showDialogFirstName() {
 
   updateUserPrenom(id: number){
     this.user.prenom = this.UpdateForm.value.prenom;
+    console.log(this.user.prenom);
+    console.log(this.UpdateForm.value.prenom);
     this.userService.updateUserPrenom(id, this.user).subscribe(()=>{
       this.router.navigateByUrl('/user-profile');
     },(error)=>{
@@ -90,7 +101,9 @@ showDialogFirstName() {
 
   updateUserMail(id: number){
     this.user.email = this.UpdateForm.value.email;
-    this.userService.updateUserPrenom(id, this.user).subscribe(()=>{
+    console.log(this.user.email);
+    console.log(this.UpdateForm.value.email);
+    this.userService.updateUserMail(id, this.user).subscribe(()=>{
       this.router.navigateByUrl('/user-profile');
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
