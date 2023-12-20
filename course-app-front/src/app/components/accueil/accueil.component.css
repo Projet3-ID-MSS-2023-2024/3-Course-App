@@ -1,25 +1,24 @@
+.bienvTxt {
+  width: 700px;
+  margin: auto;
+}
+
 .bienvTxt h1{
   font-size: 50px;
-  color: rgb(73, 73, 230);
+  color: aliceblue;
   margin-bottom: 1%;
 }
 
 .bienvTxt p{
   width: 700px;
   text-align: justify;
+  color: aliceblue;
   font-size: 20px;
 }
 
-.image img{
-  border-right: 6px rgb(73, 73, 230) solid;
-  border-bottom: 6px rgb(73, 73, 230) solid;
-  width: 30rem;
-  border-radius: 3%;
-}
-
 .home{
-  display: flex;
-  align-items: center;
-  gap: 7em;
-  padding: 8% 8%;
+  background-size: cover;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.70), rgba(0,0,0,0.75)),url(../../../assets/homePage.jpg);
+  width: 100%;
+  padding: 8%;
 }
