@@ -23,6 +23,9 @@ export class GestionAdminComponent implements OnInit{
   addUser !: User;
   roles !: String[];
   visibleDiagAdd : boolean = false;
+  show: boolean = false;
+  showMail: boolean = false;
+  visible: boolean = false;
   addUserForm !: FormGroup;
   cols: any[] = [];
 
@@ -99,6 +102,18 @@ export class GestionAdminComponent implements OnInit{
   showDialogAdd(){
     this.visibleDiagAdd = true;
   }
+
+  showDialogName() {
+    this.visible = true;
+}
+
+showDialogFirstName() {
+  this.show = true;
+}
+
+showDialogMail() {
+  this.showMail = true;
+}
 
   ajoutUser(){
     this.loading =true;
@@ -202,6 +217,36 @@ export class GestionAdminComponent implements OnInit{
     },(error)=>{
       this.progressBar=false;
       this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });
+    })
+  }
+
+  updateUserName(id: number){
+    this.addUser = new User();
+    this.addUser.nom = this.addUserForm.value.nom;
+    this.userService.updateUserName(id, this.addUser).subscribe(()=>{
+      
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+    })
+  }
+
+  updateUserPrenom(id: number){
+    this.addUser = new User();
+    this.addUser.prenom = this.addUserForm.value.prenom;
+    this.userService.updateUserPrenom(id, this.addUser).subscribe(()=>{
+    
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+    })
+  }
+
+  updateUserMail(id: number){
+    this.addUser = new User();
+    this.addUser.email = this.addUserForm.value.email;
+    this.userService.updateUserMail(id, this.addUser).subscribe(()=>{
+      
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
     })
   }
 
