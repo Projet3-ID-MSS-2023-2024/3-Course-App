@@ -26,6 +26,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { TreeTableModule } from 'primeng/treetable';
 import { FieldsetModule } from 'primeng/fieldset';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 
 import { AppComponent } from './app.component';
@@ -109,7 +110,8 @@ import { ListResultatsPersonnelsComponent } from './components/Resultats/list-re
     ProgressBarModule,
     TreeTableModule,
     FieldsetModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    ScrollPanelModule
 
   ],
   providers: [{
