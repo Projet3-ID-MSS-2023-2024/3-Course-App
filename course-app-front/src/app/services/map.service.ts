@@ -64,6 +64,6 @@ export class MapService {
     });
 
     let marker = L.marker([lati, long]).addTo(this.map).bindPopup("Départ").openPopup();
-    let marker2 = L.marker([latArr, longArr]).addTo(this.map).bindPopup("Arrivé");
+    let marker2 = L.marker([latArr, longArr]).addTo(this.map).bindPopup("Arrivée");
   }
 }

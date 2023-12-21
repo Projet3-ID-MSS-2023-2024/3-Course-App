@@ -110,7 +110,7 @@ public class AuthenticationServcie {
                 throw new CustomException("L'email a déja été confirmé");
             }
 
-            Utilisateur userMod = Utilisateur.builder().build();
+            Utilisateur userMod = user.get();
             userMod.setActive(true);
 
             utilisateurService.saveUser(userMod);

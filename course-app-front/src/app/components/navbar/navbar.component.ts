@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem } from 'primeng/api';
+import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { BtnStateService } from 'src/app/services/btn-state.service';
 import { User } from 'src/models/user';
 
 @Component({
@@ -13,18 +15,29 @@ import { User } from 'src/models/user';
 export class NavbarComponent implements OnInit {
   items: MenuItem[] | undefined;
   loggedUser!:User;
+  log!:boolean;
+  btnDisable$!:Observable<boolean>;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private btnStateService : BtnStateService) { }
 
   ngOnInit() {
     this.loggedUser = new User();
+    this.btnDisable$ = this.btnStateService.btnDisable$;
     if (this.authService.isUserLoggedIn()) {      // on vérifie qu'il y a un token en LC
+      this.log=true;
       this.loadLoggedUser();
+    } else {
+      this.log=false;
     }
+    this.loadItems();
+  }
 
+  loadItems(){
+    if (this.log) {
       this.items = [
         {
             label: 'Accueil',
@@ -89,6 +102,34 @@ export class NavbarComponent implements OnInit {
             routerLink:'/user-profile'
         }
       ];
+    } else {
+      this.items = [
+        {
+            label: 'Accueil',
+            icon: 'pi pi-fw pi-home',
+            command: ()=>{
+              this.btnStateService.setState(false);
+            },
+            routerLink: '/accueil'
+        },
+        {
+            label: 'Courses',
+            icon: 'pi pi-fw pi-flag',
+            command: ()=>{
+              this.btnStateService.setState(false);
+            },
+            routerLink: '/courses'
+        },
+        {
+            label: 'Résultats',
+            icon: 'pi pi-fw pi-bars',
+            command: ()=>{
+              this.btnStateService.setState(false);
+            },
+            routerLink: '/resultats'
+        }
+      ];
+    }
   }
 
   loadLoggedUser(){
@@ -96,6 +137,11 @@ export class NavbarComponent implements OnInit {
       this.loggedUser= res;
       console.log(this.loggedUser)
     })
+  }
+
+  login(){
+    this.btnStateService.setState(true);
+    this.router.navigateByUrl('/login')
   }
 
   confirmLogOut(){
@@ -111,6 +157,6 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.authService.logout();
-    this.router.navigateByUrl('/login');
+    location.reload();
   }
 }
