@@ -14,9 +14,11 @@ import { User } from 'src/models/user';
 })
 export class NavbarComponent implements OnInit {
   items: MenuItem[] | undefined;
+  item!:MenuItem;
   loggedUser!:User;
   log!:boolean;
   btnDisable$!:Observable<boolean>;
+  tempMdp!:Observable<boolean>;
 
   constructor(
     private router: Router,
@@ -27,17 +29,47 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.loggedUser = new User();
     this.btnDisable$ = this.btnStateService.btnDisable$;
+    this.tempMdp = this.btnStateService.tempMdp;
     if (this.authService.isUserLoggedIn()) {      // on vérifie qu'il y a un token en LC
       this.log=true;
       this.loadLoggedUser();
     } else {
       this.log=false;
+      this.loadItemsNoLog();
     }
-    this.loadItems();
   }
 
-  loadItems(){
-    if (this.log) {
+  loadItemsNoLog(){
+    this.items = [
+      {
+          label: 'Accueil',
+          icon: 'pi pi-fw pi-home',
+          command: ()=>{
+            this.btnStateService.setState(false);
+          },
+          routerLink: '/accueil'
+      },
+      {
+          label: 'Courses',
+          icon: 'pi pi-fw pi-flag',
+          command: ()=>{
+            this.btnStateService.setState(false);
+          },
+          routerLink: '/courses'
+      },
+      {
+          label: 'Résultats',
+          icon: 'pi pi-fw pi-bars',
+          command: ()=>{
+            this.btnStateService.setState(false);
+          },
+          routerLink: '/resultats'
+      }
+    ];
+  }
+
+  loadItems(user:User){
+    if (!user.tempMdp) {
       this.items = [
         {
             label: 'Accueil',
@@ -48,9 +80,12 @@ export class NavbarComponent implements OnInit {
             label: 'Courses',
             icon: 'pi pi-fw pi-flag',
             routerLink: '/courses'
-        },
-        {
-            label: 'Résultats',
+        }
+      ];
+
+      if (user.role.includes("COUREUR")) {
+        this.item = {
+          label: 'Résultats',
             icon: 'pi pi-fw pi-bars',
             items: [
               {
@@ -64,8 +99,19 @@ export class NavbarComponent implements OnInit {
                 routerLink: '/resultats/personnel'
               },
           ]
-        },
-        {
+        }
+        this.items.push(this.item);
+      } else {
+        this.item = {
+          label: 'Résultats des courses',
+          icon: 'pi pi-fw pi-chart-bar',
+          routerLink: '/resultats'
+        }
+        this.items.push(this.item);
+      }
+
+      if (user.role.includes("GESTIONNAIRE")) {
+        this.item = {
           label: 'Administration Courses',
           icon: 'pi pi-fw pi-bars',
           items: [
@@ -89,53 +135,43 @@ export class NavbarComponent implements OnInit {
                 icon: 'pi pi-fw pi-pencil',
                 routerLink:'/resultats/admin/modif'
             },
-        ]
-        },
-        {
+          ]
+        }
+        this.items.push(this.item);
+      }
+
+      if (user.role.includes("ADMIN")) {
+        this.item = {
           label: 'Administration',
           icon: 'pi pi-fw pi-sitemap',
           routerLink: '/administration'
-        },
-        {
-            label: 'Mon compte',
-            icon: 'pi pi-fw pi-user-edit',
-            routerLink:'/user-profile'
         }
-      ];
+        this.items.push(this.item);
+      }
+
+      let finalItem = {
+        label: 'Mon compte',
+        icon: 'pi pi-fw pi-user-edit',
+        routerLink:'/user-profile'
+      }
+      this.items.push(finalItem);
     } else {
       this.items = [
         {
-            label: 'Accueil',
-            icon: 'pi pi-fw pi-home',
-            command: ()=>{
-              this.btnStateService.setState(false);
-            },
-            routerLink: '/accueil'
-        },
-        {
-            label: 'Courses',
-            icon: 'pi pi-fw pi-flag',
-            command: ()=>{
-              this.btnStateService.setState(false);
-            },
-            routerLink: '/courses'
-        },
-        {
-            label: 'Résultats',
-            icon: 'pi pi-fw pi-bars',
-            command: ()=>{
-              this.btnStateService.setState(false);
-            },
-            routerLink: '/resultats'
+            label: 'Creer son mot de passe',
+            icon: 'pi pi-fw pi-key'
         }
-      ];
+      ]
     }
   }
 
   loadLoggedUser(){
     this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
       this.loggedUser= res;
-      console.log(this.loggedUser)
+      if (this.loggedUser.tempMdp) {
+        this.btnStateService.setTempMdp(true);
+      }
+      this.loadItems(this.loggedUser);
     })
   }
 
