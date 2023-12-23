@@ -149,7 +149,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         user.setActive(true);
         user.setDel(false);
         this.utilisateurRepo.save(user);
-        emailService.sendEmail(user.getEmail(), "Code de connexion", buildEmailCodeConnexion(user.getPrenom(), codeMdp,author.getPrenom()));
+        emailService.sendEmail(user.getEmail(), "Code de connexion", buildEmailCodeConnexion(user.getPrenom(), codeMdp,author.getPrenom(), false));
     }
 
     @Override
@@ -204,8 +204,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         utilisateurRepo.save(userPwd);
     }
 
-
-
+    /*** Génération d'un nouveau mot de passe qui va permettre une seule connexion a l'utilisateur ***/
     @Override
     public void newMdpTemp(int id) throws Exception {
         Utilisateur author = roleService.verifRole(Role.ADMIN);
@@ -219,7 +218,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         userMod.setMdp(passwordEncoder.encode(codeMdp));
         userMod.setTempMdp(true);
         utilisateurRepo.save(userMod);
-        emailService.sendEmail(userMod.getEmail(), "Mot de passe temporaire", buildEmailCodeConnexion(userMod.getPrenom(), codeMdp,author.getPrenom()));
+        emailService.sendEmail(userMod.getEmail(), "Mot de passe temporaire", buildEmailCodeConnexion(userMod.getPrenom(), codeMdp,author.getPrenom(), true));
     }
 
 
@@ -243,8 +242,11 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         return this.utilisateurRepo.count();
     }
 
-    private String buildEmailCodeConnexion(String prenom,String codeMdp, String admin){
-        return "<!DOCTYPE html>\n" +
+    /*** fonction pour créer le template html apres avoir ajouter un admin si le boolean mdp est a false
+     ou apres avoir generer un nouveau mot de passse temporaire sur le boolean newMdp est a true ***/
+
+    private String buildEmailCodeConnexion(String prenom,String codeMdp, String admin,boolean newMdp){
+        String template = "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
                 "    <meta charset=\"UTF-8\">\n" +
@@ -295,14 +297,22 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
                 "<body>\n" +
                 "    <div class=\"box\">\n" +
                 "        <h2>Code de Connexion</h2>\n" +
-                "        <p>Bonjour "+ prenom +",</p>\n" +
-                "        <p>Tu as été inscrit sur l'application Course App par l'administrateur "+ admin +".</p>\n" +
+                "        <p>Bonjour "+ prenom +",</p>\n";
+        if (newMdp){
+            template = template + "<p>L'administrateur "+ admin +
+                    " a créé un nouveau mot de passe temporaire pour ton compte sur l'application Course App.</p>\n";
+        } else {
+            template = template + "<p>Tu as été inscrit sur l'application Course App par l'administrateur "+ admin +".</p>\n";
+        }
+        template = template +
                 "        <p>Utilise ton adresse mail ainsi que le mot de passe temporaire ci-dessous pour te connecter.</p>\n" +
                 "        <p class=\"code\">"+ codeMdp +"</p>\n" +
                 "        <p class=\"note\">Attention, ce mot de passe n'est valide qu'une seule fois, il t'es donc fortement recommandé de te créer un mot de passe une fois connecté.</p>\n" +
                 "    </div>\n" +
                 "</body>\n" +
                 "</html>";
+
+        return template;
     }
 
     private String emailReactivationCompte(String prenom){
