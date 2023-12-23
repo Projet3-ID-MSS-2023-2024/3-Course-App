@@ -30,6 +30,7 @@ export class CoursesListComponent implements OnInit {
   map : any;
   dialogMap:boolean =false;
   courseMap!: Course;
+  disableBtnInscription: boolean = false;
 
 
   courses: Course[] | undefined = [];
@@ -51,7 +52,11 @@ export class CoursesListComponent implements OnInit {
        ) {}
 
   ngOnInit(): void {
-    this.loadLoggedUserAndResultats();
+    if (this.authService.isUserLoggedIn()) {
+      this.loadLoggedUserAndResultats();
+    } else {
+      this.disableBtnInscription = true;
+    }
     this.getCourses();
 
     this.sortField = 'prix';
@@ -169,6 +174,11 @@ export class CoursesListComponent implements OnInit {
   loadLoggedUserAndResultats(){
     this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
       this.loggedUser = res;
+      if (this.loggedUser.role.includes("COUREUR")) {
+        this.disableBtnInscription = false;
+      } else {
+        this.disableBtnInscription = true;
+      }
       this.getResultats();
     })
   }

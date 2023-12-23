@@ -22,29 +22,33 @@ import { ListResultatsComponent } from './components/Resultats/list-resultats/li
 import { ListResultatsPersonnelsComponent } from './components/Resultats/list-resultats-personnels/list-resultats-personnels.component';
 import { ModifResultatsComponent } from './components/Resultats/modif-resultats/modif-resultats.component';
 import { authGuard } from './guards/auth.guard';
+import { roleAdminGuard } from './guards/role-admin.guard';
+import { roleGestionnaireGuard } from './guards/role-gestionnaire.guard';
+import { roleCoureurGuard } from './guards/role-coureur.guard';
+import { firstAdminGuard } from './guards/first-admin.guard';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent, canActivate: [mdpTempGuard]},
+  { path: '', component: AccueilComponent, canActivate: [mdpTempGuard]},
   { path: 'login', component: LoginComponent, canActivate: [mdpTempGuard]},
   { path: 'accueil', component: AccueilComponent, canActivate: [mdpTempGuard]},
-  { path: 'firstRegister', component: FirstRegisterComponent, canActivate: [mdpTempGuard]},
+  { path: 'firstRegister', component: FirstRegisterComponent, canActivate: [firstAdminGuard, mdpTempGuard]},
   { path: 'courses', component: CoursesListComponent, canActivate: [mdpTempGuard]},
-  { path: 'courses/admin', component: CoursesListAdminComponent, canActivate: [authGuard, mdpTempGuard]},
-  { path: 'courses/admin/supprimees', component: CoursesDeleteListComponent, canActivate: [authGuard, mdpTempGuard]},
-  { path: 'resultats/admin', component: GestionResultatsComponent, canActivate: [mdpTempGuard]},
-  { path: 'resultats/admin/modif', component: ModifResultatsComponent, canActivate: [mdpTempGuard]},
+  { path: 'courses/admin', component: CoursesListAdminComponent, canActivate: [roleGestionnaireGuard, mdpTempGuard]},
+  { path: 'courses/admin/supprimees', component: CoursesDeleteListComponent, canActivate: [roleGestionnaireGuard, mdpTempGuard]},
+  { path: 'resultats/admin', component: GestionResultatsComponent, canActivate: [roleGestionnaireGuard,mdpTempGuard]},
+  { path: 'resultats/admin/modif', component: ModifResultatsComponent, canActivate: [roleGestionnaireGuard,mdpTempGuard]},
   { path: 'resultats', component: ListResultatsComponent, canActivate: [mdpTempGuard]},
-  { path: 'resultats/personnel', component: ListResultatsPersonnelsComponent, canActivate: [mdpTempGuard]},
-  { path: 'course-add', component: CourseAddComponent, canActivate: [mdpTempGuard]},
+  { path: 'resultats/personnel', component: ListResultatsPersonnelsComponent, canActivate: [roleCoureurGuard, mdpTempGuard]},
+  //{ path: 'course-add', component: CourseAddComponent, canActivate: [mdpTempGuard]},
   { path: 'inscription', component: InscriptionComponent, canActivate: [mdpTempGuard]},
   { path: 'confirm/inscription/:code', component: ConfirmInscriptionComponent, canActivate: [mdpTempGuard]},
-  { path:'ville-add',component:VilleAddComponent, canActivate: [mdpTempGuard]},
-  {path:'adresse-add',component:AdresseAddComponent, canActivate: [mdpTempGuard]},
+  //{ path:'ville-add',component:VilleAddComponent, canActivate: [mdpTempGuard]},
+  //{path:'adresse-add',component:AdresseAddComponent, canActivate: [mdpTempGuard]},
   { path: 'user-profile',component:UserProfileComponent, canActivate: [authGuard,mdpTempGuard]},
-  { path: 'administration',component:GestionAdminComponent, canActivate: [authGuard, mdpTempGuard]},
+  { path: 'administration',component:GestionAdminComponent, canActivate: [roleAdminGuard, mdpTempGuard]},
   { path: 'creer/mdp',component:NouveauMdpComponent, canActivate:[authGuard] },
   { path: 'update-user',component:UpdateUserComponent, canActivate: [authGuard, mdpTempGuard]},
-  { path: 'maj/course/add',component:UpdateCourseAddComponent, canActivate: [authGuard, mdpTempGuard] },
+  { path: 'maj/course/add',component:UpdateCourseAddComponent, canActivate: [roleGestionnaireGuard, mdpTempGuard] },
 ];
 
 @NgModule({

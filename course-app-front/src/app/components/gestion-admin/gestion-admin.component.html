@@ -2,7 +2,7 @@
 <div class="card m-5">
 
   <p-progressBar *ngIf="progressBar" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
-  <p-table #dt1 [value]="users" [scrollable]="true" scrollHeight="580px" [tableStyle]="{'min-width': '40rem'}"
+  <p-table #dt1 [value]="users" [scrollable]="true" scrollHeight="420px" [tableStyle]="{'min-width': '40rem'}"
   [globalFilterFields]="['nom','prenom','email','role']">
       <ng-template pTemplate="caption">
 

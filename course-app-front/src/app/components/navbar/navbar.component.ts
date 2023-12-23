@@ -27,6 +27,13 @@ export class NavbarComponent implements OnInit {
     private btnStateService : BtnStateService) { }
 
   ngOnInit() {
+    this.authService.countUserDb().subscribe((res)=>{
+      if (res==true) {
+        this.items = [];
+        this.btnStateService.setState(true)
+        this.router.navigateByUrl('/firstRegister');
+      }
+    })
     this.loggedUser = new User();
     this.btnDisable$ = this.btnStateService.btnDisable$;
     this.tempMdp = this.btnStateService.tempMdp;
