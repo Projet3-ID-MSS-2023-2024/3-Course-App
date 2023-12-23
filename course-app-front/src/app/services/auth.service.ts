@@ -27,6 +27,10 @@ export class AuthService {
     return this.http.get(`http://localhost:8080/api/auth?code=${code}`);
   }
 
+  countUserDb(){
+    return this.http.get("http://localhost:8080/api/auth/countUserDb");
+  }
+
   getUserWithToken(token: string):Observable<User>{
     return this.http.post<User>('http://localhost:8080/api/auth', token);
   }

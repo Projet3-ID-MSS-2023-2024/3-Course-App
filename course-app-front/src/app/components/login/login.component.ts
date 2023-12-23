@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit{
       this.tokenResponse = res;
       this.authService.authSuccess(this.tokenResponse.token);
       if (this.tokenResponse.tempMdp) {
-        this.router.navigateByUrl('/creer/mdp');
+        location.reload();
       } else {
         location.reload();
       }

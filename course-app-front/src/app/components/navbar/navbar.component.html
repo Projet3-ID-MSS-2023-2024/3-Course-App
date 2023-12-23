@@ -9,13 +9,19 @@
           <div class="flex-1 flex align-items-center justify-content-center">
             <p-avatar icon="pi pi-user" styleClass="mr-1" [style]="{'background-color':'#2196F3', 'color': '#ffffff'}" shape="circle"></p-avatar>
             <div class="mr-4">{{ this.loggedUser.prenom }}</div>
-            <button pButton pRipple class="pi pi-fw pi-sign-out w-full p-button-danger" (click)="confirmLogOut()"></button>
+            <div *ngIf="this.tempMdp | async; then temp else noTemp"></div>
+            <ng-template #temp>
+              <button disabled pButton pRipple class="pi pi-fw pi-sign-out w-full p-button-danger"></button>
+            </ng-template>
+            <ng-template #noTemp>
+              <button pButton pRipple class="pi pi-fw pi-sign-out w-full p-button-danger" (click)="confirmLogOut()"></button>
+            </ng-template>
           </div>
         </ng-template>
         <ng-template #noLog>
           <div *ngIf="this.btnDisable$ | async; then dis else noDis"></div>
           <ng-template #dis>
-            <p-button [disabled]="true" label="Connexion" icon="pi pi-sign-in" size="small" [rounded]="true" (click)="login()"></p-button>
+            <p-button [disabled]="true" label="Connexion" icon="pi pi-sign-in" size="small" [rounded]="true"></p-button>
           </ng-template>
           <ng-template #noDis>
             <p-button [disabled]="false" label="Connexion" icon="pi pi-sign-in" size="small" [rounded]="true" (click)="login()"></p-button>

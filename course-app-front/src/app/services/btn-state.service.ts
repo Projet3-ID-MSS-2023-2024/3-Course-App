@@ -15,4 +15,13 @@ export class BtnStateService {
   setState(state: boolean){
     this._btnDisable$.next(state);
   }
+
+  private _tempMdp$ = new BehaviorSubject<boolean>(false);
+  get tempMdp():Observable<boolean> {
+    return this._tempMdp$.asObservable();
+  }
+
+  setTempMdp(state:boolean){
+    this._tempMdp$.next(state);
+  }
 }
