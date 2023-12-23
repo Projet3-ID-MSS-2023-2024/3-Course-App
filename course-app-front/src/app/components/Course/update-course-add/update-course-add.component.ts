@@ -52,16 +52,28 @@ export class UpdateCourseAddComponent implements OnInit{
   }
 
   displayMap(){
-    this.dialogMap = true;
     this.adresseService.getLatLong(this.addCourseForm.value.adresseDep).subscribe((res)=>{
       const lati = res.map((item: any) => item.lat);
       const long = res.map((item:any)=> item.lon);
-      this.adresseService.getLatLong(this.addCourseForm.value.adresseArr).subscribe((res)=>{
-        const lat1 = res.map((item: any) => item.lat);
-        const long1 = res.map((item:any)=> item.lon);
-        this.mapService.loadMap(lati[0], long[0], lat1[0], long1[0]);  /* Chargement de la carte */
+      if(long[0] != undefined){
+        this.adresseService.getLatLong(this.addCourseForm.value.adresseArr).subscribe((res)=>{
+          const lat1 = res.map((item: any) => item.lat);
+          const long1 = res.map((item:any)=> item.lon);
+          if(lat1[0] != undefined){
+            this.dialogMap = true;
+            setTimeout(() => {
+              this.mapService.loadMap(lati[0], long[0], lat1[0], long1[0]);  /* Chargement de la carte */
+            }, 0);
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !',
+            detail: "L'adresse d'arrivée ne peut pas etre nulle." });
+          }
         })
-      })
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !',
+        detail: "L'adresse de départ ne peut pas etre nulle." });
+      }
+    })
   }
 
   ajouter(){
