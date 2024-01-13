@@ -35,7 +35,8 @@ export class CoursesListComponent implements OnInit {
 
   courses: Course[] | undefined = [];
   resultats: Resultat[] | undefined = [];
-  payedCourses: number[] = [];
+  payedCourses: Course[] | undefined = [];
+  upcomingCourses: Course [] | undefined = [];
 
   // Tri
   sortOptions!: SelectItem[];
@@ -45,7 +46,7 @@ export class CoursesListComponent implements OnInit {
 
   constructor(
     private courseService: CourseService,
-    private authService: AuthService,
+    public authService: AuthService,
     private messageService: MessageService,
     private resultatService: ResultatService,
     private mapService : MapService
@@ -74,19 +75,28 @@ export class CoursesListComponent implements OnInit {
     } else {
         this.sortOrder = 1;
     }
-}
+  }
 
+  // Récupération de toutes les courses disponibles
   getCourses(): void {
     this.courseService.getAvailableCourses().subscribe((courses: Course[] | undefined) => {
       this.courses = courses;
     });
   }
 
+  // Récupération des résultats de l'utilisateur
   getResultats(): void {
     this.resultatService.getResultatsByUserId(this.loggedUser.id).subscribe((resultats: Resultat[] | undefined) => {
       this.resultats = resultats;
+      this.payedCourses = [];
+      // Pour chaque résultat (course déjà payée) séparation de toutes les courses en 2 tableaux (courses payées et à venir)
       resultats!.forEach(resultat => {
-        this.payedCourses!.push(resultat.course.id);
+        this.courses!.forEach(course => {
+          // Si la course possède déjà un résultat, alors elle est payée
+          if(course.id == resultat.course.id) {
+            this.payedCourses!.push(course);
+          }        
+        });
       });
     });
   }
