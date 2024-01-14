@@ -9,9 +9,10 @@ import java.util.Optional;
 
 public interface ResultatRepo extends JpaRepository<Resultat, Integer> {
 
-    /*** Récup des résultats d'un course***/
+    /*** Récup des résultats d'un course ***/
     @Query("select r from Resultat r where r.course.id =:id")
     public List<Resultat> getAllByIdCourse(int id);
 
+    /*** Récupération des résultats pour un utilisateur ***/
     public List<Resultat> findAllByUtilisateur(Optional<Utilisateur> user);
 }

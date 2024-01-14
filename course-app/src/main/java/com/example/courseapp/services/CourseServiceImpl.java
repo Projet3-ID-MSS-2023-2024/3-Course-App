@@ -23,17 +23,21 @@ public class CourseServiceImpl implements CourseService{
     @Autowired
     VilleService villeService;
 
+    /*** Ajout de course ***/
     @Override
     public Course add(Course newCourse) {
         return courseRepo.save(newCourse);
     }
 
+    /*** Récupération de toutes les courses ***/
     @Override
     public List<Course> getCourses() {
         return courseRepo.findAll();
     }
 
+    /*** Récupération des courses disponibles (à venir) ***/
     public List<Course> getAvailableCourses() {
+        // Timestamp de la date actuelle pour les courses à venir
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         return courseRepo.findAvailableCourses(timestamp);
     }

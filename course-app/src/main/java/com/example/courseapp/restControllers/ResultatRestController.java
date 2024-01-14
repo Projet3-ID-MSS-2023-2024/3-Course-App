@@ -36,6 +36,7 @@ public class ResultatRestController {
         return this.courseService.getCourseEndedAndNotDeleted();
     }
 
+    /*** Récupération des résultats de toutes les courses terminées et pas suprimées ***/
     @GetMapping("/courses/{id}")
     public List<Resultat> getResultatsByCourseEndedAndNotDeleted(@PathVariable int id) {
         return this.resultatService.getAllResultByCourseId(id);
@@ -59,14 +60,18 @@ public class ResultatRestController {
         return this.resultatService.getAllResultByCourseId(id);
     }
 
+    /*** Ajout de résultat (après paiement réussi dans le front) ***/
     @PostMapping
     public Resultat add(@RequestBody Resultat newResultat) {
         return resultatService.add(newResultat);
     }
 
+    /*** Récupération des résultats d'un user (pour connaitre ses courses payées) ***/
     @GetMapping("/{id}")
     public List<Resultat> getResultatsByUserId(@PathVariable int id) {
+        // Récupération du user complet à partir de son id
         Optional<Utilisateur> user = userService.getUserById(id);
+
         return this.resultatService.getResultatsByUser(user);
     }
 }

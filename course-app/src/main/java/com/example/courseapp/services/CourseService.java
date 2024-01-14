@@ -13,8 +13,10 @@ public interface CourseService {
     /*** Methode qui ajoute une course ***/
     public Course add(Course newCourse);
 
+    /*** Méthode qui récupère toutes les courses ***/
     public List<Course> getCourses();
 
+    /*** Méthode qui récupère les courses disponibles (à venir) ***/
     public List<Course> getAvailableCourses();
 
     /*** Methode qui récupère les courses non supprimées par gestionnaire ***/
