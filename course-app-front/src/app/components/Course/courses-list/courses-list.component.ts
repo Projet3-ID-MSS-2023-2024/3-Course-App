@@ -16,14 +16,16 @@ import { MapService } from 'src/app/services/map.service';
   providers: [MessageService]
 })
 export class CoursesListComponent implements OnInit {
-  // PayPal
+  // Variables PayPal
   @ViewChild("paypal")
-  paypalComponent?: NgxPaypalComponent
+  paypalComponent?: NgxPaypalComponent;
   public payPalConfig!: IPayPalConfig;
   showSuccess?: boolean;
   paypalInit: boolean = false;
   paymentDialVisible: boolean = false;
   coursePrice!: string;
+
+  // Variables d'affichage des données
   course!: Course;
   loggedUser!: User;
   newResultat: Resultat = new Resultat;
@@ -32,13 +34,13 @@ export class CoursesListComponent implements OnInit {
   courseMap!: Course;
   disableBtnInscription: boolean = false;
 
-
+  // Tableaux de données
   courses: Course[] | undefined = [];
   resultats: Resultat[] | undefined = [];
   payedCourses: Course[] | undefined = [];
   upcomingCourses: Course [] | undefined = [];
 
-  // Tri
+  // Variables de tri
   sortOptions!: SelectItem[];
   sortOrder!: number;
   sortField!: string;
@@ -53,13 +55,17 @@ export class CoursesListComponent implements OnInit {
        ) {}
 
   ngOnInit(): void {
+    // Vérifie si un user est connecté
     if (this.authService.isUserLoggedIn()) {
+      // Si oui, charger les données du user et ses courses payées
       this.loadLoggedUserAndResultats();
     } else {
       this.disableBtnInscription = true;
     }
+    // Récupération des courses
     this.getCourses();
 
+    // Setup du tri sur le prix pour les courses
     this.sortField = 'prix';
     this.sortOptions = [
       { label: 'Prix de Haut en Bas', value: 'Prix de Haut en Bas' },
@@ -67,17 +73,19 @@ export class CoursesListComponent implements OnInit {
   ];
   }
 
+  // Fonction d'événement quand le tri change
   onSortChange(event: any) {
     let value = event.value;
 
+    // Prix de haut en bas
     if (value === 'Prix de Haut en Bas') {
         this.sortOrder = -1;
-    } else {
+    } else { // Prix de bas en haut
         this.sortOrder = 1;
     }
   }
 
-  // Récupération de toutes les courses disponibles
+  // Récupération de toutes les courses disponibles à venir
   getCourses(): void {
     this.courseService.getAvailableCourses().subscribe((courses: Course[] | undefined) => {
       this.courses = courses;
@@ -92,7 +100,7 @@ export class CoursesListComponent implements OnInit {
       // Pour chaque résultat (course déjà payée) séparation de toutes les courses en 2 tableaux (courses payées et à venir)
       resultats!.forEach(resultat => {
         this.courses!.forEach(course => {
-          // Si la course possède déjà un résultat, alors elle est payée
+          // Si la course possède déjà un résultat, alors elle est payée, ajout dans le tableau payedCourses
           if(course.id == resultat.course.id) {
             this.payedCourses!.push(course);
           }        
@@ -101,6 +109,7 @@ export class CoursesListComponent implements OnInit {
     });
   }
 
+  // Fonction d'affichage du dialogue de paiement, sauvegarde aussi le prix de la course et la course
   showPaymentDial(prix: string, course: Course): void {
     this.coursePrice = prix;
     this.course = course;
@@ -113,9 +122,11 @@ export class CoursesListComponent implements OnInit {
   configPayPal(): void {
     this.payPalConfig = {
       currency: 'EUR',
+      // Identifiant de l'application pour paypal sandbox
       clientId: 'AQY5t6tEDcJUBlLt9jAyxh-pTXXIKimV6HE6KGOr_lk72bOEZfpSmC4uHHF-DtDxR75wbBzr2gIL4uUI',
       createOrderOnClient: (data) => <ICreateOrderRequest>{
         intent: 'CAPTURE',
+        // Configuration de l'achat
         purchase_units: [
           {
             amount: {
@@ -129,6 +140,7 @@ export class CoursesListComponent implements OnInit {
               }
             },
             items: [
+              // Objet acheté (course)
               {
                 name: 'Course',
                 quantity: '1',
@@ -149,26 +161,38 @@ export class CoursesListComponent implements OnInit {
         label: 'paypal',
         layout: 'horizontal'
       },
+      // Achat approuvé mais pas authorisé
       onApprove: (data, actions) => {
         console.log('onApprove - transaction was approved, but not authorized', data, actions);
         actions.order.get().then((details: any) => {
           console.log('onApprove - you can get full order details inside onApprove: ', details);
         });
       },
+      // Achat autorisé
       onClientAuthorization: (data) => {
+
+        // Initialisation du nouveau résultat après le paiement
         this.newResultat.abandon = null;
         this.newResultat.temps = null;
         this.newResultat.course = this.course;
         this.newResultat.utilisateur = this.loggedUser;
 
+        // Ajout du nouveau résultat
         this.resultatService.add(this.newResultat).subscribe((res) => {
+          // Réfresh des résultats après l'ajout
           this.getResultats();
+
+          // Ferme le dialogue de paiement
           this.paymentDialVisible = false;
+
+          // Message de paiement réussi
           this.messageService.add({ severity: 'success', summary: 'Paiement réussi !', detail: 'Votre participation est enregistrée.' });
         }, (error) => {
+          // Message d'erreur
           this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });
         });
       },
+      // Paiement annulé
       onCancel: (data, actions) => {
         console.log('OnCancel', data, actions);
       },
@@ -181,18 +205,21 @@ export class CoursesListComponent implements OnInit {
     };
   }
 
+  // Récupération du user connecté et de ses résultats
   loadLoggedUserAndResultats(){
     this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
       this.loggedUser = res;
       if (this.loggedUser.role.includes("COUREUR")) {
         this.disableBtnInscription = false;
       } else {
+        // Si le user n'est pas un coureur, impossible de participer aux courses
         this.disableBtnInscription = true;
       }
       this.getResultats();
     })
   }
 
+  // Fonction d'affichage du dialogue de map (chemin de la course)
   showMapDialog(course : Course){
     this.courseMap = course;
     this.dialogMap = true;
