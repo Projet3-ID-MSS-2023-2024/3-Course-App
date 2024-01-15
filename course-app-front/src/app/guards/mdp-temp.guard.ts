@@ -14,6 +14,8 @@ export const mdpTempGuard: CanActivateFn = (route, state) => {
         router.navigateByUrl('/creer/mdp');
       }
     },()=>{
+      authService.logout();
+      location.reload();
     })
   }
   return true;
