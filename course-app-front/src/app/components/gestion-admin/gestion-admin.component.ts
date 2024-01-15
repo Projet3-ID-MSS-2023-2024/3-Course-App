@@ -103,6 +103,10 @@ export class GestionAdminComponent implements OnInit{
     this.visibleDiagAdd = true;
   }
 
+  showDialogRole() {
+    this.visible = true;
+  }
+
   showDialogName() {
     this.visible = true;
 }
@@ -134,6 +138,19 @@ showDialogMail() {
     },(error)=>{
       this.loading =false;
       this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });
+    })
+  }
+
+  changeRole(id : number){
+    this.addUser = new User();
+    this.addUser.role = this.addUserForm.value.role;
+    for (let i = 0; i < this.addUser.role.length; i++) {
+      this.addUser.role[i]=this.addUser.role[i].toUpperCase();
+    }
+    this.userService.changeRole(id, this.addUser).subscribe(()=>{
+
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
     })
   }
 
