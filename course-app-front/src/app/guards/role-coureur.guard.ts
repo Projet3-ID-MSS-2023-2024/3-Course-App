@@ -15,7 +15,7 @@ export const roleCoureurGuard: CanActivateFn = (route, state) => {
       }
     },()=>{
       authService.logout();
-      router.navigateByUrl('/accueil');
+      location.reload();
     })
   } else {
     router.navigateByUrl('/accueil');

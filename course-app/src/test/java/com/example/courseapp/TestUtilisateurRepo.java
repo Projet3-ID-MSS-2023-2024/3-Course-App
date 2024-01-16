@@ -6,6 +6,7 @@ import com.example.courseapp.repo.UtilisateurRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,13 @@ public class TestUtilisateurRepo {
     @Autowired
     UtilisateurRepo userRepo;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Test
     public void getUser(){
         List<Utilisateur> listUser = userRepo.findAll();
-        assertTrue(listUser.size()==1);
+        assertTrue(listUser.stream().anyMatch(e -> e.getNom().equals("Bernard")));
     }
 
     @Test
@@ -32,20 +36,50 @@ public class TestUtilisateurRepo {
     }
 
     @Test
-    public void getAdmin(){
-        List<Utilisateur> listAdmin = userRepo.getAdmins();
-        assertTrue(listAdmin.size()==1);
+    public void getUserDel(){
+        List<Role> listRole = new ArrayList<>();
+        listRole.add(Role.COUREUR);
+        Utilisateur user = new Utilisateur(0, "nom","prenom","mail@gmail.com", passwordEncoder.encode("mdp"), "fdsjhgdshgy",false, true,false, listRole);
+        userRepo.save(user);
+        List<Utilisateur> listUserDel = userRepo.getUserDel();
+
+        assertTrue(listUserDel.stream().anyMatch(e -> e.getEmail().equals("mail@gmail.com")));
     }
 
     @Test
-    public void getCoureur(){
-        List<Utilisateur> listCoureur = userRepo.getCoureurs();
-        assertTrue(listCoureur.size()==1);
+    public void getUserNoDel(){
+        List<Role> listRole = new ArrayList<>();
+        listRole.add(Role.COUREUR);
+        Utilisateur user = new Utilisateur(0, "nom","prenom","mail2@gmail.com", passwordEncoder.encode("mdp"), "fdsjhgdshll",false, false,true, listRole);
+        userRepo.save(user);
+        List<Utilisateur> listUser = userRepo.getUser();
+
+        assertTrue(listUser.stream().anyMatch(e -> e.getEmail().equals("mail2@gmail.com")));
+    }
+    @Test
+    public void testFindByEmail(){
+        List<Role> listRole = new ArrayList<>();
+        listRole.add(Role.COUREUR);
+        Utilisateur user = new Utilisateur(0, "nom","testEmail","mail3@gmail.com", passwordEncoder.encode("mdp"), "fdsjhgdshll",false, false,true, listRole);
+        userRepo.save(user);
+
+        Optional<Utilisateur> test = userRepo.findByEmail("mail3@gmail.com");
+        assertTrue(test.get().getPrenom().contains("testEmail"));
     }
 
     @Test
-    public void getgestionnaire(){
-        List<Utilisateur> listGestionnaire = userRepo.getGestionnaire();
-        assertTrue(listGestionnaire.size()==0);
+    public void testFindByCode(){
+        List<Role> listRole = new ArrayList<>();
+        listRole.add(Role.COUREUR);
+        Utilisateur user = new Utilisateur(0, "nom","testCode","mail4@gmail.com", passwordEncoder.encode("mdp"), "aszertegfhtypo",false, false,true, listRole);
+        userRepo.save(user);
+
+        Optional<Utilisateur> test = userRepo.findByCode("aszertegfhtypo");
+        assertTrue(test.get().getPrenom().contains("testCode"));
+    }
+    @Test
+    public void testFindByPrenom(){
+        Optional<Utilisateur> test = userRepo.findByPrenom("testCode");
+        assertTrue(test.get().getEmail().contains("mail4@gmail.com"));
     }
 }
