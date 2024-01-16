@@ -179,7 +179,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         if (user.isEmpty()){
             throw new CustomException("L'utilisateur n'existe pas."); // a modif
         }
-        if (this.testMdp(mdp)){}
+        this.testMdp(mdp);
         Utilisateur userMod = user.get();
         userMod.setMdp(passwordEncoder.encode(mdp));
         userMod.setTempMdp(false);
