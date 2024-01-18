@@ -12,7 +12,7 @@ import java.util.List;
 public interface CourseRepo extends JpaRepository<Course, Integer> {
 
     /** Récupération des courses disponibles (après la date d'aujourd'hui) **/
-    @Query("select c from Course c where c.date >= :timestamp")
+    @Query("select c from Course c where c.date >= :timestamp and c.cloturer = false and c.supprimer = false")
     public List<Course> findAvailableCourses(Timestamp timestamp);
 
     /*** Récup des courses par gestionnaire et non supprimée***/
