@@ -14,9 +14,11 @@ export class ListResultatsPersonnelsComponent implements OnInit{
   courses!: Course[];
   visible: boolean = false;
   loading: boolean = true;
+  courseEffectuee : boolean = true;
   loggedUser !: User;
   resultats! : Resultat[];
-
+  resultatsCourse! : Resultat[];
+  identifiant!: number;
 
   constructor(private resultatService: ResultatService, private authService: AuthService) {}
 
@@ -25,25 +27,30 @@ export class ListResultatsPersonnelsComponent implements OnInit{
       this.loggedUser = res;
       this.resultatService.getResultsByUserId(this.loggedUser.id).subscribe((resultat: Resultat[])=>{
         this.resultats=resultat;
-        console.log(this.resultats);
         this.loading = false;
       });
     })
   }
 
-
    showDialog() {
     this.visible = true;
    }
 
+   getResultatsArret(id: number){
+    this.resultatService.getResultatsByCourseAndAbandon(id).subscribe((resultats: Resultat[])=>{
+      this.resultatsCourse = resultats;
+      this.identifiant =id;
+      this.courseEffectuee =false;
+    })
+  }
    getResultats(id: number){
     this.showDialog();
-    this.resultatService.getResultatsByCourse(id).subscribe((resultats: Resultat[]) => {
-      this.resultats = resultats;
-      console.log(this.resultats);
+    this.resultatService.getResultatsByCourseNotAbandon(id).subscribe((resultats: Resultat[]) => {
+      this.resultatsCourse = resultats;
+      this.identifiant =id;
+      this.courseEffectuee = true;
     })
    }
-
 }
 
 

@@ -41,10 +41,14 @@
               {{ resultat.course.titre }}
             </td>
             <td>
-              {{ resultat.course.adresse.ville.nom + ', ' + resultat.course.adresse.rue }}
+                {{ resultat.course.adresse.rue }},
+                {{ resultat.course.adresse.ville.code_postale }}
+                {{ resultat.course.adresse.ville.nom }}
             </td>
             <td>
-              {{ resultat.course.adresse1.ville.nom + ', ' + resultat.course.adresse1.rue }}
+              {{ resultat.course.adresse1.rue }},
+              {{ resultat.course.adresse1.ville.code_postale }}
+              {{ resultat.course.adresse1.ville.nom }}
             </td>
             <td>
               {{ resultat.course.date | date:'dd/MM/yyyy'}}
@@ -58,9 +62,8 @@
                 {{resultat.abandon}}
               </ng-template>
             </td>
-            <!-- (click)="getResultats(resultat.course.id)" -->
             <td>
-               <button pButton pRipple type="button" [icon]="'pi pi-eye'" class="p-button-sm p-button-text p-button-secondary" ></button>
+               <button pButton pRipple type="button" [icon]="'pi pi-eye'" class="p-button-sm p-button-text p-button-secondary" (click)="getResultats(resultat.course.id)"></button>
             </td>
         </tr>
     </ng-template>
@@ -71,3 +74,67 @@
     </ng-template>
 </p-table>
 </div>
+
+
+<!-- Popup affichage résultat -->
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+  <div class="flex flex-wrap">
+    <div *ngIf="courseEffectuee==true then ok else notOk"></div>
+    <ng-template #ok>
+      <div>
+        <button pButton pRipple icon="pi pi-flag" class="p-button-sm" label="Liste Abandon" (click)="getResultatsArret(this.identifiant)"></button>
+      </div>
+    </ng-template>
+    <ng-template #notOk>
+      <button pButton pRipple icon="pi pi-arrow-left" class="p-button-danger p-button-outlined" (click)="getResultats(this.identifiant)"></button>
+      <h5 class="m-2 text-xl">Liste résultats</h5>
+    </ng-template>
+    <span class="p-input-icon-left ml-auto">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Rechercher" />
+    </span>
+  </div>
+  <p-table #dt1 [value]="resultatsCourse" [scrollable]="true" scrollHeight="400px" [tableStyle]="{'min-width': '50rem'}" [globalFilterFields]="['position','Nom','Prenom','temps', 'abandon']">
+
+    <ng-template pTemplate="header" >
+      <div *ngIf="courseEffectuee==true then ok else notOk"></div>
+      <ng-template #ok>
+        <tr>
+            <th>Position</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Temps</th>
+        </tr>
+      </ng-template>
+      <ng-template #notOk>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Temps</th>
+        </tr>
+      </ng-template>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-resultat>
+      <div *ngIf="courseEffectuee==true then ok else notOk"></div>
+      <ng-template #ok>
+        <tr>
+        <td></td>
+        <td>{{resultat.utilisateur.nom}}</td>
+        <td>{{resultat.utilisateur.prenom}}</td>
+        <td>{{resultat.temps}}</td>
+        </tr>
+      </ng-template>
+      <ng-template #notOk>
+        <tr>
+          <td>{{resultat.utilisateur.nom}}</td>
+          <td>{{resultat.utilisateur.prenom}}</td>
+          <td>{{resultat.abandon}}</td>
+        </tr>
+      </ng-template>
+    </ng-template>
+
+  </p-table>
+</p-dialog>
+
+

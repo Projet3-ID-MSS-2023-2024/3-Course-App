@@ -52,6 +52,20 @@ export class ResultatService {
     );
   }
 
+  getResultatsByCourseNotAbandon(id: number):Observable<Resultat[]>{
+    return this.http.get<Resultat[]>(`${this.resultatApiUrl}/courses/${id}`).pipe(
+      tap((resultats: Resultat[]) => this.log(resultats)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
+  getResultatsByCourseAndAbandon(id: any) {
+    return this.http.get<Resultat[]>(`${this.resultatApiUrl}/abandon/${id}`).pipe(
+      tap((resultats: Resultat[]) => this.log(resultats)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
   getCoursesEndedAndNotDeleted() {
     return this.http.get<Course[]>(`${this.resultatApiUrl}/courses`).pipe(
       tap((courses: Course[]) => this.log(courses)),

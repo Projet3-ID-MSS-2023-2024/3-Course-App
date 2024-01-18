@@ -1,5 +1,6 @@
 package com.example.courseapp.services;
 
+import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.Resultat;
 import com.example.courseapp.models.Utilisateur;
 import com.example.courseapp.repo.ResultatRepo;
@@ -49,5 +50,15 @@ public class ResultatServiceImpl implements ResultatService {
     @Override
     public List<Resultat> getAllResultByCourseId(int id) {
         return resultatRepo.getAllByIdCourse(id);
+    }
+
+    @Override
+    public List<Resultat> getAllResultByCourseIdAndAbandon(int id) {
+        return resultatRepo.getAllByIdCourseAndAbandon(id);
+    }
+
+    @Override
+    public List<Resultat> getAllResultByCourseIdNotAbandon(int id) {
+        return resultatRepo.getAllByIdCourseNotAbandon(id);
     }
 }

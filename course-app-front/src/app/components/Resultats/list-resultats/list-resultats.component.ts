@@ -12,8 +12,9 @@ export class ListResultatsComponent implements OnInit {
   courses!: Course[];
   visible: boolean = false;
   loading: boolean = true;
-
+  courseEffectuee : boolean = true;
   resultats! : Resultat[];
+  identifiant!: number;
 
 
   constructor(private resultatService: ResultatService) {}
@@ -21,7 +22,6 @@ export class ListResultatsComponent implements OnInit {
   ngOnInit(): void {
     this.resultatService.getCoursesEndedAndNotDeleted().subscribe((courses: Course[])=>{
       this.courses=courses;
-      console.log(this.courses);
       this.loading = false;
     })
   }
@@ -30,11 +30,19 @@ export class ListResultatsComponent implements OnInit {
     this.visible = true;
    }
 
+    getResultatsArret(id: number){
+    this.resultatService.getResultatsByCourseAndAbandon(id).subscribe((resultats: Resultat[])=>{
+      this.resultats = resultats;
+      this.identifiant =id;
+      this.courseEffectuee =false;
+    })
+  }
    getResultats(id: number){
     this.showDialog();
-    this.resultatService.getResultatsByCourse(id).subscribe((resultats: Resultat[]) => {
+    this.resultatService.getResultatsByCourseNotAbandon(id).subscribe((resultats: Resultat[]) => {
       this.resultats = resultats;
-      console.log(this.resultats);
+      this.identifiant =id;
+      this.courseEffectuee = true;
     })
    }
 

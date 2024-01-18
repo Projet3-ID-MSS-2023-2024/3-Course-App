@@ -1,5 +1,6 @@
 package com.example.courseapp.restControllers;
 
+import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.Course;
 import com.example.courseapp.models.Resultat;
 import com.example.courseapp.services.CourseService;
@@ -38,8 +39,13 @@ public class ResultatRestController {
 
     /*** Récupération des résultats de toutes les courses terminées et pas suprimées ***/
     @GetMapping("/courses/{id}")
-    public List<Resultat> getResultatsByCourseEndedAndNotDeleted(@PathVariable int id) {
-        return this.resultatService.getAllResultByCourseId(id);
+    public List<Resultat> getAllResultByCourseIdNotAbandon(@PathVariable int id) {
+        return this.resultatService.getAllResultByCourseIdNotAbandon(id);
+    }
+
+    @GetMapping("/abandon/{id}")
+    public List<Resultat> getResultatsByCourseAbandon(@PathVariable int id){
+        return this.resultatService.getAllResultByCourseIdAndAbandon(id);
     }
 
     /*** Récupération des courses non terminées par gestionaire de courses ***/

@@ -17,4 +17,8 @@ public interface ResultatService {
     public List<Resultat> getResultatsByUser(Optional<Utilisateur> user);
 
     public List<Resultat>getAllResultByUser(Optional<Utilisateur> user);
+
+    public List<Resultat> getAllResultByCourseIdAndAbandon(int id);
+
+    public List<Resultat> getAllResultByCourseIdNotAbandon(int id);
 }

@@ -53,9 +53,13 @@
                 {{ course.titre }}
               </td>
               <td>
+                {{ course.adresse.rue }},
+                {{ course.adresse.ville.code_postale }}
                 {{ course.adresse.ville.nom }}
               </td>
               <td>
+                {{ course.adresse1.rue }},
+                {{ course.adresse1.ville.code_postale }}
                 {{ course.adresse1.ville.nom }}
               </td>
               <td>

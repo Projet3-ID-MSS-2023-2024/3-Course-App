@@ -41,10 +41,14 @@
               {{ course.titre }}
             </td>
             <td>
-              {{ course.adresse.ville.nom + ', ' + course.adresse.rue }}
+              {{ course.adresse.rue }},
+              {{ course.adresse.ville.code_postale }}
+              {{ course.adresse.ville.nom }}
             </td>
             <td>
-              {{ course.adresse1.ville.nom + ', ' + course.adresse1.rue }}
+                {{ course.adresse1.rue }},
+                {{ course.adresse1.ville.code_postale }}
+                {{ course.adresse1.ville.nom }}
             </td>
             <td>
               {{ course.date | date:'dd/MM/yyyy'}}
@@ -64,3 +68,64 @@
     </ng-template>
 </p-table>
 </div>
+
+
+<!-- Popup affichage résultat -->
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+  <div class="flex flex-wrap">
+    <div *ngIf="courseEffectuee==true then ok else notOk"></div>
+    <ng-template #ok>
+      <div>
+        <button pButton pRipple icon="pi pi-flag" class="p-button-sm" label="Liste Abandon" (click)="getResultatsArret(this.identifiant)"></button>
+      </div>
+    </ng-template>
+    <ng-template #notOk>
+      <button pButton pRipple icon="pi pi-arrow-left" class="p-button-danger p-button-outlined" (click)="getResultats(this.identifiant)"></button>
+      <h5 class="m-2 text-xl">Liste résultats</h5>
+    </ng-template>
+    <span class="p-input-icon-left ml-auto">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Rechercher" />
+    </span>
+  </div>
+  <p-table #dt1 [value]="resultats" [scrollable]="true" scrollHeight="400px" [tableStyle]="{'min-width': '50rem'}" [globalFilterFields]="['position','Nom','Prenom','temps', 'abandon']">
+
+    <ng-template pTemplate="header" >
+      <div *ngIf="courseEffectuee==true then ok else notOk"></div>
+      <ng-template #ok>
+        <tr>
+            <th>Position</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Temps</th>
+        </tr>
+      </ng-template>
+      <ng-template #notOk>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Abandon</th>
+        </tr>
+      </ng-template>
+    </ng-template>
+    <ng-template pTemplate="body" let-resultat>
+      <div *ngIf="courseEffectuee==true then ok else notOk"></div>
+      <ng-template #ok>
+        <tr>
+        <td></td>
+        <td>{{resultat.utilisateur.nom}}</td>
+        <td>{{resultat.utilisateur.prenom}}</td>
+        <td>{{resultat.temps}}</td>
+        </tr>
+      </ng-template>
+      <ng-template #notOk>
+        <tr>
+          <td>{{resultat.utilisateur.nom}}</td>
+          <td>{{resultat.utilisateur.prenom}}</td>
+          <td>{{resultat.abandon}}</td>
+        </tr>
+      </ng-template>
+    </ng-template>
+  </p-table>
+</p-dialog>
+
