@@ -23,6 +23,12 @@ export class ResultatService {
     );
   }
 
+  getResultsByUserId(id: number): Observable<Resultat[]>{
+    return this.http.get<Resultat[]>(`${this.resultatApiUrl}/personnel/${id}`).pipe(
+      tap((Resultats: Resultat[]) => this.log(Resultats)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
   getCoursesByGestionnaireAndNotEnded(id: number): Observable<Course[]>{
     return this.http.get<Course[]>(`${this.resultatApiUrl}/admin/${id}`).pipe(
       tap((courses: Course[]) => this.log(courses)),
@@ -40,6 +46,13 @@ export class ResultatService {
   getResultatsByCourse(id: number):Observable<Resultat[]>{
     return this.http.get<Resultat[]>(`${this.resultatApiUrl}/admin/resultats/${id}`).pipe(
       tap((resultats: Resultat[]) => this.log(resultats)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
+  getCoursesEndedAndNotDeleted() {
+    return this.http.get<Course[]>(`${this.resultatApiUrl}/courses`).pipe(
+      tap((courses: Course[]) => this.log(courses)),
       catchError((error: Error) => this.handleError(error, undefined))
     );
   }

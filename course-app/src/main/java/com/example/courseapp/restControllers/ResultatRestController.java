@@ -59,6 +59,13 @@ public class ResultatRestController {
         return this.resultatService.getAllResultByCourseId(id);
     }
 
+    /**** Réxupération des résultats pour une personne***/
+    @GetMapping("/personnel/{id}")
+    public List<Resultat> getResultatsByUser(@PathVariable int id) {
+        Optional<Utilisateur> user = userService.getUserById(id);
+        return this.resultatService.getAllResultByUser(user);
+    }
+
     @PostMapping
     public Resultat add(@RequestBody Resultat newResultat) {
         return resultatService.add(newResultat);

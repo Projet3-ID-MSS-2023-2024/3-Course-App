@@ -6,6 +6,7 @@ import com.example.courseapp.repo.ResultatRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,22 @@ public class ResultatServiceImpl implements ResultatService {
         return resultatRepo.findAllByUtilisateur(user);
     }
 
+    /***  Récupération des résultats pour un User (avec soit abandon, soit temps)   ***/
+    @Override
+    public List<Resultat> getAllResultByUser(Optional<Utilisateur> user) {
+        List<Resultat> resultatsNoFilter = resultatRepo.findAllByUtilisateur(user);
+        int i=0;
+        int j=0;
+        List<Resultat> resultats= new ArrayList<>();
+        while (i<resultatsNoFilter.size()){
+            if(resultatsNoFilter.get(i).getAbandon()!=null || resultatsNoFilter.get(i).getTemps()!=null ){
+                resultats.add(j,resultatsNoFilter.get(i));
+                j++;
+            }
+            i++;
+        }
+        return resultats;
+    }
     /*** Récupération des résultats pour une course ***/
     @Override
     public List<Resultat> getAllResultByCourseId(int id) {

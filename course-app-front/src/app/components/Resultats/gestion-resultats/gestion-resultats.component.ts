@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/models/user';
-import { ResultatsService } from 'src/app/services/resultats.service';
+import { ResultatService } from 'src/app/services/resultat.service';
 import { Resultat } from 'src/models/resultat';
 import { Table } from 'primeng/table';
 
@@ -23,7 +23,7 @@ export class GestionResultatsComponent implements OnInit{
   loggedUser !: User;
 
 
-  constructor(private resultatService: ResultatsService,
+  constructor(private resultatService: ResultatService,
               private confirmationService: ConfirmationService,
               private messageService: MessageService,
               private router: Router,

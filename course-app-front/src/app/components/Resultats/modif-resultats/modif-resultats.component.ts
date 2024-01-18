@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { AuthService } from 'src/app/services/auth.service';
-import { ResultatsService } from 'src/app/services/resultats.service';
+import { ResultatService } from 'src/app/services/resultat.service';
 import { Course } from 'src/models/course';
 import { Resultat } from 'src/models/resultat';
 import { User } from 'src/models/user';
@@ -22,7 +22,7 @@ export class ModifResultatsComponent implements OnInit{
   loggedUser !: User;
 
 
-  constructor(private resultatService: ResultatsService,
+  constructor(private resultatService: ResultatService,
               private authService: AuthService) {}
 
   ngOnInit(): void {

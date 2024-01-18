@@ -14,4 +14,6 @@ public interface ResultatService {
     public Resultat add(Resultat resultat);
 
     public List<Resultat> getResultatsByUser(Optional<Utilisateur> user);
+
+    public List<Resultat>getAllResultByUser(Optional<Utilisateur> user);
 }
