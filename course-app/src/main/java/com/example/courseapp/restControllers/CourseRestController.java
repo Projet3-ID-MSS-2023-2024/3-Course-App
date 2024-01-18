@@ -42,6 +42,7 @@ public class CourseRestController {
         return courseService.add(newCourse);
     }
 
+    /*** Récupération des courses disponibles (à venir) ***/
     @GetMapping("")
     public List<Course> getAvailableCourses() {
         return this.courseService.getAvailableCourses();

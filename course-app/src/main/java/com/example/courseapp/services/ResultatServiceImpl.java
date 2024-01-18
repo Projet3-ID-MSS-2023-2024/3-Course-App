@@ -17,11 +17,13 @@ public class ResultatServiceImpl implements ResultatService {
     @Autowired
     ResultatRepo resultatRepo;
 
+    /*** Ajout d'un résultat en db (après paiement réussi dans le front) ***/
     @Override
     public Resultat add(Resultat resultat) {
         return resultatRepo.save(resultat);
     }
 
+    /*** Récupération des résultats pour un user ***/
     @Override
     public List<Resultat> getResultatsByUser(Optional<Utilisateur> user) {
         return resultatRepo.findAllByUtilisateur(user);

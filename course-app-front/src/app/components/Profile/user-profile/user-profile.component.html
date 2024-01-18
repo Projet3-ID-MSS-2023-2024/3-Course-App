@@ -8,11 +8,11 @@
                 <span class="font-bold text-lg">Information utilisateur</span>
             </div>
         </ng-template>
-         <div class="mr-4"><u>Prénom :</u> {{ this.loggedUser.prenom }}</div>
+         <div class="mr-4"><u>Prénom :</u> {{ this.loggedUser.prenom }} <button pButton pRipple type="button" [icon]="'pi pi-pencil'" class="p-button-sm p-button-text p-button-secondary" (click)="showDialogFirstName()"></button></div> 
          <br>
-         <div class="mr-4"><u>Nom de famille :</u> {{ this.loggedUser.nom }}</div>
+         <div class="mr-4"><u>Nom de famille :</u> {{ this.loggedUser.nom }} <button pButton pRipple type="button" [icon]="'pi pi-pencil'" class="p-button-sm p-button-text p-button-secondary" (click)="showDialogName()"></button></div>
          <br>
-         <div class="mr-4"><u>Votre adresse mail :</u> {{ this.loggedUser.email }}</div>
+         <div class="mr-4"><u>Votre adresse mail :</u> {{ this.loggedUser.email }} <button pButton pRipple type="button" [icon]="'pi pi-pencil'" class="p-button-sm p-button-text p-button-secondary" (click)="showDialogMail()"></button></div>
          <br>
          <div class="mr-4"><u>Vos rôles sont :</u> {{ this.loggedUser.role }}</div>
     </p-fieldset>
@@ -22,10 +22,10 @@
             Que souhaitez-vous faire ?
         </p>
         <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-danger" (click)="deleteUser(loggedUser.id)"></button>
-        <button pButton pRipple type="button" [icon]="'pi pi-pencil'" class="p-button-sm p-button-text p-button-secondary" (click)="showDialogFirstName()"></button>
+        
         <button pButton pRipple type="button" [icon]="'pi pi-pencil'" class="p-button-sm p-button-text p-button-secondary" (click)="showDialogPassword()"></button>
-        <button pButton pRipple type="button" [icon]="'pi pi-pencil'" class="p-button-sm p-button-text p-button-secondary" (click)="showDialogName()"></button>
-        <button pButton pRipple type="button" [icon]="'pi pi-pencil'" class="p-button-sm p-button-text p-button-secondary" (click)="showDialogMail()"></button>
+        
+        
     </p-fieldset>
 
     <!-- Modif prenom utilisateur -->

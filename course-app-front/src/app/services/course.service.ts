@@ -15,6 +15,7 @@ export class CourseService {
     return this.http.post(this.courseApiUrl, course, { responseType: 'text' });
   }
 
+  // Fonction de récupération des courses disponibles en contactant le backend
   getAvailableCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(`${this.courseApiUrl}`).pipe(
       tap((courses: Course[]) => this.log(courses)),
@@ -35,9 +36,11 @@ export class CourseService {
       catchError((error: Error) => this.handleError(error, undefined))
     );
   }
+
   modifCourse(course: Course): Observable<any> {
     return this.http.put(`${this.courseApiUrl}/admin/${course.id}`, course);
   }
+  
   deleteCourse(id: number): Observable<any>{
     return this.http.delete(`${this.courseApiUrl}/admin/${id}`);
   }

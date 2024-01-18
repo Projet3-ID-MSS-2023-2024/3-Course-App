@@ -27,7 +27,7 @@ import { TreeTableModule } from 'primeng/treetable';
 import { FieldsetModule } from 'primeng/fieldset';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-
+import { TabViewModule } from 'primeng/tabview';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -111,7 +111,8 @@ import { ListResultatsPersonnelsComponent } from './components/Resultats/list-re
     TreeTableModule,
     FieldsetModule,
     AutoCompleteModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    TabViewModule
 
   ],
   providers: [{

@@ -1,58 +1,136 @@
-<div class="text-center mt-4">
-    <div class="text-primary font-bold text-900 text-2xl">Liste des courses disponibles</div>
-    <div class="text-500">Choisissez une course à laquelle vous voulez participer dans la liste.</div>
-</div>
 
-<div class="card mt-2">
-    <p-dataView #dv [value]="courses" [sortField]="sortField" [sortOrder]="sortOrder">
+<!-- Onglets -->
+<p-tabView>
+    <!-- Onglet courses à venir -->
+    <p-tabPanel header="Courses à venir">
         <ng-template pTemplate="header">
-            <div class="flex flex-column md:flex-row md:justify-content-between">
-                <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Trier par prix" (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
-            </div>
+            <i class="pi pi-calendar"></i>
+            <span class="ml-1">Courses à venir</span>
         </ng-template>
-        <ng-template let-course pTemplate="listItem">
-            <div class="col-12">
-                <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-                    <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
-                        <div class="flex flex-column align-items-center sm:align-items-start gap-3">
-                            <div class="text-primary text-2xl font-bold text-900">{{ course.titre }}
+        <!-- Affichage des courses à venir -->
+        <ng-template pTemplate="content">
+            <div class="card mt-2">
+                <p-dataView #dv [value]="courses" [sortField]="sortField" [sortOrder]="sortOrder" emptyMessage=" ">
+                    <ng-template pTemplate="header">
+                        <div class="flex justify-content-between flex-wrap">
+                            <div class="flex" style="width: 25%">
+                                <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Trier par prix" (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
                             </div>
-                            <div class="flex align-items-center gap-3">
-                                <span class="flex align-items-center gap-2">
-                                    <i class="pi pi-clock"></i>
-                                    <span class="font-semibold">{{ course.date | date:'dd/MM/yyyy' }} </span>
-                                    <span class="font-semibold">{{ 'à ' + course.heure }} </span>
-                                </span>
-                                <span class="flex align-items-center gap-2">
-                                    <i class="pi pi-home"></i>
-                                    <span class="font-semibold">{{ course.adresse.ville.nom + ', ' + course.adresse.rue + ' - ' + course.adresse1.ville.nom + ', ' + course.adresse1.rue }}</span>
+                            <div class="flex align-items-center justify-content-center text-primary font-bold text-900 text-2xl">
+                                <span>
+                                    Liste des courses à venir
                                 </span>
                             </div>
+                            <div class="flex align-items-center justify-content-center" style="width: 25%"></div>
                         </div>
-                        <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-                            <span class="text-2xl font-semibold">{{ course.prix + '€' }}</span>
-                            <div>
-                              <button pButton pRipple type="button" [icon]="'pi pi-map-marker'" class="mb-2 mr-2 p-button-rounded p-button-success" (click)="showMapDialog(course)"></button>
-                              <button [disabled]="this.disableBtnInscription" *ngIf="!payedCourses.includes(course.id)" (click)="showPaymentDial(course.prix, course)" pButton class="md:align-self-end mb-2 p-button-rounded">Participer</button>
-                              <button *ngIf="payedCourses.includes(course.id)" pButton class="md:align-self-end mb-2 p-button-rounded" disabled><i class="pi pi-check mr-1"></i>Participation validée</button>
+                        <!-- Message si aucune course n'est disponible pour le moment -->
+                        <div *ngIf="payedCourses!.length == courses!.length" class="mt-3 ml-1">Aucune course disponible pour le moment. Réessayez plus tard.</div> 
+                    </ng-template>
+                    <ng-template let-course pTemplate="listItem">
+                        <!-- N'affiche pas la course si elle figure déjà dans le tableau de courses payées -->
+                        <div *ngIf="!payedCourses!.includes(course)" class="col-12">
+                            <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                                <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                                    <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                        <div class="text-primary text-2xl font-bold text-900">{{ course.titre }}
+                                        </div>
+                                        <div class="flex align-items-center gap-3">
+                                            <span class="flex align-items-center gap-2">
+                                                <i class="pi pi-clock"></i>
+                                                <span class="font-semibold">{{ course.date | date:'dd/MM/yyyy' }} </span>
+                                                <span class="font-semibold">{{ 'à ' + course.heure }} </span>
+                                            </span>
+                                            <span class="flex align-items-center gap-2">
+                                                <i class="pi pi-home"></i>
+                                                <span class="font-semibold">{{ course.adresse.ville.nom + ', ' + course.adresse.rue + ' - ' + course.adresse1.ville.nom + ', ' + course.adresse1.rue }}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                        <span class="text-2xl font-semibold">{{ course.prix + '€' }}</span>
+                                        <div>
+                                          <button pButton pRipple type="button" [icon]="'pi pi-map-marker'" class="mb-2 mr-2 p-button-rounded p-button-success" (click)="showMapDialog(course)"></button>
+                                          <!-- N'affiche pas le bouton d'inscription si le user n'est pas connecté --> 
+                                          <button [disabled]="this.disableBtnInscription" (click)="showPaymentDial(course.prix, course)" pButton class="md:align-self-end mb-2 p-button-rounded">Participer</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </ng-template>
+                </p-dataView>
             </div>
         </ng-template>
-    </p-dataView>
-</div>
+    </p-tabPanel>
+    <!-- Onglet ces courses déjà payées (pas affichées si user déconnecté) -->
+    <p-tabPanel *ngIf="this.authService.isUserLoggedIn()" header="Mes courses">
+        <ng-template pTemplate="header"> 
+            <i class="pi pi-user"></i>
+            <span class="ml-1">Mes courses</span> 
+        </ng-template>
+        <!-- Affichage des courses payées -->
+        <ng-template pTemplate="content">
+            <div class="card mt-2">
+                <p-dataView #dv [value]="payedCourses" [sortField]="sortField" [sortOrder]="sortOrder" emptyMessage=" ">
+                    <ng-template pTemplate="header">
+                        <div class="flex justify-content-between flex-wrap">
+                            <div class="flex" style="width: 25%">
+                                <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Trier par prix" (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
+                            </div>
+                            <div class="flex align-items-center justify-content-center text-primary font-bold text-900 text-2xl">
+                                <span>
+                                    Mes courses
+                                </span>
+                            </div>
+                            <div class="flex align-items-center justify-content-center" style="width: 25%"></div>
+                        </div>
+                        <!-- Message si aucune course à venir n'a été achetée par le user connecté -->
+                        <div *ngIf="payedCourses!.length == 0" class="mt-3 ml-1">Vous n'avez aucune course payée à venir.</div> 
+                    </ng-template>
+                    <ng-template let-course pTemplate="listItem">
+                        <div class="col-12">
+                            <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                                <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                                    <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                        <div class="text-primary text-2xl font-bold text-900">{{ course.titre }}
+                                        </div>
+                                        <div class="flex align-items-center gap-3">
+                                            <span class="flex align-items-center gap-2">
+                                                <i class="pi pi-clock"></i>
+                                                <span class="font-semibold">{{ course.date | date:'dd/MM/yyyy' }} </span>
+                                                <span class="font-semibold">{{ 'à ' + course.heure }} </span>
+                                            </span>
+                                            <span class="flex align-items-center gap-2">
+                                                <i class="pi pi-home"></i>
+                                                <span class="font-semibold">{{ course.adresse.ville.nom + ', ' + course.adresse.rue + ' - ' + course.adresse1.ville.nom + ', ' + course.adresse1.rue }}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                        <span class="text-2xl font-semibold">{{ course.prix + '€' }}</span>
+                                        <div>
+                                          <button pButton pRipple type="button" [icon]="'pi pi-map-marker'" class="mb-2 mr-2 p-button-rounded p-button-success" (click)="showMapDialog(course)"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dataView>
+            </div>
+        </ng-template>
+    </p-tabPanel>
+</p-tabView>
 
 <!-- Modal de choix de mode de paiement (participer) -->
 <p-dialog header="Veuillez choisir un mode de paiement" (onShow)="configPayPal()" [(visible)]="paymentDialVisible" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false" [modal]="true" [dismissableMask]="true">
     <ngx-paypal #paypal [config]="this.payPalConfig"></ngx-paypal>
 </p-dialog>
 
+<!-- Modal d'itinéraire de la course -->
 <p-dialog header="Itinéraire de la course" [(visible)]="dialogMap" [modal]="true">
   <ng-template pTemplate="header"><span class="font-bold">{{this.courseMap.titre}}</span></ng-template>
   <div id="map"></div>
 </p-dialog>
-
 
 <p-toast position="top-center"></p-toast>

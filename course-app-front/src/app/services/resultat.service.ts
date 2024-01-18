@@ -12,10 +12,12 @@ export class ResultatService {
 
   constructor(private http: HttpClient) { }
 
+  // Ajout d'un résultat après un paiement réussi (lie un user et la course payée)
   add(resultat: Resultat) {
     return this.http.post(this.resultatApiUrl, resultat, { responseType: 'text' });
   }
 
+  // Récupération des résultats du user connecté en contactant le backend (pour connaitre ses courses payées)
   getResultatsByUserId(id: number): Observable<Resultat[]>{
     return this.http.get<Resultat[]>(`${this.resultatApiUrl}/${id}`).pipe(
       tap((Resultats: Resultat[]) => this.log(Resultats)),

@@ -46,6 +46,10 @@ export class UserService {
     return this.http.put(`http://localhost:8080/api/users/prenom/${id}`,user );
   }
 
+  changeRole(id: number, user: User){
+    return this.http.put(`http://localhost:8080/api/users/role/${id}`,user );
+  }
+
   updateUserMail(id: number, user: User){
     return this.http.put(`http://localhost:8080/api/users/mail/${id}`,user );
   }

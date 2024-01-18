@@ -200,6 +200,8 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.authService.logout();
-    location.reload();
+    this.router.navigateByUrl('/accueil').then(() => {
+      location.reload();
+    });
   }
 }

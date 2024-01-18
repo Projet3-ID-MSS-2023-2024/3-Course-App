@@ -54,6 +54,11 @@ public class UtilisateurRestController {
     public void add(@RequestBody Utilisateur newUser) throws Exception {
         utilisateurService.addUserbyAdmin(newUser);
     }
+    @PutMapping("/role/{id}")
+    public Optional<Utilisateur> changeRole(@RequestBody Utilisateur utilisateur, @PathVariable("id") int id) throws Exception {
+        return this.utilisateurService.getUserById(id)
+                .map(upUser -> utilisateurService.saveUser(upUser));
+    }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) throws Exception{
         roleService.verifRole(Role.ADMIN);
