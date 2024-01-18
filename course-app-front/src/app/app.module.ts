@@ -53,6 +53,7 @@ import { CoursesDeleteListComponent } from './components/Course/courses-delete-l
 import { ModifResultatsComponent } from './components/Resultats/modif-resultats/modif-resultats.component';
 import { ListResultatsComponent } from './components/Resultats/list-resultats/list-resultats.component';
 import { ListResultatsPersonnelsComponent } from './components/Resultats/list-resultats-personnels/list-resultats-personnels.component';
+import { MyCoursesComponent } from './components/Course/my-courses/my-courses.component';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { ListResultatsPersonnelsComponent } from './components/Resultats/list-re
     CoursesDeleteListComponent,
     ModifResultatsComponent,
     ListResultatsComponent,
-    ListResultatsPersonnelsComponent
+    ListResultatsPersonnelsComponent,
+    MyCoursesComponent
   ],
   imports: [
     BrowserModule,

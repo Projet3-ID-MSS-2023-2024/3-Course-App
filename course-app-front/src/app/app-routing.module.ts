@@ -10,6 +10,7 @@ import { VilleAddComponent } from './components/Ville/ville-add/ville-add.compon
 import { AdresseAddComponent } from './components/Adresse/adresse-add/adresse-add.component';
 import { UserProfileComponent } from './components/Profile/user-profile/user-profile.component';
 import { CoursesListComponent } from './components/Course/courses-list/courses-list.component';
+import { MyCoursesComponent } from './components/Course/my-courses/my-courses.component';
 import { CoursesListAdminComponent } from './components/Course/courses-list-admin/courses-list-admin.component';
 import { GestionAdminComponent } from './components/gestion-admin/gestion-admin.component';
 import { NouveauMdpComponent } from './components/nouveau-mdp/nouveau-mdp.component';
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'accueil', component: AccueilComponent, canActivate: [mdpTempGuard]},
   { path: 'firstRegister', component: FirstRegisterComponent, canActivate: [firstAdminGuard, mdpTempGuard]},
   { path: 'courses', component: CoursesListComponent, canActivate: [mdpTempGuard]},
+  { path: 'courses/personnel', component: MyCoursesComponent, canActivate: [mdpTempGuard]},
   { path: 'courses/admin', component: CoursesListAdminComponent, canActivate: [roleGestionnaireGuard, mdpTempGuard]},
   { path: 'courses/admin/supprimees', component: CoursesDeleteListComponent, canActivate: [roleGestionnaireGuard, mdpTempGuard]},
   { path: 'resultats/admin', component: GestionResultatsComponent, canActivate: [roleGestionnaireGuard,mdpTempGuard]},
