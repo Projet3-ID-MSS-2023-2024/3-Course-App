@@ -19,6 +19,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    /*** lors de la reception de requete, ce filtre permettra de récupérer le token de connexion
+         et de vérifier sa validité ***/
+
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 

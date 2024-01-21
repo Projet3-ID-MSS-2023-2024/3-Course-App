@@ -33,6 +33,8 @@ public class TestAuthenticationService {
     @Autowired
     UtilisateurRepo userRepo;
 
+    /*** Test de la fonction pour inscrire un simple utilisateur ***/
+
     @Test
     @Order(1)
     @Transactional
@@ -50,6 +52,8 @@ public class TestAuthenticationService {
         assertFalse(getUser.get().isDel());
         assertFalse(response.getToken().isEmpty());
     }
+
+    /*** Test de la fonction pour inscrire un administrateur ***/
 
     @Test
     @Order(2)
@@ -69,6 +73,8 @@ public class TestAuthenticationService {
         assertFalse(response.getToken().isEmpty());
     }
 
+    /*** Test de la fonction pour confirmer une inscription ***/
+
     @Test
     @Order(3)
     public void confirmInscription() throws Exception {
@@ -83,6 +89,8 @@ public class TestAuthenticationService {
         assertTrue(response);
     }
 
+    /*** Test de la fonction pour confirmer une inscription qui a déja été confirmée ***/
+
     @Test
     @Order(4)
     public void confirmInscription2fois() throws Exception {
@@ -92,6 +100,8 @@ public class TestAuthenticationService {
             authService.confirmInscription(getUser.get().getCode());
         });
     }
+
+    /*** Test de la fonction pour se connecter en entrant des informations correctes ***/
 
     @Test
     @Order(5)
@@ -105,6 +115,8 @@ public class TestAuthenticationService {
         );
         assertFalse(response.getBody().getToken().isEmpty());
     }
+
+    /*** Test de la fonction pour se connecter en entrant des informations incorrectes ***/
 
     @Test
     @Order(6)
