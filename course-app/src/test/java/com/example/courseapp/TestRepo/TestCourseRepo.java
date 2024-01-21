@@ -1,4 +1,4 @@
-package com.example.courseapp;
+package com.example.courseapp.TestRepo;
 
 import com.example.courseapp.models.Course;
 import com.example.courseapp.repo.CourseRepo;

@@ -22,7 +22,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationServcie {
+public class AuthenticationService {
     private final UtilisateurRepo utilisateurRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;

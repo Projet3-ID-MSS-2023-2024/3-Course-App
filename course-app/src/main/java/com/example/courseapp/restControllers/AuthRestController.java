@@ -4,7 +4,7 @@ import com.example.courseapp.dto.AuthenticationRequest;
 import com.example.courseapp.dto.AuthenticationResponse;
 import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.Utilisateur;
-import com.example.courseapp.services.AuthenticationServcie;
+import com.example.courseapp.services.AuthenticationService;
 import com.example.courseapp.services.UtilisateurServiceDbImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthRestController {
 
     @Autowired
-    AuthenticationServcie service;
+    AuthenticationService service;
     @Autowired
     UtilisateurServiceDbImpl utilisateurService;
 
