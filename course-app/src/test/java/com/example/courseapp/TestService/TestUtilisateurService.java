@@ -30,11 +30,16 @@ public class TestUtilisateurService {
     @Autowired
     UtilisateurRepo userRepo;
 
+
+    /*** Test de la fonction pour vérifier l'adresse mail en ajoutant une adresse correcte ***/
+
     @Test
     @Order(1)
     public void testEmail() throws Exception {
         assertTrue(userService.testEmail("mail@gmail.com"));
     }
+
+    /*** Test de la fonction pour vérifier l'adresse mail en ajoutant une adresse qui existe déja dans la db ***/
 
     @Test
     @Order(2)
@@ -51,6 +56,8 @@ public class TestUtilisateurService {
         });
     }
 
+    /*** Test de la fonction pour vérifier l'adresse mail en ajoutant une adresse incorrecte ***/
+
     @Test
     @Order(3)
     public void testEmailInvalid(){
@@ -59,11 +66,15 @@ public class TestUtilisateurService {
         });
     }
 
+    /*** Test de la fonction pour vérifier un mot de passe en ajoutant un mdp correct ***/
+
     @Test
     @Order(4)
     public void testMdp() throws Exception {
         assertTrue(userService.testMdp("MdpTest8"));
     }
+
+    /*** Test de la fonction pour vérifier un mot de passe en ajoutant un mdp incorrect ***/
 
     @Test
     @Order(5)
@@ -73,17 +84,23 @@ public class TestUtilisateurService {
         });
     }
 
+    /*** Test de la fonction pour vérifier un code en ajoutant un code correct ***/
+
     @Test
     @Order(6)
     public void testCodeValid(){
         assertTrue(userService.testCodeValid("cvxcvxcvxcvx"));
     }
 
+    /*** Test de la fonction pour vérifier un code en ajoutant un code qui est déja utilisé pour un utilisateur ***/
+
     @Test
     @Order(7)
     public void testCodeInvalid(){
         assertFalse(userService.testCodeValid("tyrueizoapmdlf"));
     }
+
+    /*** Test de la fonction pour bloquer ou débloquer un utilisateur avec un id qui n'existe pas ***/
 
     @Test
     @Order(8)
@@ -92,6 +109,8 @@ public class TestUtilisateurService {
             userService.boclkUnclock(0,true);
         });
     }
+
+    /*** Test de la fonction pour bloquer un utilisateur ***/
 
     @Test
     @Order(9)
@@ -106,6 +125,8 @@ public class TestUtilisateurService {
 
         assertTrue(userByID.get().isDel());
     }
+
+    /*** Test de la fonction pour débloquer un utilisateur ***/
 
     @Test
     @Order(10)

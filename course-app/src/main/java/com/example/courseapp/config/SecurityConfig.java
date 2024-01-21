@@ -12,6 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/*** Fichier dans lequel on configure spring security ***/
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

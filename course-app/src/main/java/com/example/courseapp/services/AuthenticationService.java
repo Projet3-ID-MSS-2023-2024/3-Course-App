@@ -31,14 +31,19 @@ public class AuthenticationService {
 
     private final EmailService emailService;
 
+    /*** si IsAdmin est a true, cela signie qu'on ajoute le premier admin.
+        Sinon cela signifie qu'on ajoute un coureur **/
+
     public AuthenticationResponse register(Utilisateur user, boolean IsAdmin) throws Exception {
-        if (utilisateurService.testEmail(user.getEmail().toLowerCase())){}
-        if (utilisateurService.testMdp(user.getMdp())){}
+        // test du format de l'email et du mdp
+        utilisateurService.testEmail(user.getEmail().toLowerCase());
+        utilisateurService.testMdp(user.getMdp());
 
         List<Role> listRole = new ArrayList<>();
         if (IsAdmin){ listRole.add(Role.ADMIN); }
         else { listRole.add(Role.COUREUR); }
 
+        // Génération d'un code qui va permettre la confirmation d'inscription
         String code = UUID.randomUUID().toString();
         while (!utilisateurService.testCodeValid(code)){  // pour éviter d'avoir deux fois le meme code dans la bd
             code = null;
@@ -59,7 +64,6 @@ public class AuthenticationService {
 
         utilisateurRepo.save(utilisateur);
 
-        // pour l'instant on envoi juste un code par mail
         var lien = "http://localhost:4200/confirm/inscription/" + utilisateur.getCode();
 
         emailService.sendEmail(utilisateur.getEmail(),"Confirmation d'inscription", buildEmail(utilisateur.getPrenom(), lien));
@@ -68,7 +72,7 @@ public class AuthenticationService {
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    public ResponseEntity<AuthenticationResponse> authenticate(AuthenticationRequest request) {  //connexion
+    public ResponseEntity<AuthenticationResponse> authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -77,6 +81,9 @@ public class AuthenticationService {
         );
         var temp = false;
         var user = utilisateurRepo.findByEmail(request.getEmail()).orElseThrow();
+
+        // si le user possede un mdp temporaire alors on le supprime pour éviter une nouvelle connexion
+        // avec celui-ci.
         if (user.isTempMdp()){
             user.setMdp(null);
             utilisateurRepo.save(user);
@@ -102,6 +109,7 @@ public class AuthenticationService {
                 .build();
     }
 
+    /*** Fonction qui permet de confirmer son inscription grace a son code **/
     public boolean confirmInscription(String code) throws Exception {
         var user = utilisateurService.getUserByCode(code);
 
