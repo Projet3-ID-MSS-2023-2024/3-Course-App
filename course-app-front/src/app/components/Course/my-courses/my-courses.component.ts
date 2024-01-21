@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectItem } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth.service';
 import { CourseService } from 'src/app/services/course.service';
 import { ResultatService } from 'src/app/services/resultat.service';
@@ -11,7 +11,7 @@ import { MapService } from 'src/app/services/map.service';
 @Component({
   selector: 'app-my-courses',
   templateUrl: './my-courses.component.html',
-  styleUrls: ['./my-courses.component.css']
+  styleUrls: ['./my-courses.component.css'],
 })
 export class MyCoursesComponent  implements OnInit {
   // Variables d'affichage des données
@@ -55,6 +55,7 @@ export class MyCoursesComponent  implements OnInit {
 
     // Setup du tri sur le prix pour les courses
     this.sortField = 'prix';
+    this.sortOrder = 1;
     this.sortOptions = [
       { label: 'Prix de Haut en Bas', value: 'Prix de Haut en Bas' },
       { label: 'Prix de Bas en Haut', value: 'Prix de Bas en Haut' }
@@ -94,7 +95,8 @@ export class MyCoursesComponent  implements OnInit {
           }        
         });
       });
-    });
+      // Tri des courses disponibles sur le prix
+      this.payedCourses.sort((a, b) => a.prix < b.prix ? -1 : a.prix > b.prix ? 1 : 0)    });
   }
 
   // Récupération du user connecté et de ses résultats

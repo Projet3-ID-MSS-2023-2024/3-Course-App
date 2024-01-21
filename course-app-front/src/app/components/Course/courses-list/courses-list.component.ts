@@ -8,12 +8,12 @@ import { Course } from 'src/models/course';
 import { Resultat } from 'src/models/resultat';
 import { User } from 'src/models/user';
 import { MapService } from 'src/app/services/map.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses-list',
   templateUrl: './courses-list.component.html',
   styleUrls: ['./courses-list.component.css'],
-  providers: [MessageService]
 })
 export class CoursesListComponent implements OnInit {
   // Variables PayPal
@@ -47,6 +47,7 @@ export class CoursesListComponent implements OnInit {
   sortKey: any;
 
   constructor(
+    private router: Router,
     private courseService: CourseService,
     public authService: AuthService,
     private messageService: MessageService,
@@ -67,6 +68,7 @@ export class CoursesListComponent implements OnInit {
 
     // Setup du tri sur le prix pour les courses
     this.sortField = 'prix';
+    this.sortOrder = 1;
     this.sortOptions = [
       { label: 'Prix de Haut en Bas', value: 'Prix de Haut en Bas' },
       { label: 'Prix de Bas en Haut', value: 'Prix de Bas en Haut' }
@@ -186,6 +188,7 @@ export class CoursesListComponent implements OnInit {
           this.paymentDialVisible = false;
 
           // Message de paiement réussi
+          this.router.navigateByUrl('/courses/personnel');
           this.messageService.add({ severity: 'success', summary: 'Paiement réussi !', detail: 'Votre participation est enregistrée.' });
         }, (error) => {
           // Message d'erreur
