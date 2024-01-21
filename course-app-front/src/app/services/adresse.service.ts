@@ -15,6 +15,7 @@ export class AdresseService {
     return this.http.post('http://localhost:8080/api/adresse', Adresse, { responseType: 'text' });
   }
 
+  // fonction qui va renvoyer un liste de 5 adresses belges contenant le query
   getAdressesBelges(query : string):Observable<any>{
     const params = new HttpParams()
     .set('q',query)
@@ -25,9 +26,10 @@ export class AdresseService {
     return this.http.get('https://nominatim.openstreetmap.org/search',{params});
   }
 
-  getLatLong(query : string):Observable<any>{
+  // fonction qui renvoi la latitude et la longitude d'une adresse
+  getLatLong(adresse : string):Observable<any>{
     const params = new HttpParams()
-    .set('q',query)
+    .set('q', adresse)
     .set('countrycodes', 'BE')
     .set('format', 'json')
     .set('limit', '1');
@@ -35,6 +37,7 @@ export class AdresseService {
     return this.http.get('https://nominatim.openstreetmap.org/search',{params});
   }
 
+  // fonction qui renvoi une adresse(Objet Adresse + Ville) à partir de la latitude et la longitude
   getAddressFromCoordinates(lat: number, lon: number): Promise<Adresse> {
     return new Promise<Adresse>((resolve, reject) => {
       const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
