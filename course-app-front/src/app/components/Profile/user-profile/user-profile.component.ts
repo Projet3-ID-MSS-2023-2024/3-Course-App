@@ -11,7 +11,7 @@ import { User } from 'src/models/user';
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
-  providers:[ConfirmationService, MessageService]
+  providers:[ConfirmationService]
 })
 export class UserProfileComponent implements OnInit{
   loggedUser!:User;

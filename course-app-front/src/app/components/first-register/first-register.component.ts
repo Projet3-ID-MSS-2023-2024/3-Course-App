@@ -10,7 +10,6 @@ import { User } from 'src/models/user';
   selector: 'app-first-register',
   templateUrl: './first-register.component.html',
   styleUrls: ['./first-register.component.css'],
-  providers: [MessageService]
 })
 export class FirstRegisterComponent implements OnInit{
 

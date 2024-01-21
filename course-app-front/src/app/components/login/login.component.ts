@@ -12,7 +12,6 @@ import { BtnStateService } from 'src/app/services/btn-state.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [MessageService]
 })
 export class LoginComponent implements OnInit{
 

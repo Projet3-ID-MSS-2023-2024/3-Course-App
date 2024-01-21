@@ -9,7 +9,6 @@ import { Ville } from 'src/models/ville';
   selector: 'app-ville-add',
   templateUrl: './ville-add.component.html',
   styleUrls: ['./ville-add.component.css'],
-  providers: [MessageService]
 })
 export class VilleAddComponent implements OnInit{
   villeForm!:FormGroup;

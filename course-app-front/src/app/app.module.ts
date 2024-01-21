@@ -54,6 +54,7 @@ import { ModifResultatsComponent } from './components/Resultats/modif-resultats/
 import { ListResultatsComponent } from './components/Resultats/list-resultats/list-resultats.component';
 import { ListResultatsPersonnelsComponent } from './components/Resultats/list-resultats-personnels/list-resultats-personnels.component';
 import { MyCoursesComponent } from './components/Course/my-courses/my-courses.component';
+import { MessageService } from 'primeng/api';
 
 
 @NgModule({
@@ -120,8 +121,10 @@ import { MyCoursesComponent } from './components/Course/my-courses/my-courses.co
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: HttpInterceptorService,
-    multi: true
-  }],
+    multi: true,
+  },
+  MessageService
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

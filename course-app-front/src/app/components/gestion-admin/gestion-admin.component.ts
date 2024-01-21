@@ -10,7 +10,7 @@ import { User } from 'src/models/user';
   selector: 'app-gestion-admin',
   templateUrl: './gestion-admin.component.html',
   styleUrls: ['./gestion-admin.component.css'],
-  providers: [MessageService, ConfirmationService]
+  providers: [ConfirmationService]
 })
 export class GestionAdminComponent implements OnInit{
 

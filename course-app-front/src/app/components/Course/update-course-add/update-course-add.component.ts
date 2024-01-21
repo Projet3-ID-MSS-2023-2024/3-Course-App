@@ -14,7 +14,6 @@ import { MapService } from 'src/app/services/map.service';
   selector: 'app-update-course-add',
   templateUrl: './update-course-add.component.html',
   styleUrls: ['./update-course-add.component.css'],
-  providers: [MessageService]
 })
 export class UpdateCourseAddComponent implements OnInit{
   items: any[] | undefined;

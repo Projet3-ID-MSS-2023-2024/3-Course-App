@@ -12,7 +12,7 @@ import { Table } from 'primeng/table';
   selector: 'app-gestion-resultats',
   templateUrl: './gestion-resultats.component.html',
   styleUrls: ['./gestion-resultats.component.css'],
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService]
 })
 export class GestionResultatsComponent implements OnInit{
 

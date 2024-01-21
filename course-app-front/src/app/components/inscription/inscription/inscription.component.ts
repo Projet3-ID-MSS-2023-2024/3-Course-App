@@ -10,7 +10,6 @@ import { User } from 'src/models/user';
   selector: 'app-inscription',
   templateUrl: './inscription.component.html',
   styleUrls: ['./inscription.component.css'],
-  providers: [MessageService]
 })
 export class InscriptionComponent implements OnInit{
 
