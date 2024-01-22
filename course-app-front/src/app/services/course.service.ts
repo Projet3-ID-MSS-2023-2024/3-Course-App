@@ -37,10 +37,17 @@ export class CourseService {
     );
   }
 
+  getCourseById(id: number): Observable<any> {
+    return this.http.get<Course[]>(`${this.courseApiUrl}/admin/course/${id}`).pipe(
+      tap((courses: Course[]) => this.log(courses)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
   modifCourse(course: Course): Observable<any> {
     return this.http.put(`${this.courseApiUrl}/admin/${course.id}`, course);
   }
-  
+
   deleteCourse(id: number): Observable<any>{
     return this.http.delete(`${this.courseApiUrl}/admin/${id}`);
   }
