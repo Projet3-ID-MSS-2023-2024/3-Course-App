@@ -12,7 +12,7 @@ import { User } from 'src/models/user';
   selector: 'app-courses-list-admin',
   templateUrl: './courses-list-admin.component.html',
   styleUrls: ['./courses-list-admin.component.css'],
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService]
 })
 export class CoursesListAdminComponent implements OnInit{
   courses!: Course[];

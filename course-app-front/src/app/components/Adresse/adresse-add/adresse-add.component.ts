@@ -9,7 +9,6 @@ import { Adresse } from 'src/models/adresse';
   selector: 'app-adresse-add',
   templateUrl: './adresse-add.component.html',
   styleUrls: ['./adresse-add.component.css'],
-  providers: [MessageService]
 })
 export class AdresseAddComponent {
   adresseForm!:FormGroup;

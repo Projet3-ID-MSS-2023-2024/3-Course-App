@@ -19,10 +19,13 @@ export class ConfirmInscriptionComponent implements OnInit{
     ) { }
 
   ngOnInit(): void {
+
     if (this.authService.isUserLoggedIn()) {
       this.router.navigateByUrl('/accueil');
     } else {
+      // on récupère le code qui se trouve dans l'url
       const code = this.route.snapshot.paramMap.get('code');
+      // on tente de confirmer l'inscirption avec ce code
       this.authService.confirmInscription(code).subscribe((res)=>{
         if (res===true) {
           this.messages = [{ severity: 'success', summary: 'Validé', detail: 'Votre adresse mail a bien été validé.' }];

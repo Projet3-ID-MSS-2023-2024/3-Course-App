@@ -10,7 +10,6 @@ import { User } from 'src/models/user';
   selector: 'app-nouveau-mdp',
   templateUrl: './nouveau-mdp.component.html',
   styleUrls: ['./nouveau-mdp.component.css'],
-  providers: [MessageService]
 })
 export class NouveauMdpComponent implements OnInit{
 

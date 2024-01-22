@@ -10,7 +10,7 @@ import { User } from 'src/models/user';
   selector: 'app-gestion-admin',
   templateUrl: './gestion-admin.component.html',
   styleUrls: ['./gestion-admin.component.css'],
-  providers: [MessageService, ConfirmationService]
+  providers: [ConfirmationService]
 })
 export class GestionAdminComponent implements OnInit{
 
@@ -93,6 +93,7 @@ export class GestionAdminComponent implements OnInit{
     })
   }
 
+  // récupération de la liste des utilisateurs actifs (non supprimé)
   getUsers(){
     this.userService.getAll().subscribe((res)=>{
       this.users = res;
@@ -132,6 +133,7 @@ showDialogs() {
     this.addUser.nom = this.addUserForm.value.nom;
     this.addUser.prenom = this.addUserForm.value.prenom;
     this.addUser.role = this.addUserForm.value.role;
+    // simple passage des roles en Majuscule
     for (let i = 0; i < this.addUser.role.length; i++) {
       this.addUser.role[i]=this.addUser.role[i].toUpperCase();
     }
@@ -160,6 +162,7 @@ showDialogs() {
     })
   }
 
+  // récupération de la liste des utilisateurs supprimés
   listDel(){
     this.userService.getDel().subscribe((res)=>{
       this.users = res;
@@ -248,6 +251,8 @@ showDialogs() {
     this.addUser.nom = this.addUserForm.value.nom;
     this.userService.updateUserName(id, this.addUser).subscribe(()=>{
       this.getUsers();
+
+
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
     })
@@ -258,6 +263,7 @@ showDialogs() {
     this.addUser.prenom = this.addUserForm.value.prenom;
     this.userService.updateUserPrenom(id, this.addUser).subscribe(()=>{
        this.getUsers();
+
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
     })
@@ -267,7 +273,7 @@ showDialogs() {
     this.addUser = new User();
     this.addUser.email = this.addUserForm.value.email;
     this.userService.updateUserMail(id, this.addUser).subscribe(()=>{
-      
+
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
     })
