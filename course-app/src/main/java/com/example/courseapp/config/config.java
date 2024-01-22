@@ -9,9 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Time;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /*** Fichier de configuration de la DB, necessaire pour la mise en place de la DB***/
 @Configuration
@@ -86,17 +84,17 @@ public class config {
         List<Course> listCourse = new ArrayList<>();
 
         /*** Mise en place de la course 1 ***/
-        Course course1 = new Course(1,"Course d'Halloween",5.50,new Date(2022,05,30),LocalTime.of(10,35,00),false ,false,adresseList.get(1),adresseList.get(0),user);
+        Course course1 = new Course(1,"Course d'Halloween",5.50, new GregorianCalendar(2024, Calendar.NOVEMBER, 1).getTime(),LocalTime.of(10,35,00),false ,false,adresseList.get(1),adresseList.get(0),user);
         listCourse.add(course1); //Ajout dans la liste listCourse
         repoCourse.save(course1); // Sauvegarde dans le repository
 
         /*** Mise en place de la course 2 ***/
-        Course course2 = new Course(2,"Course de Noel",10,new Date(2023,10,30),LocalTime.of(10,35,00),false,true,adresseList.get(2),adresseList.get(2),user);
+        Course course2 = new Course(2,"Course de Noel",10, new GregorianCalendar(2024, Calendar.DECEMBER, 25).getTime(),LocalTime.of(10,35,00),false,true,adresseList.get(2),adresseList.get(2),user);
         listCourse.add(course2); //Ajout dans la liste listCourse
         repoCourse.save(course2); // Sauvegarde dans le repository
 
         /*** Mise en place de la course 3 ***/
-        Course course3 = new Course(3,"Charleroi-Chatelet",20.5,new Date(2023,12,30),LocalTime.of(10,35,00),true,false,adresseList.get(2),adresseList.get(1),user);
+        Course course3 = new Course(3,"Charleroi-Chatelet",20.5,new GregorianCalendar(2024, Calendar.JUNE, 30).getTime(),LocalTime.of(10,35,00),true,false,adresseList.get(2),adresseList.get(1),user);
         listCourse.add(course3); //Ajout dans la liste listCourse
         repoCourse.save(course3); // Sauvegarde dans le repository
 

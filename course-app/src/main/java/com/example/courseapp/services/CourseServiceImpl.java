@@ -104,16 +104,8 @@ public class CourseServiceImpl implements CourseService{
     /*** Modification d'une course ***/
 
     @Override
-    public void updateCourse(Course course) {
-        Course courseFromDB=courseRepo.getById(course.getId());
-        courseFromDB.setAdresse(course.getAdresse());
-        courseFromDB.setDate(course.getDate());
-        courseFromDB.setHeure(course.getHeure());
-        courseFromDB.setPrix(course.getPrix());
-        courseFromDB.setAdresse1(course.getAdresse1());
-        courseFromDB.setTitre(course.getTitre());
-        courseFromDB.setUtilisateur(course.getUtilisateur());
-        courseRepo.save(courseFromDB);
+    public Course updateCourse(Course course) {
+        return courseRepo.save(course);
     }
 
     @Override

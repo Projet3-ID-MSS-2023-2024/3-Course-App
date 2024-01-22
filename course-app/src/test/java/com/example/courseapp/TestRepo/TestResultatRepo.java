@@ -37,6 +37,13 @@ public class TestResultatRepo {
         assertTrue(listResultats != null);
     }
 
+    /*** Test pour récupérer tous les résultats d'une course et voir si la liste n'est pas vide ***/
+    @Test
+    public void getAllByIdCourse(){
+        List<Resultat> listResultats = repoResultat.getAllByIdCourse(1);
+        assertTrue(!listResultats.isEmpty());
+    }
+
     /*** Test pour récupérer un résultat par l'id et voir si le résultat n'est pas vide ***/
     @Test
     public void getResultat(){

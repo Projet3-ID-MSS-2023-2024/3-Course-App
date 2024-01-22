@@ -21,4 +21,6 @@ public interface ResultatService {
     public List<Resultat> getAllResultByCourseIdAndAbandon(int id);
 
     public List<Resultat> getAllResultByCourseIdNotAbandon(int id);
+
+    public Resultat update(Resultat resultat);
 }
