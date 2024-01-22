@@ -51,7 +51,7 @@ public class Course {
     private Adresse adresse1;
 
     /*** Liaison avec la table utilisateur => On ne fait passer que les organisateur ***/
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="id_organisateur")
     private Utilisateur utilisateur;
 
