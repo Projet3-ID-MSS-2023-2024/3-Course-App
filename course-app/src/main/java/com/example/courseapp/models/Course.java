@@ -42,11 +42,11 @@ public class Course {
 
 
     /*** Laisaions avec la table adress ***/
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="id_depart")
     private Adresse adresse;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="id_arrivee")
     private Adresse adresse1;
 

@@ -38,9 +38,11 @@ public class ResultatServiceImpl implements ResultatService {
         int j=0;
         List<Resultat> resultats= new ArrayList<>();
         while (i<resultatsNoFilter.size()){
-            if(resultatsNoFilter.get(i).getAbandon()!=null || resultatsNoFilter.get(i).getTemps()!=null && resultatsNoFilter.get(i).getCourse().isSupprimer()!=true){
-                resultats.add(j,resultatsNoFilter.get(i));
-                j++;
+            if(resultatsNoFilter.get(i).getAbandon()!=null || resultatsNoFilter.get(i).getTemps()!=null){
+                if(resultatsNoFilter.get(i).getCourse().isSupprimer() != true){
+                    resultats.add(j,resultatsNoFilter.get(i));
+                    j++;
+                }
             }
             i++;
         }

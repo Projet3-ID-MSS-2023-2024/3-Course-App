@@ -47,7 +47,7 @@ public interface CourseService {
 
     /*** Methode qui modifie une course ***/
 
-    public void updateCourse(Course course);
+    public Course updateCourse(Course course);
 
     public Course verifAdresseVille(Adresse adresse, Ville ville, Course newCourse);
 

@@ -69,7 +69,7 @@
                 {{ course.prix }} €
               </td>
               <td>
-                <button pButton pRipple type="button" [icon]="'pi pi-pencil'" class="p-button-sm p-button-text p-button-secondary" (click)="showDialog()"></button>
+                <button pButton pRipple type="button" [icon]="'pi pi-pencil'" class="p-button-sm p-button-text p-button-secondary" (click)="showDialog(course.id)"></button>
                 <button pButton pRipple type="button" [icon]="'pi pi-trash'" class="p-button-sm p-button-text p-button-secondary" (click)="deleteCourse(course)"></button>
               </td>
           </tr>
@@ -106,33 +106,59 @@
 
 <!-- Modif Course -->
 <p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
-  <div class="align-items-center flex justify-content-center lg:px-4 md:px-8 ">
-    <div class="surface-card p-4 shadow-8 border-round w-full lg:w-9">
-        <div class="text-center mb-3">
+  <div class="align-items-center flex justify-content-center">
+    <div class="surface-card p-2 shadow-4 border-round w-full l-full">
+        <div class="text-center mb-2">
             <img src="assets/logo.png" alt="Image" height="100" class="mb-1">
-            <div class="text-900 text-3xl font-medium mb-2"> Modifier une course</div>
+            <div class="text-900 text-3xl font-medium mb-2">Modifier une course</div>
         </div>
-            <form [formGroup]="courseForm">
-              <label for="titre" class="text-900 font-medium mb-2">Titre de la course</label>
-              <input id="titre" type="text" placeholder="Titre" pInputText class="w-full mb-3" formControlName="titre">
-
-              <label for="prix" class="text-900 font-medium mb-2">Prix</label>
-              <input id="prix" type="number" placeholder="Prix" pInputText class="w-full mb-3" formControlName="prix">
-
-              <label for="date" class="block text-900 font-medium mb-2">Date</label>
-              <input id="date" type="date" placeholder="Date" pInputText class="w-full mb-3" formControlName="date">
-
-              <label for="heure" class="block text-900 font-medium mb-2">Heure</label>
-              <input id="heure" type="time" placeholder="Heure" pInputText class="w-full mb-3" formControlName="heure">
-
-              <label for="adresse" class="block text-900 font-medium mb-2">Adresse de départ</label>
-              <input id="adresse" type="number" placeholder="Adresse de départ" pInputText class="w-full mb-3" formControlName="adresse">
-
-              <label for="adresse1" class="block text-900 font-medium mb-2">Adresse d'arrivé</label>
-              <input id="adresse1" type="number" placeholder="Adresse d'arrivé" pInputText class="w-full mb-3" formControlName="adresse1">
-
-              <button pButton pRipple type="submit" label="Modifier Course" class="w-full p-button-primary mt-2" (click)="modifCourse()"></button>
-            </form>
+        <form [formGroup]="modifCourseForm">
+          <div class="formgrid grid">
+            <div class="field col-12 md:col-6">
+              <label for="titre" class="text-900 font-medium">Titre</label>
+              <input id="titre" type="text" placeholder="Titre" pInputText class="w-full" formControlName="titre" [value]="this.course.titre">
+            </div>
+            <div class="field col-12 md:col-6">
+              <label for="prix" class="text-900 font-medium">Prix</label>
+              <input id="prix" type="number" placeholder="Prix" pInputText class="w-full" formControlName="prix" [value]="this.course.prix">
+            </div>
+            <div class="field col-12 md:col-6">
+              <label for="date" class="block text-900 font-medium">Date</label>
+              <input id="date" type="date" placeholder="Date" pInputText class="w-full" formControlName="date" value="this.course.date">
+            </div>
+            <div class="field col-12 md:col-6">
+              <label for="heure" class="block text-900 font-medium">Heure</label>
+              <input id="heure" type="time" placeholder="Heure" pInputText class="w-full" formControlName="heure" [value]="this.course.heure">
+            </div>
+            <div class="field col-12">
+              <span class="p-fluid">
+                <label for="adresseDep" class="block text-900 font-medium">Adresse de départ</label>
+                <p-autoComplete inputId="adresseDep" placeholder="Rue du pont 12 6000" [suggestions]="suggestions" (completeMethod)="search($event.query)" formControlName="adresseDep"></p-autoComplete>
+              </span>
+            </div>
+            <div class="field col-12">
+              <span class="p-fluid">
+                <label for="adresseArr" class="block text-900 font-medium">Adresse d'arrivée</label>
+                <p-autoComplete inputId="adresseArr" placeholder="Rue du pont 12 6000" [suggestions]="suggestions" (completeMethod)="search($event.query)" formControlName="adresseArr"></p-autoComplete>
+              </span>
+            </div>
+          </div>
+        </form>
+        <div *ngIf="this.isLoading==true; then load else noLoad"></div>
+        <ng-template #load>
+          <button [disabled]="true" pButton pRipple type="submit" label="Visualiser l'itinéraire" class="p-button-help w-full mb-2 p-button-sm"></button>
+          <button [disabled]="true" pButton icon="pi pi-spin pi-spinner" class="w-full p-button-primary p-button-sm" ></button>
+        </ng-template>
+        <ng-template #noLoad>
+          <button pButton pRipple type="submit" label="Visualiser l'itinéraire" class="p-button-help w-full mb-2 p-button-sm" (click)="displayMap()"></button>
+          <button pButton pRipple type="submit" label="Ajouter" class="p-button-primary w-full p-button-sm" (click)="modifCourse()"></button>
+        </ng-template>
     </div>
   </div>
+
+  <p-dialog header="Itinéraire de la course" [(visible)]="dialogMap" [modal]="true">
+    <ng-template pTemplate="header"><span class="font-bold">Visualisation de l'itinéraire de la crouse</span></ng-template>
+    <div id="map"></div>
+  </p-dialog>
+
 </p-dialog>

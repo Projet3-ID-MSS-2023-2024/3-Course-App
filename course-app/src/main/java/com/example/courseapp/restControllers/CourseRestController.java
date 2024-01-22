@@ -60,6 +60,12 @@ public class CourseRestController {
         return this.courseService.getCoursesByGestionnaireAndDeleted(id);
     }
 
+    /*** Récupération d'une course non supprimée  ***/
+    @GetMapping("/admin/course/{id}")
+    public Optional<Course> getCourse(@PathVariable int id) {
+        return this.courseService.getCourse(id);
+    }
+
     /*** Suppression logique pour une course ***/
     @DeleteMapping("/admin/{id}")
     public void delete(@PathVariable int id){
@@ -69,6 +75,9 @@ public class CourseRestController {
     /*** Modification d'une course ***/
     @PutMapping("/admin/{id}")
     public void modifCourse(@RequestBody Course course){
+
+        course = courseService.verifAdresseVille(course.getAdresse(), course.getAdresse().getVille(),course);
+        course = courseService.verifAdresseVille(course.getAdresse1(), course.getAdresse1().getVille(),course);
         courseService.updateCourse(course);
     }
 }
