@@ -194,11 +194,11 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         Utilisateur userPwd = user.get();
 
         if(!passwordEncoder.matches(request.getCurrentPassword(),userPwd.getMdp() )){
-            throw new IllegalStateException("Wrong password");
+            throw new IllegalStateException("Mauvais mot de passe");
         }
 
         if(!request.getNewPassword().equals(request.getConfirmationPassword())){
-            throw new IllegalStateException("Password are not the same");
+            throw new IllegalStateException("Les mot de passes ne sont pas identiques");
         }
          userPwd.setMdp(passwordEncoder.encode(request.getNewPassword()));
         utilisateurRepo.save(userPwd);

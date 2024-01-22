@@ -25,6 +25,8 @@ export class GestionAdminComponent implements OnInit{
   visibleDiagAdd : boolean = false;
   show: boolean = false;
   showMail: boolean = false;
+  showAllDialog: boolean = false;
+  visibleName: boolean = false;
   visible: boolean = false;
   addUserForm !: FormGroup;
   cols: any[] = [];
@@ -54,7 +56,10 @@ export class GestionAdminComponent implements OnInit{
     ];
      }
 
+
   ngOnInit(): void {
+
+    
 
     this.cols = [
       { field: "nom", header: "Nom" },
@@ -103,9 +108,6 @@ export class GestionAdminComponent implements OnInit{
     this.visibleDiagAdd = true;
   }
 
-  showDialogRole() {
-    this.visible = true;
-  }
 
   showDialogName() {
     this.visible = true;
@@ -117,6 +119,10 @@ showDialogFirstName() {
 
 showDialogMail() {
   this.showMail = true;
+}
+
+showDialogs() {
+  this.showAllDialog = true;
 }
 
   ajoutUser(){
@@ -241,7 +247,7 @@ showDialogMail() {
     this.addUser = new User();
     this.addUser.nom = this.addUserForm.value.nom;
     this.userService.updateUserName(id, this.addUser).subscribe(()=>{
-      
+      this.getUsers();
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
     })
@@ -251,7 +257,7 @@ showDialogMail() {
     this.addUser = new User();
     this.addUser.prenom = this.addUserForm.value.prenom;
     this.userService.updateUserPrenom(id, this.addUser).subscribe(()=>{
-    
+       this.getUsers();
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
     })
