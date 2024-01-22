@@ -90,4 +90,10 @@ public class ResultatRestController {
 
         return this.resultatService.getResultatsByUser(user);
     }
+
+    @PutMapping
+    public Resultat update(@RequestBody Resultat newResultat) {
+        return resultatService.update(newResultat);
+    }
+
 }

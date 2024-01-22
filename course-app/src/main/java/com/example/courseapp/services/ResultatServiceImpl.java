@@ -48,6 +48,12 @@ public class ResultatServiceImpl implements ResultatService {
         }
         return resultats;
     }
+
+    @Override
+    public Resultat update(Resultat resultat) {
+        return resultatRepo.save(resultat);
+    }
+
     /*** Récupération des résultats pour une course ***/
     @Override
     public List<Resultat> getAllResultByCourseId(int id) {
