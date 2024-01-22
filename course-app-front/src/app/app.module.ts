@@ -28,6 +28,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TabViewModule } from 'primeng/tabview';
+import { PanelMenuModule } from 'primeng/panelmenu';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -115,7 +116,8 @@ import { MessageService } from 'primeng/api';
     FieldsetModule,
     AutoCompleteModule,
     ScrollPanelModule,
-    TabViewModule
+    TabViewModule,
+    PanelMenuModule
 
   ],
   providers: [{

@@ -30,6 +30,8 @@ dependencies {
     implementation ("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation ("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation ("io.jsonwebtoken:jjwt-jackson:0.11.5")
+    testImplementation("junit:junit:4.13.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")

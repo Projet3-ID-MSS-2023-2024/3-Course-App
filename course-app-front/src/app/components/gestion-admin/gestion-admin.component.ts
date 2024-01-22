@@ -25,6 +25,8 @@ export class GestionAdminComponent implements OnInit{
   visibleDiagAdd : boolean = false;
   show: boolean = false;
   showMail: boolean = false;
+  showAllDialog: boolean = false;
+  visibleName: boolean = false;
   visible: boolean = false;
   addUserForm !: FormGroup;
   cols: any[] = [];
@@ -54,7 +56,10 @@ export class GestionAdminComponent implements OnInit{
     ];
      }
 
+
   ngOnInit(): void {
+
+    
 
     this.cols = [
       { field: "nom", header: "Nom" },
@@ -88,6 +93,7 @@ export class GestionAdminComponent implements OnInit{
     })
   }
 
+  // récupération de la liste des utilisateurs actifs (non supprimé)
   getUsers(){
     this.userService.getAll().subscribe((res)=>{
       this.users = res;
@@ -103,9 +109,6 @@ export class GestionAdminComponent implements OnInit{
     this.visibleDiagAdd = true;
   }
 
-  showDialogRole() {
-    this.visible = true;
-  }
 
   showDialogName() {
     this.visible = true;
@@ -119,6 +122,10 @@ showDialogMail() {
   this.showMail = true;
 }
 
+showDialogs() {
+  this.showAllDialog = true;
+}
+
   ajoutUser(){
     this.loading =true;
     this.addUser = new User();
@@ -126,6 +133,7 @@ showDialogMail() {
     this.addUser.nom = this.addUserForm.value.nom;
     this.addUser.prenom = this.addUserForm.value.prenom;
     this.addUser.role = this.addUserForm.value.role;
+    // simple passage des roles en Majuscule
     for (let i = 0; i < this.addUser.role.length; i++) {
       this.addUser.role[i]=this.addUser.role[i].toUpperCase();
     }
@@ -154,6 +162,7 @@ showDialogMail() {
     })
   }
 
+  // récupération de la liste des utilisateurs supprimés
   listDel(){
     this.userService.getDel().subscribe((res)=>{
       this.users = res;
@@ -241,7 +250,9 @@ showDialogMail() {
     this.addUser = new User();
     this.addUser.nom = this.addUserForm.value.nom;
     this.userService.updateUserName(id, this.addUser).subscribe(()=>{
-      
+      this.getUsers();
+
+
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
     })
@@ -251,7 +262,8 @@ showDialogMail() {
     this.addUser = new User();
     this.addUser.prenom = this.addUserForm.value.prenom;
     this.userService.updateUserPrenom(id, this.addUser).subscribe(()=>{
-    
+       this.getUsers();
+
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
     })
@@ -261,7 +273,7 @@ showDialogMail() {
     this.addUser = new User();
     this.addUser.email = this.addUserForm.value.email;
     this.userService.updateUserMail(id, this.addUser).subscribe(()=>{
-      
+
     },(error)=>{
       this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
     })

@@ -43,6 +43,7 @@ export class UpdateCourseAddComponent implements OnInit{
     })
   }
 
+  // recherche des adresses belges contenant le query
   search(query : string) {
     this.adresseService.getAdressesBelges(query).subscribe(
       (res) => {
@@ -51,17 +52,20 @@ export class UpdateCourseAddComponent implements OnInit{
   }
 
   displayMap(){
+    // récupération de la latitude longitude de l'adresse de départ
     this.adresseService.getLatLong(this.addCourseForm.value.adresseDep).subscribe((res)=>{
       const lati = res.map((item: any) => item.lat);
       const long = res.map((item:any)=> item.lon);
       if(long[0] != undefined){
+        // récupération de latitude longitude de l'adresse d'arrivé
         this.adresseService.getLatLong(this.addCourseForm.value.adresseArr).subscribe((res)=>{
           const lat1 = res.map((item: any) => item.lat);
           const long1 = res.map((item:any)=> item.lon);
           if(lat1[0] != undefined){
             this.dialogMap = true;
+            // Chargement de la carte
             setTimeout(() => {
-              this.mapService.loadMap(lati[0], long[0], lat1[0], long1[0]);  /* Chargement de la carte */
+              this.mapService.loadMap(lati[0], long[0], lat1[0], long1[0]);
             }, 0);
           } else {
             this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !',
@@ -77,23 +81,30 @@ export class UpdateCourseAddComponent implements OnInit{
 
   ajouter(){
     this.isLoading=true;
+    // récupération de latitude longitude de l'adresse de départ
     this.adresseService.getLatLong(this.addCourseForm.value.adresseDep).subscribe((res)=>{
       const lat = res.map((item: any) => item.lat);
       const long = res.map((item:any)=> item.lon);
 
+      // création de l'objet adresse + ville a partir de latitude longitude de l'adresse de départ
       this.adresseService.getAddressFromCoordinates(lat,long).then((adresse : Adresse)=>{
         this.course.adresse = adresse;
+
+        // récupération de latitude longitude de l'adresse d'arrivée
         this.adresseService.getLatLong(this.addCourseForm.value.adresseArr).subscribe((res)=>{
           const lat1 = res.map((item: any) => item.lat);
           const long1 = res.map((item:any)=> item.lon);
 
+          // création de l'objet adresse + ville a partir de latitude longitude de l'adresse d'arrivée
           this.adresseService.getAddressFromCoordinates(lat1,long1).then((adresse1 : Adresse)=>{
             this.course.adresse1 = adresse1;
+            // finalisation de l'objet course
             this.course.titre = this.addCourseForm.value.titre;
             this.course.prix = this.addCourseForm.value.prix;
             this.course.date = this.addCourseForm.value.date;
             this.course.heure = this.addCourseForm.value.heure;
 
+            // Ajout de la course
             this.courseService.addCourse(this.course).subscribe((res)=>{
               this.isLoading=false;
               console.log(res)

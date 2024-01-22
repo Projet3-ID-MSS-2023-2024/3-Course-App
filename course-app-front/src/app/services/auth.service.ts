@@ -35,10 +35,12 @@ export class AuthService {
     return this.http.post<User>('http://localhost:8080/api/auth', token);
   }
 
+  // Fonction qui ajoute le token dans le LS
   authSuccess(token:any){
     localStorage.setItem('token',token)
   }
 
+  // Fonction qui retire le token du LS
   logout(){
     localStorage.removeItem('token')
   }
@@ -47,15 +49,17 @@ export class AuthService {
      return localStorage.getItem('token')
   }
 
-  getLoggedInToken() {
-    let user = localStorage.getItem('token')
-    if (user === null) return ''
-    return user
-  }
-
+  // Fonction qui permet de vérifier si un token est stocké en LocalStorage
   isUserLoggedIn() {
     let token = localStorage.getItem('token')
     if (token === null) return false
     return true
+  }
+
+  // Fonction qui renvoi le token qui se trouve dans le LS
+  getLoggedInToken() {
+    let token = localStorage.getItem('token')
+    if (token === null) return ''
+    return token
   }
 }
