@@ -36,8 +36,7 @@ public class CourseRestController {
         Utilisateur user = roleService.verifRole(Role.GESTIONNAIRE);
         newCourse.setUtilisateur(user);
 
-        newCourse = courseService.verifAdresseVille(newCourse.getAdresse(), newCourse.getAdresse().getVille(),newCourse);
-        newCourse = courseService.verifAdresseVille(newCourse.getAdresse1(), newCourse.getAdresse1().getVille(),newCourse);
+        newCourse = courseService.verifAdresseVille(newCourse);
 
         return courseService.add(newCourse);
     }
@@ -88,8 +87,7 @@ public class CourseRestController {
     @PutMapping("/admin/{id}")
     public void modifCourse(@RequestBody Course course){
 
-        course = courseService.verifAdresseVille(course.getAdresse(), course.getAdresse().getVille(),course);
-        course = courseService.verifAdresseVille(course.getAdresse1(), course.getAdresse1().getVille(),course);
+        course = courseService.verifAdresseVille(course);
         courseService.updateCourse(course);
     }
 }

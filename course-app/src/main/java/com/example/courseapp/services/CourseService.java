@@ -55,6 +55,6 @@ public interface CourseService {
 
     public Course updateCourse(Course course);
 
-    public Course verifAdresseVille(Adresse adresse, Ville ville, Course newCourse);
+    public Course verifAdresseVille(Course newCourse);
 
 }

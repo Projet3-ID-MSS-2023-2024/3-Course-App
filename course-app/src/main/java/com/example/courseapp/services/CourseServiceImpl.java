@@ -123,20 +123,34 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public Course verifAdresseVille(Adresse adresse, Ville ville, Course newCourse) {
+    public Course verifAdresseVille(Course newCourse) {
         Adresse testAdresse = adresseService.getAdresseByLatLong(
-                adresse.getLatitude(),adresse.getLongitude());
-        Ville testVille = villeService.getVilleByNom(ville.getNom());
+                newCourse.getAdresse().getLatitude(),
+                newCourse.getAdresse().getLongitude());
+        Ville testVille = villeService.getVilleByNom(newCourse.getAdresse().getVille().getNom());
         if (testAdresse==null){
             if (testVille == null) {
-                villeService.add(ville);
+                villeService.add(newCourse.getAdresse().getVille());
             } else {
                 newCourse.getAdresse().setVille(testVille);
-                adresse.setVille(testVille);
             }
-            adresseService.add(adresse);
+            adresseService.add(newCourse.getAdresse());
         } else {
             newCourse.setAdresse(testAdresse);
+        }
+        Adresse testAdresse1 = adresseService.getAdresseByLatLong(
+                newCourse.getAdresse1().getLatitude(),
+                newCourse.getAdresse1().getLongitude());
+        Ville testVille1 = villeService.getVilleByNom(newCourse.getAdresse1().getVille().getNom());
+        if (testAdresse1==null){
+            if (testVille1 == null) {
+                villeService.add(newCourse.getAdresse1().getVille());
+            } else {
+                newCourse.getAdresse1().setVille(testVille1);
+            }
+            adresseService.add(newCourse.getAdresse1());
+        } else {
+            newCourse.setAdresse1(testAdresse1);
         }
         return newCourse;
     }
