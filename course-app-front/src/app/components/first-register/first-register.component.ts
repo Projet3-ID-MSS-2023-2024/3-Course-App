@@ -10,7 +10,6 @@ import { User } from 'src/models/user';
   selector: 'app-first-register',
   templateUrl: './first-register.component.html',
   styleUrls: ['./first-register.component.css'],
-  providers: [MessageService]
 })
 export class FirstRegisterComponent implements OnInit{
 
@@ -45,7 +44,7 @@ export class FirstRegisterComponent implements OnInit{
 
       this.authService.addFirstAdmin(this.user).subscribe(()=>{
         this.loading = false;
-        this.router.navigateByUrl('/login');
+        location.reload();
       },(error)=>{
         this.loading = false;
         this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });

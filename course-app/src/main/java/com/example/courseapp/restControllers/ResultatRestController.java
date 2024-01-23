@@ -1,5 +1,6 @@
 package com.example.courseapp.restControllers;
 
+import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.Course;
 import com.example.courseapp.models.Resultat;
 import com.example.courseapp.services.CourseService;
@@ -36,9 +37,15 @@ public class ResultatRestController {
         return this.courseService.getCourseEndedAndNotDeleted();
     }
 
+    /*** Récupération des résultats de toutes les courses terminées et pas suprimées ***/
     @GetMapping("/courses/{id}")
-    public List<Resultat> getResultatsByCourseEndedAndNotDeleted(@PathVariable int id) {
-        return this.resultatService.getAllResultByCourseId(id);
+    public List<Resultat> getAllResultByCourseIdNotAbandon(@PathVariable int id) {
+        return this.resultatService.getAllResultByCourseIdNotAbandon(id);
+    }
+
+    @GetMapping("/abandon/{id}")
+    public List<Resultat> getResultatsByCourseAbandon(@PathVariable int id){
+        return this.resultatService.getAllResultByCourseIdAndAbandon(id);
     }
 
     /*** Récupération des courses non terminées par gestionaire de courses ***/
@@ -59,14 +66,34 @@ public class ResultatRestController {
         return this.resultatService.getAllResultByCourseId(id);
     }
 
+
+    /**** Réxupération des résultats pour une personne***/
+    @GetMapping("/personnel/{id}")
+    public List<Resultat> getResultatsByUser(@PathVariable int id) {
+        Optional<Utilisateur> user = userService.getUserById(id);
+        return this.resultatService.getAllResultByUser(user);
+    }
+
+
+    /*** Ajout de résultat (après paiement réussi dans le front) ***/
+
     @PostMapping
     public Resultat add(@RequestBody Resultat newResultat) {
         return resultatService.add(newResultat);
     }
 
+    /*** Récupération des résultats d'un user (pour connaitre ses courses payées) ***/
     @GetMapping("/{id}")
     public List<Resultat> getResultatsByUserId(@PathVariable int id) {
+        // Récupération du user complet à partir de son id
         Optional<Utilisateur> user = userService.getUserById(id);
+
         return this.resultatService.getResultatsByUser(user);
     }
+
+    @PutMapping
+    public Resultat update(@RequestBody Resultat newResultat) {
+        return resultatService.update(newResultat);
+    }
+
 }

@@ -13,9 +13,17 @@ public interface CourseService {
     /*** Methode qui ajoute une course ***/
     public Course add(Course newCourse);
 
+    /*** Méthode qui récupère toutes les courses ***/
     public List<Course> getCourses();
 
+    /*** Méthode qui récupère les courses disponibles (à venir) ***/
     public List<Course> getAvailableCourses();
+
+    /*** Méthode qui récupère les courses disponibles (à venir) par user ***/
+    public List<Course> getAvailableCoursesByUser(int id);
+
+    /*** Méthode qui récupère les courses payées par user ***/
+    public List<Course> getPayedCoursesByUser(int id);
 
     /*** Methode qui récupère les courses non supprimées par gestionnaire ***/
     public List<Course> getCoursesByGestionnaireAndNotDeleted(int id);
@@ -45,8 +53,8 @@ public interface CourseService {
 
     /*** Methode qui modifie une course ***/
 
-    public void updateCourse(Course course);
+    public Course updateCourse(Course course);
 
-    public Course verifAdresseVille(Adresse adresse, Ville ville, Course newCourse);
+    public Course verifAdresseVille(Course newCourse);
 
 }

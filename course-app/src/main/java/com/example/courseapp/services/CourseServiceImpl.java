@@ -23,19 +23,37 @@ public class CourseServiceImpl implements CourseService{
     @Autowired
     VilleService villeService;
 
+    /*** Ajout de course ***/
     @Override
     public Course add(Course newCourse) {
         return courseRepo.save(newCourse);
     }
 
+    /*** Récupération de toutes les courses ***/
     @Override
     public List<Course> getCourses() {
         return courseRepo.findAll();
     }
 
+    /*** Récupération des courses disponibles (à venir) ***/
     public List<Course> getAvailableCourses() {
+        // Timestamp de la date actuelle pour les courses à venir
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         return courseRepo.findAvailableCourses(timestamp);
+    }
+
+    /*** Récupération des courses disponibles (à venir) par user ***/
+    public List<Course> getAvailableCoursesByUser(int id) {
+        // Timestamp de la date actuelle pour les courses à venir
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return courseRepo.findAvailableCoursesByUser(timestamp, id);
+    }
+
+    /*** Récupération des courses payées par utilisateur ***/
+    public List<Course> getPayedCoursesByUser(int id) {
+        // Timestamp de la date actuelle pour les courses à venir
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return courseRepo.findPayedCoursesByUser(id);
     }
 
     /*** Récupération des courses non supprimées par gestionnaire ***/
@@ -100,33 +118,39 @@ public class CourseServiceImpl implements CourseService{
     /*** Modification d'une course ***/
 
     @Override
-    public void updateCourse(Course course) {
-        Course courseFromDB=courseRepo.getById(course.getId());
-        courseFromDB.setAdresse(course.getAdresse());
-        courseFromDB.setDate(course.getDate());
-        courseFromDB.setHeure(course.getHeure());
-        courseFromDB.setPrix(course.getPrix());
-        courseFromDB.setAdresse1(course.getAdresse1());
-        courseFromDB.setTitre(course.getTitre());
-        courseFromDB.setUtilisateur(course.getUtilisateur());
-        courseRepo.save(courseFromDB);
+    public Course updateCourse(Course course) {
+        return courseRepo.save(course);
     }
 
     @Override
-    public Course verifAdresseVille(Adresse adresse, Ville ville, Course newCourse) {
+    public Course verifAdresseVille(Course newCourse) {
         Adresse testAdresse = adresseService.getAdresseByLatLong(
-                adresse.getLatitude(),adresse.getLongitude());
-        Ville testVille = villeService.getVilleByNom(ville.getNom());
+                newCourse.getAdresse().getLatitude(),
+                newCourse.getAdresse().getLongitude());
+        Ville testVille = villeService.getVilleByNom(newCourse.getAdresse().getVille().getNom());
         if (testAdresse==null){
             if (testVille == null) {
-                villeService.add(ville);
+                villeService.add(newCourse.getAdresse().getVille());
             } else {
                 newCourse.getAdresse().setVille(testVille);
-                adresse.setVille(testVille);
             }
-            adresseService.add(adresse);
+            adresseService.add(newCourse.getAdresse());
         } else {
             newCourse.setAdresse(testAdresse);
+        }
+        Adresse testAdresse1 = adresseService.getAdresseByLatLong(
+                newCourse.getAdresse1().getLatitude(),
+                newCourse.getAdresse1().getLongitude());
+        Ville testVille1 = villeService.getVilleByNom(newCourse.getAdresse1().getVille().getNom());
+        if (testAdresse1==null){
+            if (testVille1 == null) {
+                villeService.add(newCourse.getAdresse1().getVille());
+            } else {
+                newCourse.getAdresse1().setVille(testVille1);
+            }
+            adresseService.add(newCourse.getAdresse1());
+        } else {
+            newCourse.setAdresse1(testAdresse1);
         }
         return newCourse;
     }

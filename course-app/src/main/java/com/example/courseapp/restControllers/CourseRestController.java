@@ -36,15 +36,27 @@ public class CourseRestController {
         Utilisateur user = roleService.verifRole(Role.GESTIONNAIRE);
         newCourse.setUtilisateur(user);
 
-        newCourse = courseService.verifAdresseVille(newCourse.getAdresse(), newCourse.getAdresse().getVille(),newCourse);
-        newCourse = courseService.verifAdresseVille(newCourse.getAdresse1(), newCourse.getAdresse1().getVille(),newCourse);
+        newCourse = courseService.verifAdresseVille(newCourse);
 
         return courseService.add(newCourse);
     }
 
+    /*** Récupération des courses disponibles (à venir) ***/
     @GetMapping("")
     public List<Course> getAvailableCourses() {
         return this.courseService.getAvailableCourses();
+    }
+
+    /*** Récupération des courses disponibles (à venir) par user ***/
+    @GetMapping("/user/{id}")
+    public List<Course> getAvailableCoursesByUser(@PathVariable int id) {
+        return this.courseService.getAvailableCoursesByUser(id);
+    }
+
+    /*** Récupération des courses payées par utilisateur ***/
+    @GetMapping("/user/payed/{id}")
+    public List<Course> getPayedCoursesByUser(@PathVariable int id) {
+        return this.courseService.getPayedCoursesByUser(id);
     }
 
     /*** Récupération des courses non supprimées pour un gestionnaire  ***/
@@ -59,6 +71,12 @@ public class CourseRestController {
         return this.courseService.getCoursesByGestionnaireAndDeleted(id);
     }
 
+    /*** Récupération d'une course non supprimée  ***/
+    @GetMapping("/admin/course/{id}")
+    public Optional<Course> getCourse(@PathVariable int id) {
+        return this.courseService.getCourse(id);
+    }
+
     /*** Suppression logique pour une course ***/
     @DeleteMapping("/admin/{id}")
     public void delete(@PathVariable int id){
@@ -68,6 +86,8 @@ public class CourseRestController {
     /*** Modification d'une course ***/
     @PutMapping("/admin/{id}")
     public void modifCourse(@RequestBody Course course){
+
+        course = courseService.verifAdresseVille(course);
         courseService.updateCourse(course);
     }
 }

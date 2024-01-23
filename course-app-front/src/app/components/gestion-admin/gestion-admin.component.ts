@@ -10,7 +10,7 @@ import { User } from 'src/models/user';
   selector: 'app-gestion-admin',
   templateUrl: './gestion-admin.component.html',
   styleUrls: ['./gestion-admin.component.css'],
-  providers: [MessageService, ConfirmationService]
+  providers: [ConfirmationService]
 })
 export class GestionAdminComponent implements OnInit{
 
@@ -23,6 +23,11 @@ export class GestionAdminComponent implements OnInit{
   addUser !: User;
   roles !: String[];
   visibleDiagAdd : boolean = false;
+  show: boolean = false;
+  showMail: boolean = false;
+  showAllDialog: boolean = false;
+  visibleName: boolean = false;
+  visible: boolean = false;
   addUserForm !: FormGroup;
   cols: any[] = [];
 
@@ -51,7 +56,10 @@ export class GestionAdminComponent implements OnInit{
     ];
      }
 
+
   ngOnInit(): void {
+
+    
 
     this.cols = [
       { field: "nom", header: "Nom" },
@@ -85,6 +93,7 @@ export class GestionAdminComponent implements OnInit{
     })
   }
 
+  // récupération de la liste des utilisateurs actifs (non supprimé)
   getUsers(){
     this.userService.getAll().subscribe((res)=>{
       this.users = res;
@@ -100,6 +109,23 @@ export class GestionAdminComponent implements OnInit{
     this.visibleDiagAdd = true;
   }
 
+
+  showDialogName() {
+    this.visible = true;
+}
+
+showDialogFirstName() {
+  this.show = true;
+}
+
+showDialogMail() {
+  this.showMail = true;
+}
+
+showDialogs() {
+  this.showAllDialog = true;
+}
+
   ajoutUser(){
     this.loading =true;
     this.addUser = new User();
@@ -107,6 +133,7 @@ export class GestionAdminComponent implements OnInit{
     this.addUser.nom = this.addUserForm.value.nom;
     this.addUser.prenom = this.addUserForm.value.prenom;
     this.addUser.role = this.addUserForm.value.role;
+    // simple passage des roles en Majuscule
     for (let i = 0; i < this.addUser.role.length; i++) {
       this.addUser.role[i]=this.addUser.role[i].toUpperCase();
     }
@@ -122,6 +149,20 @@ export class GestionAdminComponent implements OnInit{
     })
   }
 
+  changeRole(id : number){
+    this.addUser = new User();
+    this.addUser.role = this.addUserForm.value.role;
+    for (let i = 0; i < this.addUser.role.length; i++) {
+      this.addUser.role[i]=this.addUser.role[i].toUpperCase();
+    }
+    this.userService.changeRole(id, this.addUser).subscribe(()=>{
+
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+    })
+  }
+
+  // récupération de la liste des utilisateurs supprimés
   listDel(){
     this.userService.getDel().subscribe((res)=>{
       this.users = res;
@@ -202,6 +243,39 @@ export class GestionAdminComponent implements OnInit{
     },(error)=>{
       this.progressBar=false;
       this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });
+    })
+  }
+
+  updateUserName(id: number){
+    this.addUser = new User();
+    this.addUser.nom = this.addUserForm.value.nom;
+    this.userService.updateUserName(id, this.addUser).subscribe(()=>{
+      this.getUsers();
+
+
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+    })
+  }
+
+  updateUserPrenom(id: number){
+    this.addUser = new User();
+    this.addUser.prenom = this.addUserForm.value.prenom;
+    this.userService.updateUserPrenom(id, this.addUser).subscribe(()=>{
+       this.getUsers();
+
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
+    })
+  }
+
+  updateUserMail(id: number){
+    this.addUser = new User();
+    this.addUser.email = this.addUserForm.value.email;
+    this.userService.updateUserMail(id, this.addUser).subscribe(()=>{
+
+    },(error)=>{
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'erreur back' });
     })
   }
 

@@ -5,17 +5,15 @@ import com.example.courseapp.dto.UserResponse;
 import com.example.courseapp.models.CustomException;
 import com.example.courseapp.models.Role;
 import com.example.courseapp.models.Utilisateur;
-import com.example.courseapp.services.AuthenticationServcie;
+import com.example.courseapp.services.AuthenticationService;
 import com.example.courseapp.services.IUtilisateurService;
 import com.example.courseapp.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +26,7 @@ public class UtilisateurRestController {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
-    AuthenticationServcie authenticationServcie;
+    AuthenticationService authenticationService;
     @Autowired
     RoleService roleService;
 
@@ -53,6 +51,11 @@ public class UtilisateurRestController {
     @PostMapping
     public void add(@RequestBody Utilisateur newUser) throws Exception {
         utilisateurService.addUserbyAdmin(newUser);
+    }
+    @PutMapping("/role/{id}")
+    public Optional<Utilisateur> changeRole(@RequestBody Utilisateur utilisateur, @PathVariable("id") int id) throws Exception {
+        return this.utilisateurService.getUserById(id)
+                .map(upUser -> utilisateurService.saveUser(upUser));
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) throws Exception{

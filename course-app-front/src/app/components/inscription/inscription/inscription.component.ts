@@ -3,13 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth.service';
+import { BtnStateService } from 'src/app/services/btn-state.service';
 import { User } from 'src/models/user';
 
 @Component({
   selector: 'app-inscription',
   templateUrl: './inscription.component.html',
   styleUrls: ['./inscription.component.css'],
-  providers: [MessageService]
 })
 export class InscriptionComponent implements OnInit{
 
@@ -21,10 +21,12 @@ export class InscriptionComponent implements OnInit{
     private fb: FormBuilder,
     private authService : AuthService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private btnStateService: BtnStateService
     ){}
 
   ngOnInit(): void {
+    this.btnStateService.setState(false)
     this.user = new User();
     this.inscriptionForm = this.fb.group({
       nom:['', Validators.required],

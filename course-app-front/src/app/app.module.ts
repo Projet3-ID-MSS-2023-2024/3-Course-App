@@ -26,7 +26,9 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { TreeTableModule } from 'primeng/treetable';
 import { FieldsetModule } from 'primeng/fieldset';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-
+import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { TabViewModule } from 'primeng/tabview';
+import { PanelMenuModule } from 'primeng/panelmenu';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -52,6 +54,8 @@ import { CoursesDeleteListComponent } from './components/Course/courses-delete-l
 import { ModifResultatsComponent } from './components/Resultats/modif-resultats/modif-resultats.component';
 import { ListResultatsComponent } from './components/Resultats/list-resultats/list-resultats.component';
 import { ListResultatsPersonnelsComponent } from './components/Resultats/list-resultats-personnels/list-resultats-personnels.component';
+import { MyCoursesComponent } from './components/Course/my-courses/my-courses.component';
+import { MessageService } from 'primeng/api';
 
 
 @NgModule({
@@ -77,7 +81,8 @@ import { ListResultatsPersonnelsComponent } from './components/Resultats/list-re
     CoursesDeleteListComponent,
     ModifResultatsComponent,
     ListResultatsComponent,
-    ListResultatsPersonnelsComponent
+    ListResultatsPersonnelsComponent,
+    MyCoursesComponent
   ],
   imports: [
     BrowserModule,
@@ -109,14 +114,19 @@ import { ListResultatsPersonnelsComponent } from './components/Resultats/list-re
     ProgressBarModule,
     TreeTableModule,
     FieldsetModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    ScrollPanelModule,
+    TabViewModule,
+    PanelMenuModule
 
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: HttpInterceptorService,
-    multi: true
-  }],
+    multi: true,
+  },
+  MessageService
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

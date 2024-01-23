@@ -9,9 +9,18 @@ import java.util.Optional;
 
 public interface ResultatRepo extends JpaRepository<Resultat, Integer> {
 
-    /*** Récup des résultats d'un course***/
+    /*** Récup des résultats d'un course ***/
     @Query("select r from Resultat r where r.course.id =:id")
     public List<Resultat> getAllByIdCourse(int id);
 
+    /*** Récup des résultats d'un course (abandon) ***/
+    @Query("select r from Resultat r where r.course.id =:id and temps = null and r.course.supprimer = false")
+    public List<Resultat> getAllByIdCourseAndAbandon(int id);
+
+    /*** Récup des résultats d'un course ***/
+    @Query("select r from Resultat r where r.course.id =:id and r.course.supprimer = false and abandon = null ORDER BY temps ASC")
+    public List<Resultat> getAllByIdCourseNotAbandon(int id);
+
+    /*** Récupération des résultats pour un utilisateur ***/
     public List<Resultat> findAllByUtilisateur(Optional<Utilisateur> user);
 }

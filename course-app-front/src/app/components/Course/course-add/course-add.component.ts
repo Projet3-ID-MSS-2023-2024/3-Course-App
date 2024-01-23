@@ -9,7 +9,6 @@ import { Course } from 'src/models/course';
   selector: 'app-course-add',
   templateUrl: './course-add.component.html',
   styleUrls: ['./course-add.component.css'],
-  providers: [MessageService]
 })
 export class CourseAddComponent implements OnInit{
   courseForm!:FormGroup;

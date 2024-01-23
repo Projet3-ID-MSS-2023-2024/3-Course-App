@@ -8,84 +8,99 @@ import { Course } from 'src/models/course';
 import { Resultat } from 'src/models/resultat';
 import { User } from 'src/models/user';
 import { MapService } from 'src/app/services/map.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses-list',
   templateUrl: './courses-list.component.html',
   styleUrls: ['./courses-list.component.css'],
-  providers: [MessageService]
 })
 export class CoursesListComponent implements OnInit {
-  // PayPal
+  // Variables PayPal
   @ViewChild("paypal")
-  paypalComponent?: NgxPaypalComponent
+  paypalComponent?: NgxPaypalComponent;
   public payPalConfig!: IPayPalConfig;
   showSuccess?: boolean;
   paypalInit: boolean = false;
   paymentDialVisible: boolean = false;
   coursePrice!: string;
+
+  // Variables d'affichage des données
   course!: Course;
   loggedUser!: User;
   newResultat: Resultat = new Resultat;
   map : any;
   dialogMap:boolean =false;
   courseMap!: Course;
+  disableBtnInscription: boolean = false;
 
-
+  // Tableaux de données
   courses: Course[] | undefined = [];
   resultats: Resultat[] | undefined = [];
-  payedCourses: number[] = [];
 
-  // Tri
+  // Variables de tri
   sortOptions!: SelectItem[];
   sortOrder!: number;
   sortField!: string;
   sortKey: any;
 
   constructor(
+    private router: Router,
     private courseService: CourseService,
-    private authService: AuthService,
+    public authService: AuthService,
     private messageService: MessageService,
     private resultatService: ResultatService,
     private mapService : MapService
        ) {}
 
   ngOnInit(): void {
-    this.loadLoggedUserAndResultats();
-    this.getCourses();
+    // Vérifie si un user est connecté
+    if (this.authService.isUserLoggedIn()) {
+      // Si oui, charger les données du user et sans ses courses payées
+      this.loadLoggedUserAndCourses();
+    } else {
+      // Sinon, uniquement les courses disponibles
+      this.disableBtnInscription = true;
+      this.getCourses();
+    }
 
+    // Setup du tri sur le prix pour les courses
     this.sortField = 'prix';
+    this.sortOrder = 1;
     this.sortOptions = [
       { label: 'Prix de Haut en Bas', value: 'Prix de Haut en Bas' },
       { label: 'Prix de Bas en Haut', value: 'Prix de Bas en Haut' }
   ];
   }
 
+  // Fonction d'événement quand le tri change
   onSortChange(event: any) {
     let value = event.value;
 
+    // Prix de haut en bas
     if (value === 'Prix de Haut en Bas') {
         this.sortOrder = -1;
-    } else {
+    } else { // Prix de bas en haut
         this.sortOrder = 1;
     }
-}
+  }
 
+  // Récupération de toutes les courses disponibles à venir (user non connecté)
   getCourses(): void {
     this.courseService.getAvailableCourses().subscribe((courses: Course[] | undefined) => {
       this.courses = courses;
     });
   }
 
-  getResultats(): void {
-    this.resultatService.getResultatsByUserId(this.loggedUser.id).subscribe((resultats: Resultat[] | undefined) => {
-      this.resultats = resultats;
-      resultats!.forEach(resultat => {
-        this.payedCourses!.push(resultat.course.id);
-      });
+  // Récupération de toutes les courses disponibles à venir (user connecté)
+  getCoursesByUser(id: number): void {
+    this.courseService.getAvailableCoursesByUser(id).subscribe((courses: Course[] | undefined) => {
+      this.courses = courses;
+      console.log(courses)
     });
   }
 
+  // Fonction d'affichage du dialogue de paiement, sauvegarde aussi le prix de la course et la course
   showPaymentDial(prix: string, course: Course): void {
     this.coursePrice = prix;
     this.course = course;
@@ -98,9 +113,11 @@ export class CoursesListComponent implements OnInit {
   configPayPal(): void {
     this.payPalConfig = {
       currency: 'EUR',
+      // Identifiant de l'application pour paypal sandbox
       clientId: 'AQY5t6tEDcJUBlLt9jAyxh-pTXXIKimV6HE6KGOr_lk72bOEZfpSmC4uHHF-DtDxR75wbBzr2gIL4uUI',
-      createOrderOnClient: (data) => <ICreateOrderRequest>{
+      createOrderOnClient: (data) => <ICreateOrderRequest> {
         intent: 'CAPTURE',
+        // Configuration de l'achat
         purchase_units: [
           {
             amount: {
@@ -114,6 +131,7 @@ export class CoursesListComponent implements OnInit {
               }
             },
             items: [
+              // Objet acheté (course)
               {
                 name: 'Course',
                 quantity: '1',
@@ -134,26 +152,37 @@ export class CoursesListComponent implements OnInit {
         label: 'paypal',
         layout: 'horizontal'
       },
+      // Achat approuvé mais pas authorisé
       onApprove: (data, actions) => {
         console.log('onApprove - transaction was approved, but not authorized', data, actions);
         actions.order.get().then((details: any) => {
           console.log('onApprove - you can get full order details inside onApprove: ', details);
         });
       },
+      // Achat autorisé
       onClientAuthorization: (data) => {
+
+        // Initialisation du nouveau résultat après le paiement
         this.newResultat.abandon = null;
         this.newResultat.temps = null;
         this.newResultat.course = this.course;
         this.newResultat.utilisateur = this.loggedUser;
 
+        // Ajout du nouveau résultat
         this.resultatService.add(this.newResultat).subscribe((res) => {
-          this.getResultats();
+
+          // Ferme le dialogue de paiement
           this.paymentDialVisible = false;
+
+          // Message de paiement réussi
+          this.router.navigateByUrl('/courses/personnel');
           this.messageService.add({ severity: 'success', summary: 'Paiement réussi !', detail: 'Votre participation est enregistrée.' });
         }, (error) => {
+          // Message d'erreur
           this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue !', detail: `${error.error}` });
         });
       },
+      // Paiement annulé
       onCancel: (data, actions) => {
         console.log('OnCancel', data, actions);
       },
@@ -166,13 +195,21 @@ export class CoursesListComponent implements OnInit {
     };
   }
 
-  loadLoggedUserAndResultats(){
+  // Récupération du user connecté et de ses résultats
+  loadLoggedUserAndCourses(){
     this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
       this.loggedUser = res;
-      this.getResultats();
+      if (this.loggedUser.role.includes("COUREUR")) {
+        this.disableBtnInscription = false;
+      } else {
+        // Si le user n'est pas un coureur, impossible de participer aux courses
+        this.disableBtnInscription = true;
+      }
+      this.getCoursesByUser(this.loggedUser.id);
     })
   }
 
+  // Fonction d'affichage du dialogue de map (chemin de la course)
   showMapDialog(course : Course){
     this.courseMap = course;
     this.dialogMap = true;

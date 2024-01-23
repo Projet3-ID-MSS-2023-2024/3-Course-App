@@ -8,14 +8,16 @@ import { Resultat } from 'src/models/resultat';
   providedIn: 'root'
 })
 export class ResultatService {
-  private resultatApiUrl = 'http://localhost:8080/api/resultat';
+  private resultatApiUrl = 'https://localhost:8080/api/resultat';
 
   constructor(private http: HttpClient) { }
 
+  // Ajout d'un résultat après un paiement réussi (lie un user et la course payée)
   add(resultat: Resultat) {
     return this.http.post(this.resultatApiUrl, resultat, { responseType: 'text' });
   }
 
+  // Récupération des résultats du user connecté en contactant le backend (pour connaitre ses courses payées)
   getResultatsByUserId(id: number): Observable<Resultat[]>{
     return this.http.get<Resultat[]>(`${this.resultatApiUrl}/${id}`).pipe(
       tap((Resultats: Resultat[]) => this.log(Resultats)),
@@ -23,6 +25,12 @@ export class ResultatService {
     );
   }
 
+  getResultsByUserId(id: number): Observable<Resultat[]>{
+    return this.http.get<Resultat[]>(`${this.resultatApiUrl}/personnel/${id}`).pipe(
+      tap((Resultats: Resultat[]) => this.log(Resultats)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
   getCoursesByGestionnaireAndNotEnded(id: number): Observable<Course[]>{
     return this.http.get<Course[]>(`${this.resultatApiUrl}/admin/${id}`).pipe(
       tap((courses: Course[]) => this.log(courses)),
@@ -40,6 +48,27 @@ export class ResultatService {
   getResultatsByCourse(id: number):Observable<Resultat[]>{
     return this.http.get<Resultat[]>(`${this.resultatApiUrl}/admin/resultats/${id}`).pipe(
       tap((resultats: Resultat[]) => this.log(resultats)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
+  getResultatsByCourseNotAbandon(id: number):Observable<Resultat[]>{
+    return this.http.get<Resultat[]>(`${this.resultatApiUrl}/courses/${id}`).pipe(
+      tap((resultats: Resultat[]) => this.log(resultats)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
+  getResultatsByCourseAndAbandon(id: any) {
+    return this.http.get<Resultat[]>(`${this.resultatApiUrl}/abandon/${id}`).pipe(
+      tap((resultats: Resultat[]) => this.log(resultats)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
+  getCoursesEndedAndNotDeleted() {
+    return this.http.get<Course[]>(`${this.resultatApiUrl}/courses`).pipe(
+      tap((courses: Course[]) => this.log(courses)),
       catchError((error: Error) => this.handleError(error, undefined))
     );
   }

@@ -10,7 +10,6 @@ import { User } from 'src/models/user';
   selector: 'app-update-user',
   templateUrl: './update-user.component.html',
   styleUrls: ['./update-user.component.css'],
-  providers: [MessageService]
 })
 export class UpdateUserComponent implements OnInit {
   UpdateUserForm!: FormGroup;

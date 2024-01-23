@@ -33,6 +33,8 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
     @Autowired
     RoleService roleService;
 
+    /*** Cette fonction permet de renvoyer une liste des utilisateurs non supprimés
+        avec seulement les informations nécessaires, on évite de renvoyer des infos secretes ou inutiles. ***/
     @Override
     public List<UserResponse> getAllUsers() {
 
@@ -57,6 +59,8 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         return newList;
     }
 
+    /*** Cette fonction permet de renvoyer une liste des utilisateurs supprimés
+     avec seulement les informations nécessaires, on évite de renvoyer des infos secretes ou inutiles. ***/
     @Override
     public List<UserResponse> getAllUsersDel() {
         List<Utilisateur> list = utilisateurRepo.getUserDel();
@@ -95,6 +99,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         utilisateurRepo.deleteById(id);
     }
 
+    /*** Cette fonction permet de vérifier le format de l'adresse mail grace a une regex ***/
     @Override
     public boolean testEmail(String email) throws Exception {
         String regexEmail = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
@@ -111,6 +116,8 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
             throw new CustomException("L'adresse email est incorrecte.");
         }
     }
+
+    /*** Cette fonction permet de vérifier le format de d'un mot de passe grace a une regex ***/
     @Override
     public boolean testMdp(String mdp) throws Exception {
         String regexMdp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
@@ -124,6 +131,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         }
     }
 
+    /*** Cette fonction permet de vérifier si le code est déja utilisé pour un utilisateur ***/
     @Override
     public boolean testCodeValid(String code) {
         var user = utilisateurRepo.findByCode(code);
@@ -136,9 +144,11 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         return utilisateurRepo.findByCode(code);
     }
 
+    /*** Cette fonction permet a un admin d'ajouter un utilisateur ***/
     @Override
     public void addUserbyAdmin(Utilisateur user) throws Exception {
 
+        //On s'assure que l auteur possede bien le role d'admin
         Utilisateur author = roleService.verifRole(Role.ADMIN);
 
         this.testEmail(user.getEmail().toLowerCase());
@@ -149,7 +159,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         user.setActive(true);
         user.setDel(false);
         this.utilisateurRepo.save(user);
-        emailService.sendEmail(user.getEmail(), "Code de connexion", buildEmailCodeConnexion(user.getPrenom(), codeMdp,author.getPrenom()));
+        emailService.sendEmail(user.getEmail(), "Code de connexion", buildEmailCodeConnexion(user.getPrenom(), codeMdp,author.getPrenom(), false));
     }
 
     @Override
@@ -179,7 +189,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         if (user.isEmpty()){
             throw new CustomException("L'utilisateur n'existe pas."); // a modif
         }
-        if (this.testMdp(mdp)){}
+        this.testMdp(mdp);
         Utilisateur userMod = user.get();
         userMod.setMdp(passwordEncoder.encode(mdp));
         userMod.setTempMdp(false);
@@ -187,25 +197,24 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         return true;
     }
 
-    /*** Génération d'un nouveau mot de passe temporaire ***/
+    /*** Génération d'un nouveau mot de passe ***/
     @Override
     public void changePassword(ChangePasswordRequest request, int id){
         Optional<Utilisateur> user = utilisateurRepo.findById(id);
         Utilisateur userPwd = user.get();
 
         if(!passwordEncoder.matches(request.getCurrentPassword(),userPwd.getMdp() )){
-            throw new IllegalStateException("Wrong password");
+            throw new IllegalStateException("Mauvais mot de passe");
         }
 
         if(!request.getNewPassword().equals(request.getConfirmationPassword())){
-            throw new IllegalStateException("Password are not the same");
+            throw new IllegalStateException("Les mot de passes ne sont pas identiques");
         }
          userPwd.setMdp(passwordEncoder.encode(request.getNewPassword()));
         utilisateurRepo.save(userPwd);
     }
 
-
-
+    /*** Génération d'un nouveau mot de passe qui va permettre une seule connexion a l'utilisateur ***/
     @Override
     public void newMdpTemp(int id) throws Exception {
         Utilisateur author = roleService.verifRole(Role.ADMIN);
@@ -219,13 +228,16 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         userMod.setMdp(passwordEncoder.encode(codeMdp));
         userMod.setTempMdp(true);
         utilisateurRepo.save(userMod);
-        emailService.sendEmail(userMod.getEmail(), "Mot de passe temporaire", buildEmailCodeConnexion(userMod.getPrenom(), codeMdp,author.getPrenom()));
+        emailService.sendEmail(userMod.getEmail(), "Mot de passe temporaire", buildEmailCodeConnexion(userMod.getPrenom(), codeMdp,author.getPrenom(), true));
     }
 
 
     /*** Suppression logique ou réactivation d'un compte ***/
     @Override
     public void boclkUnclock(int id, boolean block) throws Exception{
+        // Si block est a true, on suprrime l'utilisateur
+        // Si block est a false, on réactive l'utilisateur
+
         Optional<Utilisateur> testId = utilisateurRepo.findById(id);
         if (testId.isEmpty()){
             throw new CustomException("L'utilisateur n'existe pas."); // a modif
@@ -234,7 +246,7 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         user.setDel(block);
         user.setActive(!block);
         utilisateurRepo.save(user);
-        if (block==false){
+        if (!block){
             emailService.sendEmail(user.getEmail(),"Votre compte a été réactivé.",emailReactivationCompte(user.getPrenom()));
         }
     }
@@ -243,8 +255,11 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
         return this.utilisateurRepo.count();
     }
 
-    private String buildEmailCodeConnexion(String prenom,String codeMdp, String admin){
-        return "<!DOCTYPE html>\n" +
+    /*** fonction pour créer le template html apres avoir ajouter un admin si le boolean mdp est a false
+     ou apres avoir generer un nouveau mot de passse temporaire si le boolean newMdp est a true ***/
+
+    private String buildEmailCodeConnexion(String prenom,String codeMdp, String admin,boolean newMdp){
+        String template = "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
                 "    <meta charset=\"UTF-8\">\n" +
@@ -295,15 +310,25 @@ public class UtilisateurServiceDbImpl implements IUtilisateurService{
                 "<body>\n" +
                 "    <div class=\"box\">\n" +
                 "        <h2>Code de Connexion</h2>\n" +
-                "        <p>Bonjour "+ prenom +",</p>\n" +
-                "        <p>Tu as été inscrit sur l'application Course App par l'administrateur "+ admin +".</p>\n" +
+                "        <p>Bonjour "+ prenom +",</p>\n";
+        if (newMdp){
+            template = template + "<p>L'administrateur "+ admin +
+                    " a créé un nouveau mot de passe temporaire pour ton compte sur l'application Course App.</p>\n";
+        } else {
+            template = template + "<p>Tu as été inscrit sur l'application Course App par l'administrateur "+ admin +".</p>\n";
+        }
+        template = template +
                 "        <p>Utilise ton adresse mail ainsi que le mot de passe temporaire ci-dessous pour te connecter.</p>\n" +
                 "        <p class=\"code\">"+ codeMdp +"</p>\n" +
                 "        <p class=\"note\">Attention, ce mot de passe n'est valide qu'une seule fois, il t'es donc fortement recommandé de te créer un mot de passe une fois connecté.</p>\n" +
                 "    </div>\n" +
                 "</body>\n" +
                 "</html>";
+
+        return template;
     }
+
+    /*** fonction pour créer le template html pour prévenir un utilisateur que son compte a été réactivé ***/
 
     private String emailReactivationCompte(String prenom){
         return "<!DOCTYPE html>\n" +

@@ -16,12 +16,15 @@ export class MapService {
       this.map.remove();
     }
 
+    // Initialisation de la map
     this.map = L.map('map').setView([lati, long], 10);
+    // couche de tuiles OpenStreetMap à la carte pour l'affichage graphique
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(this.map);
 
+    // Ajout de l'itinéraire
     const control = L.Routing.control({
       waypoints: [
         L.latLng([lati,long]),
@@ -32,21 +35,15 @@ export class MapService {
       showAlternatives: false
     });
     control.addTo(this.map)
+
+    // On centre le carte sur l'itinéraire
     const bounds = L.latLngBounds([lati, long],[latArr, longArr]);
     this.map.fitBounds(bounds);
 
-    control.on('routeselected', function(e) {
-      var waypoints = document.querySelectorAll('.leaflet-marker-draggable');
-      waypoints.forEach(function(waypoint) {
-        // Explicitly cast to HTMLElement to access the style property
-        (waypoint as HTMLElement).style.display = 'none';
-      });
-    });
-
+    // On Supprime les containers d'information inutile sur la carte comme les instructions de l'itinéraire
     control.on('routeselected', function(e) {
       var waypoints = document.querySelectorAll('.leaflet-pane .leaflet-shadow-pane');
       waypoints.forEach(function(waypoint) {
-        // Explicitly cast to HTMLElement to access the style property
         (waypoint as HTMLElement).style.display = 'none';
       });
     });
@@ -63,7 +60,8 @@ export class MapService {
       }
     });
 
+    // Ajout d'un marqueur + pop-up pour le point de départ et d'arrivée
     let marker = L.marker([lati, long]).addTo(this.map).bindPopup("Départ").openPopup();
-    let marker2 = L.marker([latArr, longArr]).addTo(this.map).bindPopup("Arrivé");
+    let marker2 = L.marker([latArr, longArr]).addTo(this.map).bindPopup("Arrivée");
   }
 }

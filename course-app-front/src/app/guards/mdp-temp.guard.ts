@@ -7,11 +7,16 @@ export const mdpTempGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  authService.getUserWithToken(authService.getLoggedInToken()).subscribe((res)=>{
-    let user : User = res;
-    if (user.tempMdp) {
-      router.navigateByUrl('/creer/mdp');
-    }
-  })
+  if (authService.isUserLoggedIn()) {
+    authService.getUserWithToken(authService.getLoggedInToken()).subscribe((res)=>{
+      let user : User = res;
+      if (user.tempMdp) {
+        router.navigateByUrl('/creer/mdp');
+      }
+    },()=>{
+      authService.logout();
+      location.reload();
+    })
+  }
   return true;
 };

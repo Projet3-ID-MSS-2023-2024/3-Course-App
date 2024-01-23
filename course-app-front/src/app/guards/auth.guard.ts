@@ -10,10 +10,10 @@ export const authGuard: CanActivateFn = (route, state) => {
     authService.getUserWithToken(authService.getLoggedInToken()).subscribe(()=>{
     },()=>{
       authService.logout();
-      router.navigateByUrl('/login');
+      location.reload();
     })
   } else {
-    router.navigateByUrl('/login');
+    router.navigateByUrl('/accueil');
   }
 
   return true;
