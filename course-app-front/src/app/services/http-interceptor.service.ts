@@ -11,6 +11,7 @@ export class HttpInterceptorService implements HttpInterceptor{
   constructor(private authService : AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // si l'utilisateur est connecté on passe son token dans chaque requete qu'on va envoyer
     if (this.authService.isUserLoggedIn() && req.url.indexOf('basicauth') === -1) {
 
       const token=this.authService.getToken();

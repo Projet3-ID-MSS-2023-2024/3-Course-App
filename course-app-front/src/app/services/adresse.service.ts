@@ -12,7 +12,7 @@ export class AdresseService {
   constructor(private http:HttpClient) { }
 
   addAdresse(Adresse: Adresse) {
-    return this.http.post('http://localhost:8080/api/adresse', Adresse, { responseType: 'text' });
+    return this.http.post('https://localhost:8080/api/adresse', Adresse, { responseType: 'text' });
   }
 
   // fonction qui va renvoyer un liste de 5 adresses belges contenant le query
