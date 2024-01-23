@@ -12,27 +12,27 @@ export class AuthService {
   constructor(private http : HttpClient) { }
 
   authentication(user:User){
-    return this.http.post<TokenResponse>('http://localhost:8080/api/auth/authenticate', user);
+    return this.http.post<TokenResponse>('https://localhost:8080/api/auth/authenticate', user);
   }
 
   register(user:User){
-    return this.http.post('http://localhost:8080/api/auth/register', user, { responseType: 'text' });
+    return this.http.post('https://localhost:8080/api/auth/register', user, { responseType: 'text' });
   }
 
   addFirstAdmin(user:User){
-    return this.http.post('http://localhost:8080/api/auth/firstAdmin', user, { responseType: 'text' });
+    return this.http.post('https://localhost:8080/api/auth/firstAdmin', user, { responseType: 'text' });
   }
 
   confirmInscription(code:any){
-    return this.http.get(`http://localhost:8080/api/auth?code=${code}`);
+    return this.http.get(`https://localhost:8080/api/auth?code=${code}`);
   }
 
   countUserDb(){
-    return this.http.get("http://localhost:8080/api/auth/countUserDb");
+    return this.http.get("https://localhost:8080/api/auth/countUserDb");
   }
 
   getUserWithToken(token: string):Observable<User>{
-    return this.http.post<User>('http://localhost:8080/api/auth', token);
+    return this.http.post<User>('https://localhost:8080/api/auth', token);
   }
 
   // Fonction qui ajoute le token dans le LS

@@ -10,6 +10,6 @@ export class VilleService {
   constructor(private http: HttpClient) { }
 
   addVille(Ville:Ville) {
-    return this.http.post('http://localhost:8080/api/ville', Ville, { responseType: 'text' });
+    return this.http.post('https://localhost:8080/api/ville', Ville, { responseType: 'text' });
   }
 }
