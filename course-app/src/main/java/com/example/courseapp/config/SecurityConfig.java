@@ -28,8 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorize ->
                                 authorize.requestMatchers("/swagger-ui/**","/v3/**",  // Route pour avoir accés a swagger sous springSecurity
-                                        "/api/auth/**","/api/users/**","/api/course/**","/api/ville/**",
-                                                "/api/adresse/**", "/api/resultat/**") // restControllers qui n'ont pas besoin de sécurité
+                                        "/api/auth/**") // restControllers qui n'ont pas besoin de sécurité
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated()
