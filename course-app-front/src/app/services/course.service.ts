@@ -23,6 +23,22 @@ export class CourseService {
     );
   }
 
+  // Fonction de récupération des courses disponibles en contactant le backend
+  getAvailableCoursesByUser(id: number): Observable<Course[]> {
+    return this.http.get<Course[]>(`${this.courseApiUrl}/user/${id}`).pipe(
+      tap((courses: Course[]) => this.log(courses)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
+  // Fonction de récupération des courses disponibles par user en contactant le backend
+  getPayedCoursesByUser(id: number): Observable<Course[]> {
+    return this.http.get<Course[]>(`${this.courseApiUrl}/user/payed/${id}`).pipe(
+      tap((courses: Course[]) => this.log(courses)),
+      catchError((error: Error) => this.handleError(error, undefined))
+    );
+  }
+
   getCoursesByGestionnaireAndNotDeleted(id: number): Observable<Course[]>{
     return this.http.get<Course[]>(`${this.courseApiUrl}/admin/${id}`).pipe(
       tap((courses: Course[]) => this.log(courses)),

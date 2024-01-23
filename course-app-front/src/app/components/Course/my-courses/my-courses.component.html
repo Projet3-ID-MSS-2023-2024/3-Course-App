@@ -1,4 +1,4 @@
-<p-dataView #dv [value]="payedCourses" [sortField]="sortField" [sortOrder]="sortOrder" emptyMessage=" ">
+<p-dataView #dv [value]="courses" [sortField]="sortField" [sortOrder]="sortOrder" emptyMessage="Vous n'avez aucune course payée à venir.">
     <ng-template pTemplate="header">
         <div class="flex justify-content-between flex-wrap">
             <div class="flex" style="width: 25%">
@@ -11,8 +11,6 @@
             </div>
             <div class="flex align-items-center justify-content-center" style="width: 25%"></div>
         </div>
-        <!-- Message si aucune course à venir n'a été achetée par le user connecté -->
-        <div *ngIf="payedCourses!.length == 0" class="mt-3 ml-1">Vous n'avez aucune course payée à venir.</div> 
     </ng-template>
     <ng-template let-course pTemplate="listItem">
         <div class="col-12">

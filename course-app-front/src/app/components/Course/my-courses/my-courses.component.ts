@@ -26,8 +26,6 @@ export class MyCoursesComponent  implements OnInit {
   // Tableaux de données
   courses: Course[] | undefined = [];
   resultats: Resultat[] | undefined = [];
-  payedCourses: Course[] | undefined = [];
-  upcomingCourses: Course [] | undefined = [];
 
   // Variables de tri
   sortOptions!: SelectItem[];
@@ -46,12 +44,10 @@ export class MyCoursesComponent  implements OnInit {
     // Vérifie si un user est connecté
     if (this.authService.isUserLoggedIn()) {
       // Si oui, charger les données du user et ses courses payées
-      this.loadLoggedUserAndResultats();
+      this.loadLoggedUserAndCourses();
     } else {
       this.disableBtnInscription = true;
     }
-    // Récupération des courses
-    this.getCourses();
 
     // Setup du tri sur le prix pour les courses
     this.sortField = 'prix';
@@ -75,32 +71,14 @@ export class MyCoursesComponent  implements OnInit {
   }
 
   // Récupération de toutes les courses disponibles à venir
-  getCourses(): void {
-    this.courseService.getAvailableCourses().subscribe((courses: Course[] | undefined) => {
+  getCourses(id: number): void {
+    this.courseService.getPayedCoursesByUser(id).subscribe((courses: Course[] | undefined) => {
       this.courses = courses;
     });
   }
 
-  // Récupération des résultats de l'utilisateur
-  getResultats(): void {
-    this.resultatService.getResultatsByUserId(this.loggedUser.id).subscribe((resultats: Resultat[] | undefined) => {
-      this.resultats = resultats;
-      this.payedCourses = [];
-      // Pour chaque résultat (course déjà payée) séparation de toutes les courses en 2 tableaux (courses payées et à venir)
-      resultats!.forEach(resultat => {
-        this.courses!.forEach(course => {
-          // Si la course possède déjà un résultat, alors elle est payée, ajout dans le tableau payedCourses
-          if(course.id == resultat.course.id) {
-            this.payedCourses!.push(course);
-          }        
-        });
-      });
-      // Tri des courses disponibles sur le prix
-      this.payedCourses.sort((a, b) => a.prix < b.prix ? -1 : a.prix > b.prix ? 1 : 0)    });
-  }
-
   // Récupération du user connecté et de ses résultats
-  loadLoggedUserAndResultats(){
+  loadLoggedUserAndCourses(){
     this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
       this.loggedUser = res;
       if (this.loggedUser.role.includes("COUREUR")) {
@@ -109,7 +87,7 @@ export class MyCoursesComponent  implements OnInit {
         // Si le user n'est pas un coureur, impossible de participer aux courses
         this.disableBtnInscription = true;
       }
-      this.getResultats();
+      this.getCourses(this.loggedUser.id);
     })
   }
 

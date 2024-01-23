@@ -37,8 +37,6 @@ export class CoursesListComponent implements OnInit {
   // Tableaux de données
   courses: Course[] | undefined = [];
   resultats: Resultat[] | undefined = [];
-  payedCourses: Course[] | undefined = [];
-  upcomingCourses: Course [] | undefined = [];
 
   // Variables de tri
   sortOptions!: SelectItem[];
@@ -58,13 +56,13 @@ export class CoursesListComponent implements OnInit {
   ngOnInit(): void {
     // Vérifie si un user est connecté
     if (this.authService.isUserLoggedIn()) {
-      // Si oui, charger les données du user et ses courses payées
-      this.loadLoggedUserAndResultats();
+      // Si oui, charger les données du user et sans ses courses payées
+      this.loadLoggedUserAndCourses();
     } else {
+      // Sinon, uniquement les courses disponibles
       this.disableBtnInscription = true;
+      this.getCourses();
     }
-    // Récupération des courses
-    this.getCourses();
 
     // Setup du tri sur le prix pour les courses
     this.sortField = 'prix';
@@ -87,27 +85,18 @@ export class CoursesListComponent implements OnInit {
     }
   }
 
-  // Récupération de toutes les courses disponibles à venir
+  // Récupération de toutes les courses disponibles à venir (user non connecté)
   getCourses(): void {
     this.courseService.getAvailableCourses().subscribe((courses: Course[] | undefined) => {
       this.courses = courses;
     });
   }
 
-  // Récupération des résultats de l'utilisateur
-  getResultats(): void {
-    this.resultatService.getResultatsByUserId(this.loggedUser.id).subscribe((resultats: Resultat[] | undefined) => {
-      this.resultats = resultats;
-      this.payedCourses = [];
-      // Pour chaque résultat (course déjà payée) séparation de toutes les courses en 2 tableaux (courses payées et à venir)
-      resultats!.forEach(resultat => {
-        this.courses!.forEach(course => {
-          // Si la course possède déjà un résultat, alors elle est payée, ajout dans le tableau payedCourses
-          if(course.id == resultat.course.id) {
-            this.payedCourses!.push(course);
-          }        
-        });
-      });
+  // Récupération de toutes les courses disponibles à venir (user connecté)
+  getCoursesByUser(id: number): void {
+    this.courseService.getAvailableCoursesByUser(id).subscribe((courses: Course[] | undefined) => {
+      this.courses = courses;
+      console.log(courses)
     });
   }
 
@@ -126,7 +115,7 @@ export class CoursesListComponent implements OnInit {
       currency: 'EUR',
       // Identifiant de l'application pour paypal sandbox
       clientId: 'AQY5t6tEDcJUBlLt9jAyxh-pTXXIKimV6HE6KGOr_lk72bOEZfpSmC4uHHF-DtDxR75wbBzr2gIL4uUI',
-      createOrderOnClient: (data) => <ICreateOrderRequest>{
+      createOrderOnClient: (data) => <ICreateOrderRequest> {
         intent: 'CAPTURE',
         // Configuration de l'achat
         purchase_units: [
@@ -181,8 +170,6 @@ export class CoursesListComponent implements OnInit {
 
         // Ajout du nouveau résultat
         this.resultatService.add(this.newResultat).subscribe((res) => {
-          // Réfresh des résultats après l'ajout
-          this.getResultats();
 
           // Ferme le dialogue de paiement
           this.paymentDialVisible = false;
@@ -209,7 +196,7 @@ export class CoursesListComponent implements OnInit {
   }
 
   // Récupération du user connecté et de ses résultats
-  loadLoggedUserAndResultats(){
+  loadLoggedUserAndCourses(){
     this.authService.getUserWithToken(this.authService.getLoggedInToken()).subscribe((res)=>{
       this.loggedUser = res;
       if (this.loggedUser.role.includes("COUREUR")) {
@@ -218,7 +205,7 @@ export class CoursesListComponent implements OnInit {
         // Si le user n'est pas un coureur, impossible de participer aux courses
         this.disableBtnInscription = true;
       }
-      this.getResultats();
+      this.getCoursesByUser(this.loggedUser.id);
     })
   }
 

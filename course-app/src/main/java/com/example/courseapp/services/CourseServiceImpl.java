@@ -42,6 +42,20 @@ public class CourseServiceImpl implements CourseService{
         return courseRepo.findAvailableCourses(timestamp);
     }
 
+    /*** Récupération des courses disponibles (à venir) par user ***/
+    public List<Course> getAvailableCoursesByUser(int id) {
+        // Timestamp de la date actuelle pour les courses à venir
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return courseRepo.findAvailableCoursesByUser(timestamp, id);
+    }
+
+    /*** Récupération des courses payées par utilisateur ***/
+    public List<Course> getPayedCoursesByUser(int id) {
+        // Timestamp de la date actuelle pour les courses à venir
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return courseRepo.findPayedCoursesByUser(id);
+    }
+
     /*** Récupération des courses non supprimées par gestionnaire ***/
     @Override
     public List<Course> getCoursesByGestionnaireAndNotDeleted(int id) {

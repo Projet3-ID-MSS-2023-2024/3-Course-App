@@ -19,6 +19,12 @@ public interface CourseService {
     /*** Méthode qui récupère les courses disponibles (à venir) ***/
     public List<Course> getAvailableCourses();
 
+    /*** Méthode qui récupère les courses disponibles (à venir) par user ***/
+    public List<Course> getAvailableCoursesByUser(int id);
+
+    /*** Méthode qui récupère les courses payées par user ***/
+    public List<Course> getPayedCoursesByUser(int id);
+
     /*** Methode qui récupère les courses non supprimées par gestionnaire ***/
     public List<Course> getCoursesByGestionnaireAndNotDeleted(int id);
 

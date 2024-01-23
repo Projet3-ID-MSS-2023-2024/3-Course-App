@@ -48,6 +48,18 @@ public class CourseRestController {
         return this.courseService.getAvailableCourses();
     }
 
+    /*** Récupération des courses disponibles (à venir) par user ***/
+    @GetMapping("/user/{id}")
+    public List<Course> getAvailableCoursesByUser(@PathVariable int id) {
+        return this.courseService.getAvailableCoursesByUser(id);
+    }
+
+    /*** Récupération des courses payées par utilisateur ***/
+    @GetMapping("/user/payed/{id}")
+    public List<Course> getPayedCoursesByUser(@PathVariable int id) {
+        return this.courseService.getPayedCoursesByUser(id);
+    }
+
     /*** Récupération des courses non supprimées pour un gestionnaire  ***/
     @GetMapping("/admin/{id}")
     public List<Course> getCoursesByGestionnaireAndNotDeleted(@PathVariable int id) {
